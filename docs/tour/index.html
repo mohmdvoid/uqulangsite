@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Language tour — uqulang</title>
+<meta name="description" content="A tour of the uqulang language: bindings, types, structs, enums, pattern matching, traits, generics, optionals, errors, ownership, modules and C interoperability.">
+<link rel="canonical" href="https://uqulang.com/docs/tour/">
+
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a100e" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="uqulang">
+<meta property="og:locale" content="en">
+<meta property="og:title" content="Language tour — uqulang">
+<meta property="og:description" content="A tour of the uqulang language: bindings, types, structs, enums, pattern matching, traits, generics, optionals, errors, ownership, modules and C interoperability.">
+<meta property="og:url" content="https://uqulang.com/docs/tour/">
+<meta property="og:image" content="https://uqulang.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="uqulang — a compiled systems language">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+<link rel="stylesheet" href="/assets/css/utilities.css">
+
+<script>/* see assets/js/theme-init.js */
+(function(){var r=document.documentElement;r.classList.remove('no-js');r.classList.add('js');try{var t=window.localStorage.getItem('uqulang:theme');if(t==='dark'||t==='light')r.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<script type="module" src="/assets/js/main.js"></script>
+
+</head>
+<body class="">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" data-nav-drawer>
+  <div class="container site-header__inner">
+    <a class="brand" href="/" aria-label="uqulang — home">
+      <svg class="brand__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round"/>
+        <path d="M22.4 11.7 27 16l-4.6 4.3" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand__text">uqulang</span>
+    </a>
+
+    <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu">
+      <svg class="nav-toggle__open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="nav-toggle__close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <nav class="site-nav" id="site-nav" data-nav-panel aria-label="Main">
+      <a class="site-nav__link" href="/docs/" aria-current="page">Documentation</a>
+      <a class="site-nav__link" href="/install/">Install</a>
+      <a class="site-nav__link" href="/universities/">For universities</a>
+      <a class="site-nav__link" href="/blog/">Blog</a>
+    </nav>
+
+    <div class="site-header__actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+        <svg class="theme-toggle__icon theme-toggle__icon--light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+      </button>
+      
+      <a class="btn btn--primary btn--sm" href="/universities/#contact">Request a licence</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="container container--docs docs">
+  <aside class="docs-sidebar">
+      <details class="docs-sidebar__disclosure" open>
+        <summary>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          Documentation
+        </summary>
+        <div class="docs-search" data-search="/search-index.json">
+          <svg class="docs-search__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+          <label class="visually-hidden" for="docs-search-input">Search the documentation</label>
+          <input class="docs-search__input" id="docs-search-input" type="search" placeholder="Search docs…" autocomplete="off" spellcheck="false" data-search-input>
+          <ul class="docs-search__results" role="listbox" aria-label="Search results" data-search-results></ul>
+        </div>
+        <h2 class="docs-sidebar__title">Documentation</h2>
+        <ul class="docs-nav">
+        <li class="docs-nav__group">
+          <span class="docs-nav__group-title">Start here</span>
+          <ul class="docs-nav__sub">
+            <li><a class="docs-nav__link" href="/docs/">Overview</a></li>
+            <li><a class="docs-nav__link" href="/docs/getting-started/">Getting started</a></li>
+            <li><a class="docs-nav__link" href="/install/">Install uqulang</a></li>
+          </ul>
+        </li>
+        <li class="docs-nav__group">
+          <span class="docs-nav__group-title">Language</span>
+          <ul class="docs-nav__sub">
+            <li><a class="docs-nav__link" href="/docs/tour/" aria-current="page">Language tour</a></li>
+          </ul>
+        </li>
+        <li class="docs-nav__group">
+          <span class="docs-nav__group-title">Tooling</span>
+          <ul class="docs-nav__sub">
+            <li><a class="docs-nav__link" href="/docs/cli/">Compiler CLI</a></li>
+          </ul>
+        </li>
+        </ul>
+      </details>
+    </aside>
+
+  <div class="docs-main">
+    <ol class="breadcrumb">
+      <li><a href="/docs/">Docs</a></li>
+      <li>Language tour</li>
+    </ol>
+
+    <header class="docs-header">
+      <span class="docs-header__eyebrow">Reference tutorial</span>
+      <h1>Language tour</h1>
+      <p class="docs-header__lead">
+        The whole language, in the order it makes sense to learn it. If you have
+        written C, C++, Swift, Rust or Go, you can read this in one sitting.
+      </p>
+      <p class="docs-header__meta">Covers toolchain 0.1.0 · updated 2026-09-26</p>
+    </header>
+
+    <article class="docs-article" data-heading-anchors>
+      <h2 id="bindings">Bindings</h2>
+      <p>
+        <code>let</code> binds a value that cannot be reassigned;
+        <code>var</code> binds one that can. Types are inferred from the
+        initialiser, and written explicitly when you want the contract visible.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>let limit = 4096             // inferred u32
+let name: str = &quot;uqulang&quot;    // explicit
+var count: u64 = 0           // mutable
+
+count = count + 1
+// limit = 8192              // error: cannot assign to a let binding</code></pre></div>
+      <p>
+        There is no uninitialised binding. A declaration without a value must be
+        assigned on every path before it is read, and the compiler checks that.
+      </p>
+
+      <h2 id="numbers">Numbers and operators</h2>
+      <p>
+        Integer types name their width: <code>i8</code> … <code>i64</code>,
+        <code>u8</code> … <code>u64</code>, plus <code>isize</code> and
+        <code>usize</code> for pointer-sized values. There are no implicit
+        conversions between them — a widening conversion is still written down.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>let a: i32 = 7
+let b: i64 = i64(a)          // explicit, always
+
+let mask = 0b1010_1100
+let addr = 0xFFFF_0000
+let ratio = 1.5e-3           // f64
+
+// Overflow is checked in debug builds and wraps only where you ask:
+let sum = a + 1              // traps on overflow in debug
+let wrap = a &amp;+ 1            // wrapping add, in any build</code></pre></div>
+
+      <h2 id="control-flow">Control flow</h2>
+      <p>
+        <code>if</code>, <code>while</code> and <code>for</code> behave as you
+        expect. Conditions are <code>bool</code>; an integer is not a condition.
+        <code>guard</code> states a precondition and must exit the scope.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>func classify(n: i32) -&gt; str {
+    if n &lt; 0 {
+        return &quot;negative&quot;
+    } else if n == 0 {
+        return &quot;zero&quot;
+    }
+    return &quot;positive&quot;
+}
+
+func sum_to(n: u32) -&gt; u32 {
+    var total: u32 = 0
+    for i in 1...n {          // inclusive range; 1..&lt;n is exclusive
+        total = total + i
+    }
+    return total
+}
+
+func head(items: []i32) -&gt; i32 {
+    guard items.len &gt; 0 else { return 0 }
+    return items[0]
+}</code></pre></div>
+
+      <h2 id="functions">Functions</h2>
+      <p>
+        Parameters are immutable bindings. Pass a pointer when the callee must
+        write through it, and the call site shows it with <code>&amp;</code>.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>func min(a: i32, b: i32) -&gt; i32 {
+    return a &lt; b ? a : b
+}
+
+func swap(x: *i32, y: *i32) {
+    let t = x.*
+    x.* = y.*
+    y.* = t
+}
+
+var left = 1
+var right = 2
+swap(&amp;left, &amp;right)
+
+// Multiple results are a tuple, destructured at the call site.
+func divmod(n: u32, d: u32) -&gt; (u32, u32) {
+    return (n / d, n % d)
+}
+
+let (q, r) = divmod(17, 5)</code></pre></div>
+
+      <h2 id="structs">Structs</h2>
+      <p>
+        A struct is data with a predictable layout: fields in declaration order,
+        alignment following the platform C rules. Methods live in an
+        <code>impl</code> block, and <code>self</code> is explicit.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>pub struct Rect {
+    pub w: f32,
+    pub h: f32,
+}
+
+impl Rect {
+    pub func square(side: f32) -&gt; Rect {       // no self: a constructor
+        return Rect{ w: side, h: side }
+    }
+
+    pub func area(self) -&gt; f32 {               // borrows self
+        return self.w * self.h
+    }
+
+    pub func scale(self: *Rect, k: f32) {      // mutates through a pointer
+        self.w = self.w * k
+        self.h = self.h * k
+    }
+}
+
+var r = Rect.square(2.0)
+r.scale(3.0)
+io.println(&quot;{}&quot;, r.area())    // 36.0</code></pre></div>
+      <p>
+        <code>@layout("c")</code> pins a struct to the exact C layout when you
+        need to share it across an FFI boundary.
+      </p>
+
+      <h2 id="enums">Enums and pattern matching</h2>
+      <p>
+        Enums carry payloads, and <code>match</code> must cover every case. An
+        uncovered case is a compile error, not a warning — which is what makes
+        adding a variant safe.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>enum Shape {
+    Circle(radius: f32),
+    Rect(w: f32, h: f32),
+    Point,
+}
+
+func area(s: Shape) -&gt; f32 {
+    match s {
+        case .Circle(let radius):  return 3.14159 * radius * radius
+        case .Rect(let w, let h):  return w * h
+        case .Point:               return 0.0
+    }
+}</code></pre></div>
+      <p>Patterns also match values, ranges and tuples:</p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>match (code, retries) {
+    case (200, _):            return .ok
+    case (429, let n) if n &lt; 3: return .retry
+    case (500...599, _):      return .server_error
+    default:                  return .fail
+}</code></pre></div>
+
+      <h2 id="optionals">Optionals</h2>
+      <p>
+        <code>?T</code> is a value that may be absent. There is no null pointer
+        hiding inside an ordinary type, and an optional must be unwrapped before
+        use.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>func find(haystack: []str, needle: str) -&gt; ?usize {
+    for i in 0..&lt;haystack.len {
+        if haystack[i] == needle { return i }
+    }
+    return nil
+}
+
+if let index = find(words, &quot;uqu&quot;) {
+    io.println(&quot;found at {}&quot;, index)
+} else {
+    io.println(&quot;not found&quot;)
+}
+
+let position = find(words, &quot;uqu&quot;) ?? 0     // default if absent</code></pre></div>
+
+      <h2 id="errors">Errors</h2>
+      <p>
+        A function that can fail is marked <code>throws</code>, optionally with
+        the error type it throws. Callers propagate with <code>try</code> or
+        handle with <code>match</code>. Errors are ordinary values moving up the
+        call stack — there is no unwinding machinery and no cost when nothing
+        fails.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>enum ConfigError {
+    Missing(key: str),
+    Invalid(key: str, value: str),
+}
+
+func port(cfg: Config) throws ConfigError -&gt; u16 {
+    guard let raw = cfg.get(&quot;port&quot;) else {
+        throw ConfigError.Missing(key: &quot;port&quot;)
+    }
+    guard let n = u16.parse(raw) else {
+        throw ConfigError.Invalid(key: &quot;port&quot;, value: raw)
+    }
+    return n
+}
+
+func start(cfg: Config) throws {
+    let p = try port(cfg)        // propagate
+    try listen(p)
+}
+
+// Or handle it here:
+match port(cfg) {
+    case .ok(let p):  io.println(&quot;port {}&quot;, p)
+    case .err(let e): io.eprintln(&quot;config: {}&quot;, e)
+}</code></pre></div>
+      <div class="callout callout--note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+        <div class="callout__body">
+          <p>
+            Ignoring a failure is possible, but you have to write it:
+            <code>discard try f()</code>. Grep finds every one of them.
+          </p>
+        </div>
+      </div>
+
+      <h2 id="memory">Memory and ownership</h2>
+      <p>
+        Values live on the stack. Heap allocation is a function call you can see,
+        and every allocation has exactly one owner. When the owner goes out of
+        scope, the memory is released — no collector, no reference counting unless
+        you opt into it.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>func build_report() throws -&gt; Buffer {
+    var buf = try Buffer.with_capacity(4096)   // buf owns the allocation
+    defer_on_error buf.free()                  // freed only if we throw below
+
+    try buf.write(&quot;total: &quot;)
+    try buf.write_u64(compute_total())
+
+    return move buf                            // ownership goes to the caller
+}
+
+func use_it() throws {
+    let report = try build_report()
+    defer report.free()                        // released at scope exit
+
+    io.write(report.bytes())
+    // io.write(report.bytes())  after a `move report` would be a compile error
+}</code></pre></div>
+      <ul>
+        <li><code>defer</code> runs at scope exit, in reverse order of declaration.</li>
+        <li><code>move</code> transfers ownership; the source binding is dead afterwards.</li>
+        <li>Reading a moved-from binding is a compile error, not undefined behaviour.</li>
+        <li>Shared ownership is explicit: <code>Rc&lt;T&gt;</code> from the standard library.</li>
+      </ul>
+
+      <h2 id="slices">Arrays, slices and strings</h2>
+      <p>
+        <code>[N]T</code> is a fixed-size array. <code>[]T</code> is a slice: a
+        pointer and a length, bounds-checked in debug builds. <code>str</code> is
+        a UTF-8 slice of bytes with no terminator.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>let fixed: [4]u8 = [1, 2, 3, 4]
+let all: []u8 = fixed[..]        // slice over the whole array
+let tail = fixed[1..]            // slice from index 1
+
+let text = &quot;مرحبا, uqulang&quot;
+io.println(&quot;{} bytes&quot;, text.len)              // byte length
+for scalar in text.scalars() { /* … */ }      // Unicode scalars
+for byte in text.bytes() { /* … */ }          // raw bytes
+
+// C interop wants a terminator; ask for one explicitly.
+let c_string = text.c_str()</code></pre></div>
+
+      <h2 id="traits">Traits and generics</h2>
+      <p>
+        A trait is a set of requirements a type can satisfy. Generic functions are
+        monomorphised — one specialised copy per concrete type, dispatched
+        statically, with no vtable unless you ask for dynamic dispatch with
+        <code>dyn</code>.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>trait Writer {
+    func write(self: *Self, bytes: []u8) throws -&gt; usize
+}
+
+trait Display {
+    func format(self) -&gt; str
+}
+
+func log&lt;W: Writer, T: Display&gt;(out: *W, value: T) throws {
+    try out.write(value.format().bytes())
+}
+
+// Dynamic dispatch when the concrete type is only known at run time:
+func log_all(out: *dyn Writer, items: []dyn Display) throws {
+    for item in items {
+        try out.write(item.format().bytes())
+    }
+}</code></pre></div>
+
+      <h2 id="modules">Modules and visibility</h2>
+      <p>
+        One file is one module, named by its path from the source root. Nothing
+        leaves a module unless it is marked <code>pub</code>, and there are no
+        header files to keep in sync.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>// src/net/http.uqu
+module net.http
+
+pub struct Request { /* … */ }
+pub func get(url: str) throws -&gt; Response { /* … */ }
+
+func parse_status(line: str) -&gt; u16 { /* private to this module */ }</code></pre></div>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>// src/main.uqu
+module main
+
+import std.io
+import net.http                  // whole module
+import net.http.get              // one symbol
+
+func main() throws {
+    let response = try http.get(&quot;https://example.org&quot;)
+    io.println(&quot;{}&quot;, response.status)
+}</code></pre></div>
+
+      <h2 id="c-interop">C interoperability</h2>
+      <p>
+        Declaring a C function is enough to call it: no bindings generator, no
+        marshalling, no wrapper library. The call is a direct call with the
+        platform ABI.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>extern &quot;C&quot; {
+    func clock_gettime(clk: i32, ts: *TimeSpec) -&gt; i32
+    func write(fd: i32, buf: *void, count: usize) -&gt; isize
+}
+
+@layout(&quot;c&quot;)
+struct TimeSpec {
+    seconds: i64,
+    nanos: i64,
+}
+
+func now() -&gt; i64 {
+    var ts = TimeSpec{ seconds: 0, nanos: 0 }
+    discard clock_gettime(0, &amp;ts)
+    return ts.seconds
+}</code></pre></div>
+      <p>And in the other direction — exporting for C to call:</p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>@export(&quot;uqu_checksum&quot;)
+pub func checksum(data: *u8, len: usize) -&gt; u32 {
+    var hash: u32 = 2166136261
+    for i in 0..&lt;len {
+        hash = (hash ^ u32((data + i).*)) &amp;* 16777619
+    }
+    return hash
+}</code></pre></div>
+
+      <h2 id="attributes">Attributes</h2>
+      <div class="dl-grid">
+        <div><dt>@inline / @noinline</dt><dd>Force or forbid inlining of a function.</dd></div>
+        <div><dt>@layout("c")</dt><dd>Use the platform C layout and padding for a struct.</dd></div>
+        <div><dt>@export("name")</dt><dd>Expose a symbol under an exact name for C callers.</dd></div>
+        <div><dt>@deprecated("use x")</dt><dd>Warn at every use site, with your message.</dd></div>
+        <div><dt>@target(os: "linux")</dt><dd>Compile a declaration only for matching targets.</dd></div>
+      </div>
+
+      <h2 id="tests">Tests</h2>
+      <p>
+        <code>test</code> blocks are part of the language, not a library. They are
+        compiled out of release builds entirely.
+      </p>
+      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>test &quot;checksum is stable&quot; {
+    let data: [3]u8 = [1, 2, 3]
+    assert.equal(checksum(&amp;data[0], 3), 0x2E3D_1A47)
+}
+
+test &quot;empty input&quot; {
+    assert.equal(checksum(nil, 0), 2166136261)
+}</code></pre></div>
+
+      <h2 id="planned">Planned, not yet shipped</h2>
+      <p>These are designed and discussed, and not in 0.1. Do not write code against them yet.</p>
+      <ul>
+        <li>Generics over constant values, for fixed-capacity containers.</li>
+        <li>Compile-time evaluation beyond constant folding.</li>
+        <li>Structured concurrency and non-blocking I/O in the standard library.</li>
+        <li>A package registry and a lockfile format.</li>
+      </ul>
+    </article>
+
+    <nav class="page-nav" aria-label="Pagination">
+      <a class="page-nav__link" href="/docs/getting-started/">
+        <span class="page-nav__dir">Previous</span>
+        <span class="page-nav__title">Getting started</span>
+      </a>
+      <a class="page-nav__link page-nav__link--next" href="/docs/cli/">
+        <span class="page-nav__dir">Next</span>
+        <span class="page-nav__title">Compiler CLI</span>
+      </a>
+    </nav>
+  </div>
+
+  <aside class="docs-toc" data-toc=".docs-article">
+      <h2 class="docs-toc__title">On this page</h2>
+      <ul class="docs-toc__list" data-toc-list></ul>
+    </aside>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__about">
+        <a class="brand" href="/">
+          <svg class="brand__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+            <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round"/>
+            <path d="M22.4 11.7 27 16l-4.6 4.3" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="brand__text">uqulang</span>
+        </a>
+        <p>A compiled systems language for teaching and research, licensed to universities and research institutions.</p><p class="footer-etymology"><span lang="ar" dir="rtl">عقل</span> <span class="footer-etymology__gloss">ʿaql — the reasoning mind</span></p>
+      </div>
+      <div class="footer-group">
+        <h2 class="footer-group__title">Learn</h2>
+        <ul class="footer-group__list">
+          <li><a href="/docs/getting-started/">Getting started</a></li>
+          <li><a href="/docs/tour/">Language tour</a></li>
+          <li><a href="/docs/cli/">Compiler CLI</a></li>
+          <li><a href="/docs/">All documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-group">
+        <h2 class="footer-group__title">Product</h2>
+        <ul class="footer-group__list">
+          <li><a href="/install/">Install</a></li>
+          <li><a href="/blog/">Release notes</a></li>
+          <li><a href="/universities/#roadmap">Roadmap</a></li>
+          <li><a href="/universities/#included">What is included</a></li>
+        </ul>
+      </div>
+      <div class="footer-group">
+        <h2 class="footer-group__title">Institutions</h2>
+        <ul class="footer-group__list">
+          <li><a href="/universities/">Campus licensing</a></li>
+          <li><a href="/universities/#contact">Request a licence</a></li>
+          <li><a href="https://portal.uqulang.com">Licence portal</a></li>
+          <li><a href="https://support.uqulang.com">Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© 2026 uqulang. All rights reserved. Use of the compiler and toolchain is governed by your institution’s licence agreement.</p>
+      <p class="site-footer__made">صُنع في السعودية · Made in Saudi Arabia</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

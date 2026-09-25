@@ -1,0 +1,23 @@
+name: site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # The generated HTML is committed. If it does not match the sources,
+      # somebody edited output by hand or forgot to run the build.
+      - name: Generated output is up to date
+        run: python3 tools/build.py --check
+
+      - name: No broken links or missing metadata
+        run: python3 tools/check_links.py

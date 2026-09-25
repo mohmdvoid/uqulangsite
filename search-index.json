@@ -1,0 +1,392 @@
+[
+{
+"title": "Announcing the uqulang 0.1 preview",
+"section": "Blog",
+"url": "/blog/announcing-uqulang/",
+"body": "Blog 0.1 preview 26 September 2026 {{hijri:2026-09-26}} Release Announcing the uqulang 0.1 preview The compiler is self-hosting, the toolchain is one binary, and both are now shipping to universities. This is a preview, and the version number is doing honest work. uqulang began with a narrow complaint: writing systems code still means choosing between a language that tells you exactly what the machine will do and a language you can comfortably read. C gives you the first. Swift gives you the second. Most of the time you pick one and pay for the other for years. 0.1 is the first version where t"
+},
+{
+"title": "What works today",
+"section": "Announcing the uqulang 0.1 preview",
+"url": "/blog/announcing-uqulang/#what-works",
+"body": "A self-hosting compiler producing native binaries for macOS, Linux and Windows on x86-64 and aarch64. Structs, enums with payloads, exhaustive pattern matching, traits, generics with static dispatch. Optionals, typed throws , defer , scope-based ownership with move . C interop in both directions at the ABI level, with no bindings generator. uqu build / run / test / fmt / check / doc / lsp in one b"
+},
+{
+"title": "What is deliberately missing",
+"section": "Announcing the uqulang 0.1 preview",
+"url": "/blog/announcing-uqulang/#what-is-missing",
+"body": "A preview that pretends to be complete wastes everybody's time. These are known gaps, not oversights: No dependency manager. Dependencies are paths and archives for now. The design is being written. No concurrency story. Threads exist through the C library; structured concurrency is designed and unshipped. Generics are incomplete. Generics over constant values — the thing fixed-capacity containers"
+},
+{
+"title": "On benchmarks",
+"section": "Announcing the uqulang 0.1 preview",
+"url": "/blog/announcing-uqulang/#benchmarks",
+"body": "New languages usually launch with a graph. We are not going to, yet. The generated code is already close to what clang emits at -O2 for the loops we have measured, but “close on our machines, on our examples” is not a claim worth publishing. 0.2 ships a benchmark harness to licensed institutions — hardware description, compiler flags, input data and raw timings — and the numbers will be whatever t"
+},
+{
+"title": "Where feedback helps most",
+"section": "Announcing the uqulang 0.1 preview",
+"url": "/blog/announcing-uqulang/#feedback",
+"body": "Not all feedback is equally useful at this stage. In rough order: Diagnostics that were unhelpful. If the compiler was right but the message did not tell you what to change, that is a bug worth filing. Ownership friction. Real code where the ownership rules forced an awkward structure. These cases shape 0.2. C interop gaps. A header the compiler cannot express, a layout mismatch, a calling convent"
+},
+{
+"title": "A note on where this comes from",
+"section": "Announcing the uqulang 0.1 preview",
+"url": "/blog/announcing-uqulang/#thanks",
+"body": "uqulang is designed and built in Saudi Arabia. The name comes from عقل — ʿaql , the reasoning mind — and the mark is drawn from its first letter. Both the language and the documentation are developed in English and Arabic, because the people who will use it read both. Install it, break it, and tell us where it bent: installation guide · request a licence · support portal . Back to All posts Next I"
+},
+{
+"title": "Blog",
+"section": "Blog",
+"url": "/blog/",
+"body": "Blog Release notes and design write-ups Every release is announced here with what changed, what broke, and how to migrate. Design write-ups explain why a decision went the way it did. 26 September 2026 {{hijri:2026-09-26}} Release Announcing the uqulang 0.1 preview The first release of the compiler and toolchain to universities: what works today, what is deliberately missing, and what we are asking teaching staff for feedback on. Every release, with its checksums and signed manifest, is also listed in the licence portal ."
+},
+{
+"title": "Compiler CLI",
+"section": "Documentation",
+"url": "/docs/cli/",
+"body": "{{docs_aside}} Docs Compiler CLI Reference The uqu command One binary does the whole job: compile, run, test, format, document and serve the language server. Every subcommand accepts --help . Covers toolchain 0.1.0 Synopsis Copy Command What it does init Create a project in a new or empty directory build Compile to a binary or library in target/ run Build, then execute, forwarding arguments test Compile and run every test block fmt Format source in place; one canonical style doc Generate HTML API documentation from doc comments check Type-check without producing a binary fix Apply mechanical m"
+},
+{
+"title": "Synopsis",
+"section": "Compiler CLI",
+"url": "/docs/cli/#synopsis",
+"body": "Copy Command What it does init Create a project in a new or empty directory build Compile to a binary or library in target/ run Build, then execute, forwarding arguments test Compile and run every test block fmt Format source in place; one canonical style doc Generate HTML API documentation from doc comments check Type-check without producing a binary fix Apply mechanical migrations after an upgra"
+},
+{
+"title": "uqu build",
+"section": "Compiler CLI",
+"url": "/docs/cli/#build",
+"body": "Copy --release Optimise ( opt=speed ), strip debug info, remove test blocks and debug assertions. --opt <level> debug , size , speed . Defaults to debug . --target <triple> Cross-compile. Run uqu targets for the supported list. --emit <kind> bin , lib , obj , asm , ir . Useful for inspecting what was generated. --static / --dynamic Link the standard library statically (default) or against a shared"
+},
+{
+"title": "uqu run",
+"section": "Compiler CLI",
+"url": "/docs/cli/#run",
+"body": "Everything after -- goes to your program, not to the compiler. Copy"
+},
+{
+"title": "uqu test",
+"section": "Compiler CLI",
+"url": "/docs/cli/#test",
+"body": "Copy --filter <text> Run only tests whose name contains the text. --fail-fast Stop at the first failure. --jobs <n> Run tests in parallel; 1 makes ordering deterministic. --format <kind> pretty (default) or json for CI ingestion."
+},
+{
+"title": "uqu fmt",
+"section": "Compiler CLI",
+"url": "/docs/cli/#fmt",
+"body": "One style, no options, so formatting never becomes a review topic. Use --check in CI to fail on unformatted code. Copy"
+},
+{
+"title": "Exit codes",
+"section": "Compiler CLI",
+"url": "/docs/cli/#exit-codes",
+"body": "Code Meaning 0 Success 1 Compilation error, test failure, or unformatted code under --check 2 Bad usage: unknown flag, missing argument 101 Internal compiler error — please report it with the source that triggered it"
+},
+{
+"title": "Environment",
+"section": "Compiler CLI",
+"url": "/docs/cli/#env",
+"body": "UQU_HOME Toolchain directory. Defaults to ~/.uqulang . UQU_CACHE Build cache location. Delete it freely; it only costs time. UQU_TARGET Default target triple, overridden by --target . NO_COLOR Any value disables coloured diagnostics."
+},
+{
+"title": "Using it in CI",
+"section": "Compiler CLI",
+"url": "/docs/cli/#ci",
+"body": "The toolchain is a single archive with no installer, which makes CI setup three lines. Pin the exact version so a new release never changes a build that used to pass. .github/workflows/ci.yml Copy Previous Language tour Next For universities {{docs_toc}}"
+},
+{
+"title": "Getting started",
+"section": "Documentation",
+"url": "/docs/getting-started/",
+"body": "{{docs_aside}} Docs Getting started Tutorial Getting started From nothing installed to a tested, compiled binary. Everything here works with toolchain 0.1.0 on macOS, Linux and Windows. 1. Install the toolchain If you have not installed uqu yet, follow the installation guide — it is one command on every supported platform. Then confirm the compiler can see everything it needs: Copy 2. Create a project uqu init writes the smallest project that builds: a manifest, a source directory and one module. Copy The manifest is deliberately small. There is no build script: uqu.toml Copy 3. Write and run "
+},
+{
+"title": "1. Install the toolchain",
+"section": "Getting started",
+"url": "/docs/getting-started/#install",
+"body": "If you have not installed uqu yet, follow the installation guide — it is one command on every supported platform. Then confirm the compiler can see everything it needs: Copy"
+},
+{
+"title": "2. Create a project",
+"section": "Getting started",
+"url": "/docs/getting-started/#new-project",
+"body": "uqu init writes the smallest project that builds: a manifest, a source directory and one module. Copy The manifest is deliberately small. There is no build script: uqu.toml Copy"
+},
+{
+"title": "3. Write and run a program",
+"section": "Getting started",
+"url": "/docs/getting-started/#first-program",
+"body": "Open src/main.uqu . Every executable needs exactly one main , and main may declare that it throws. src/main.uqu Copy Build and run it in one step: Copy Source files are UTF-8, and string literals hold arbitrary Unicode. Identifiers are ASCII in 0.1; wider identifier support is planned ."
+},
+{
+"title": "4. Add a type",
+"section": "Getting started",
+"url": "/docs/getting-started/#types",
+"body": "Structs hold data with a layout you can predict — fields in declaration order, C-compatible padding rules. Behaviour is attached with impl , not inheritance. src/greeting.uqu Copy Import it from main by module path: src/main.uqu Copy"
+},
+{
+"title": "5. Handle a failure",
+"section": "Getting started",
+"url": "/docs/getting-started/#errors",
+"body": "Anything that can fail says so in its signature. The caller must respond — with try to propagate, or match to handle. src/main.uqu Copy If the file is missing, the error reaches main , the process exits non-zero, and the message goes to stderr — no stack unwinding, no silent default: Copy"
+},
+{
+"title": "6. Write a test",
+"section": "Getting started",
+"url": "/docs/getting-started/#tests",
+"body": "Tests live next to the code they test, in the same file or a sibling one. The runner is built in; there is nothing to add to the manifest. src/greeting.uqu Copy Copy"
+},
+{
+"title": "7. Build for release",
+"section": "Getting started",
+"url": "/docs/getting-started/#release",
+"body": "A release build turns on optimisation and strips debug information. The result is a single static binary you can copy to any machine with the same target triple. Copy"
+},
+{
+"title": "Where to go next",
+"section": "Getting started",
+"url": "/docs/getting-started/#next",
+"body": "Language tour — the rest of the language, in order. Compiler CLI — every flag, including cross-compilation. For universities — licensing, lab deployment and support. Previous Documentation overview Next Language tour {{docs_toc}}"
+},
+{
+"title": "Documentation",
+"section": "Documentation",
+"url": "/docs/",
+"body": "{{docs_aside}} Documentation uqulang documentation Everything written down about the language and its toolchain. The docs track the preview releases: anything marked planned is designed but not yet in the compiler you can download. Covers toolchain 0.1.0 · updated {{build_date}} Start here Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole language in reading order: values, types, traits, memory, errors, modules and C interop, with examples you can paste and run. Read Comp"
+},
+{
+"title": "Start here",
+"section": "Documentation",
+"url": "/docs/#start",
+"body": "Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole language in reading order: values, types, traits, memory, errors, modules and C interop, with examples you can paste and run. Read Compiler CLI Every uqu subcommand and flag: build, run, test, fmt, doc, lsp, and the flags that"
+},
+{
+"title": "What uqulang is",
+"section": "Documentation",
+"url": "/docs/#what-uqulang-is",
+"body": "uqulang is a statically typed, ahead-of-time compiled language for systems work: operating system components, embedded firmware, codecs, databases, game engines, and the layer underneath applications. It produces native binaries with no runtime and no garbage collector, and it interoperates with C at the ABI level rather than through a binding layer. It is licensed to universities and research ins"
+},
+{
+"title": "What uqulang is not",
+"section": "Documentation",
+"url": "/docs/#what-uqulang-is-not",
+"body": "Not a scripting language. There is no REPL-first workflow and no dynamic typing. Everything is checked before it runs. Not a borrow checker. Lifetimes are scope-based and explicit. The compiler catches use-after-move and double-free, but it does not attempt to prove every aliasing property. Not finished. 0.1 is a preview. Generics over constant values, async I/O and the package registry are design"
+},
+{
+"title": "Stability and versioning",
+"section": "Documentation",
+"url": "/docs/#stability",
+"body": "Until 1.0, the language may change in a breaking way in any minor release. Each release ships a written migration note, and uqu fix applies the mechanical parts of a migration to your source. Area Status at 0.1 Core syntax, control flow, functions Stable in practice; changes are rare and announced Traits and generics Evolving; expect refinement before 1.0 Ownership and move Evolving Standard libra"
+},
+{
+"title": "How to read these docs",
+"section": "Documentation",
+"url": "/docs/#conventions",
+"body": "Code samples are complete programs unless a comment says otherwise. Shell samples show the prompt as $ ; copying a shell block strips prompts so you can paste it directly. Anything the compiler does not yet implement is labelled planned in place, never quietly implied."
+},
+{
+"title": "Getting help",
+"section": "Documentation",
+"url": "/docs/#help",
+"body": "Defects, incorrect diagnostics and documentation errors go to the support portal through your institution’s named contacts. Response targets, and how feature requests reach the roadmap, are on the licensing page . Previous Install uqulang Next Getting started {{docs_toc}}"
+},
+{
+"title": "Language tour",
+"section": "Documentation",
+"url": "/docs/tour/",
+"body": "{{docs_aside}} Docs Language tour Reference tutorial Language tour The whole language, in the order it makes sense to learn it. If you have written C, C++, Swift, Rust or Go, you can read this in one sitting. Covers toolchain 0.1.0 · updated {{build_date}} Bindings let binds a value that cannot be reassigned; var binds one that can. Types are inferred from the initialiser, and written explicitly when you want the contract visible. Copy There is no uninitialised binding. A declaration without a value must be assigned on every path before it is read, and the compiler checks that. Numbers and ope"
+},
+{
+"title": "Bindings",
+"section": "Language tour",
+"url": "/docs/tour/#bindings",
+"body": "let binds a value that cannot be reassigned; var binds one that can. Types are inferred from the initialiser, and written explicitly when you want the contract visible. Copy There is no uninitialised binding. A declaration without a value must be assigned on every path before it is read, and the compiler checks that."
+},
+{
+"title": "Numbers and operators",
+"section": "Language tour",
+"url": "/docs/tour/#numbers",
+"body": "Integer types name their width: i8 … i64 , u8 … u64 , plus isize and usize for pointer-sized values. There are no implicit conversions between them — a widening conversion is still written down. Copy"
+},
+{
+"title": "Control flow",
+"section": "Language tour",
+"url": "/docs/tour/#control-flow",
+"body": "if , while and for behave as you expect. Conditions are bool ; an integer is not a condition. guard states a precondition and must exit the scope. Copy"
+},
+{
+"title": "Functions",
+"section": "Language tour",
+"url": "/docs/tour/#functions",
+"body": "Parameters are immutable bindings. Pass a pointer when the callee must write through it, and the call site shows it with & . Copy"
+},
+{
+"title": "Structs",
+"section": "Language tour",
+"url": "/docs/tour/#structs",
+"body": "A struct is data with a predictable layout: fields in declaration order, alignment following the platform C rules. Methods live in an impl block, and self is explicit. Copy @layout(\"c\") pins a struct to the exact C layout when you need to share it across an FFI boundary."
+},
+{
+"title": "Enums and pattern matching",
+"section": "Language tour",
+"url": "/docs/tour/#enums",
+"body": "Enums carry payloads, and match must cover every case. An uncovered case is a compile error, not a warning — which is what makes adding a variant safe. Copy Patterns also match values, ranges and tuples: Copy"
+},
+{
+"title": "Optionals",
+"section": "Language tour",
+"url": "/docs/tour/#optionals",
+"body": "?T is a value that may be absent. There is no null pointer hiding inside an ordinary type, and an optional must be unwrapped before use. Copy"
+},
+{
+"title": "Errors",
+"section": "Language tour",
+"url": "/docs/tour/#errors",
+"body": "A function that can fail is marked throws , optionally with the error type it throws. Callers propagate with try or handle with match . Errors are ordinary values moving up the call stack — there is no unwinding machinery and no cost when nothing fails. Copy Ignoring a failure is possible, but you have to write it: discard try f() . Grep finds every one of them."
+},
+{
+"title": "Memory and ownership",
+"section": "Language tour",
+"url": "/docs/tour/#memory",
+"body": "Values live on the stack. Heap allocation is a function call you can see, and every allocation has exactly one owner. When the owner goes out of scope, the memory is released — no collector, no reference counting unless you opt into it. Copy defer runs at scope exit, in reverse order of declaration. move transfers ownership; the source binding is dead afterwards. Reading a moved-from binding is a "
+},
+{
+"title": "Arrays, slices and strings",
+"section": "Language tour",
+"url": "/docs/tour/#slices",
+"body": "[N]T is a fixed-size array. []T is a slice: a pointer and a length, bounds-checked in debug builds. str is a UTF-8 slice of bytes with no terminator. Copy"
+},
+{
+"title": "Traits and generics",
+"section": "Language tour",
+"url": "/docs/tour/#traits",
+"body": "A trait is a set of requirements a type can satisfy. Generic functions are monomorphised — one specialised copy per concrete type, dispatched statically, with no vtable unless you ask for dynamic dispatch with dyn . Copy"
+},
+{
+"title": "Modules and visibility",
+"section": "Language tour",
+"url": "/docs/tour/#modules",
+"body": "One file is one module, named by its path from the source root. Nothing leaves a module unless it is marked pub , and there are no header files to keep in sync. Copy Copy"
+},
+{
+"title": "C interoperability",
+"section": "Language tour",
+"url": "/docs/tour/#c-interop",
+"body": "Declaring a C function is enough to call it: no bindings generator, no marshalling, no wrapper library. The call is a direct call with the platform ABI. Copy And in the other direction — exporting for C to call: Copy"
+},
+{
+"title": "Attributes",
+"section": "Language tour",
+"url": "/docs/tour/#attributes",
+"body": "@inline / @noinline Force or forbid inlining of a function. @layout(\"c\") Use the platform C layout and padding for a struct. @export(\"name\") Expose a symbol under an exact name for C callers. @deprecated(\"use x\") Warn at every use site, with your message. @target(os: \"linux\") Compile a declaration only for matching targets."
+},
+{
+"title": "Tests",
+"section": "Language tour",
+"url": "/docs/tour/#tests",
+"body": "test blocks are part of the language, not a library. They are compiled out of release builds entirely. Copy"
+},
+{
+"title": "Planned, not yet shipped",
+"section": "Language tour",
+"url": "/docs/tour/#planned",
+"body": "These are designed and discussed, and not in 0.1. Do not write code against them yet. Generics over constant values, for fixed-capacity containers. Compile-time evaluation beyond constant folding. Structured concurrency and non-blocking I/O in the standard library. A package registry and a lockfile format. Previous Getting started Next Compiler CLI {{docs_toc}}"
+},
+{
+"title": "uqulang — a compiled systems language",
+"section": "Home",
+"url": "/",
+"body": "Preview release · 0.1 The clarity of Swift. The control of C . uqulang is a compiled systems language for people who need to know exactly what the machine will do — and still want code that reads like prose. Ahead-of-time compiled to native binaries. No runtime. No garbage collector. Request a campus licence Read the documentation Licensed to universities and research institutions. Current release 0.1.0 · what a campus licence includes Hello Types Errors C interop Hello hello.uqu Copy Types vec.uqu Copy Errors parse.uqu Copy C interop image.uqu Copy Why uqulang A small language that stays out "
+},
+{
+"title": "Install",
+"section": "Install",
+"url": "/install/",
+"body": "Toolchain Install uqulang The toolchain is one binary called uqu : compiler, test runner, formatter and package fetcher. It installs into a single directory and can be removed by deleting that directory. Current release: 0.1.0 · Licensed software · all builds and checksums in the licence portal You need a licence key. The toolchain is licensed per institution. Your licence key comes from your university’s administrator, or from the licence portal if you hold the site licence. No key yet? Request a campus licence — evaluation keys are available for teaching staff. 0.1 is a preview release. Brea"
+},
+{
+"title": "Install with the script",
+"section": "Install",
+"url": "/install/#install-script",
+"body": "The script downloads the build for your platform, verifies its SHA-256 checksum against the signed manifest, unpacks it into ~/.uqulang and registers your licence key. Nothing is written outside your home directory and nothing needs sudo . macOS Linux Windows macOS macOS 13 or newer, on Apple silicon or Intel. Copy Or with Homebrew: Copy Linux glibc 2.31+ or musl, on x86-64 or aarch64. Copy Prefer"
+},
+{
+"title": "Verify the install",
+"section": "Install",
+"url": "/install/#verify",
+"body": "Every release publishes a SHA256SUMS file and a detached signature. Verifying takes ten seconds and is worth doing on any machine you care about: Copy uqu doctor is the first thing to run when something looks wrong, and the first thing to paste into a bug report."
+},
+{
+"title": "Lab and offline deployment",
+"section": "Install",
+"url": "/install/#labs",
+"body": "A teaching lab usually cannot run an installer per machine, and often has no outbound internet at all. Both cases are supported by the same archive. Download the platform archive once from the licence portal , put it on your image or file share, and point machines at it. Activation can be done once for the site rather than per machine: Copy Site licences include an offline activation file so lab m"
+},
+{
+"title": "Editor support",
+"section": "Install",
+"url": "/install/#editors",
+"body": "uqu lsp implements the Language Server Protocol, so any editor with an LSP client can get diagnostics, completion, go-to-definition and formatting. Editor plugins are distributed through the licence portal and the usual editor marketplaces. Editor How Status VS Code Marketplace extension Preview Neovim nvim-lspconfig entry Preview Zed Extension registry Preview Any LSP client uqu lsp over stdio Su"
+},
+{
+"title": "Uninstall",
+"section": "Install",
+"url": "/install/#uninstall",
+"body": "Delete the toolchain directory and the shim on your PATH . There is nothing else — no system services, no registry keys, no files outside these two locations. Copy Documentation Overview Next Getting started"
+},
+{
+"title": "For universities",
+"section": "For universities",
+"url": "/universities/",
+"body": "Campus licensing uqulang for universities uqulang is licensed to universities and research institutions. One campus licence covers every student, every member of staff and every machine in your labs, with deployment that works on an air-gapped network. Who it is for Systems courses Operating systems, compilers, computer architecture, embedded — any course where the point is what the machine actually does. Introductory programming A small, explicit language with diagnostics written to be read by somebody who is still learning to read them. Research groups Reproducible native builds with a pinne"
+},
+{
+"title": "Who it is for",
+"section": "For universities",
+"url": "/universities/#who",
+"body": "Systems courses Operating systems, compilers, computer architecture, embedded — any course where the point is what the machine actually does. Introductory programming A small, explicit language with diagnostics written to be read by somebody who is still learning to read them. Research groups Reproducible native builds with a pinned toolchain, so a result from 2026 still rebuilds bit-for-bit in 20"
+},
+{
+"title": "What a campus licence includes",
+"section": "For universities",
+"url": "/universities/#included",
+"body": "Included Detail Unlimited seats Every enrolled student and every member of teaching and research staff, on campus machines and their own. Lab deployment Image-ready archives for macOS, Linux and Windows, with offline activation so lab machines never contact a licence server. Course starter kit Lab exercises with worked solutions, sample assignments, and machine-readable test output ( uqu test --fo"
+},
+{
+"title": "Support",
+"section": "For universities",
+"url": "/universities/#support",
+"body": "Support is delivered through the support portal by your institution’s named contacts. Response targets are working hours, Sunday to Thursday, Arabia Standard Time. Severity Example First response Critical Lab cannot compile during a scheduled session 4 working hours High Compiler defect blocking an assignment 1 working day Normal Incorrect diagnostic, documentation error 3 working days Request Fea"
+},
+{
+"title": "Evaluating it first",
+"section": "For universities",
+"url": "/universities/#evaluation",
+"body": "Teaching staff can request a time-limited evaluation key covering a single course or a pilot lab, with the full toolchain and the starter kit. Nothing about the evaluation build is cut down — it is the shipping compiler. Run a pilot for one semester before committing to a campus licence. Keep the material you write during the pilot; it stays yours. Ask for a syllabus review — we will say when uqul"
+},
+{
+"title": "Roadmap",
+"section": "For universities",
+"url": "/universities/#roadmap",
+"body": "Dates are intentions, not commitments. The order is more stable than the timing, and licensed institutions are told before anything on it changes. Release Contents Status 0.1 Self-hosting compiler, core language, C interop, single-binary toolchain Current 0.2 Generics over constant values, standard library collections, benchmark harness for licensees In progress 0.3 Dependency management, reproduc"
+},
+{
+"title": "Asking for changes",
+"section": "For universities",
+"url": "/universities/#influence",
+"body": "Licensed institutions shape the language. Feature requests go through your named contact, are answered in writing, and the accepted ones appear on the roadmap above with the release they are scheduled for. Requests that come from a course that is actually running carry the most weight — teaching friction is the most useful signal we get."
+},
+{
+"title": "Request a licence",
+"section": "For universities",
+"url": "/universities/#contact",
+"body": "Write to {{email}} . To get a useful answer in the first reply rather than the third, include: Your institution and department. The courses involved, and roughly how many students per semester. The platforms in your labs, and whether they have outbound internet. When your semester starts — it sets the deployment timeline. Email {{email}} Existing licensee support"
+},
+{
+"title": "Using the name and mark",
+"section": "For universities",
+"url": "/universities/#trademark",
+"body": "The name “uqulang” and the mark may be used in course descriptions, syllabi, lecture material, academic papers and talks, and to say that software was written in uqulang. They may not be used as the name of another product, or in a way that implies a partnership that does not exist."
+}
+]

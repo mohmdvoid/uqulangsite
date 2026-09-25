@@ -1,0 +1,8 @@
+<!-- Sadu-inspired weave band: alternating triangles, the motif used in Najdi
+     and Bedouin weaving. Used as a CSS mask, so the colour comes from the
+     theme and this file carries shape only. Tile: 24 x 12, repeats on x. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="12" viewBox="0 0 24 12" fill="#000">
+  <rect width="24" height="1.4"/>
+  <path d="M0 12 6 3.4 12 12ZM12 12 18 3.4 24 12Z"/>
+  <path d="M-6 3.4 0 12 6 3.4ZM6 3.4 12 12 18 3.4ZM18 3.4 24 12 30 3.4Z" opacity=".38"/>
+</svg>

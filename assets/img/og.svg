@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="uqulang — a compiled systems language">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07130F"/>
+      <stop offset="1" stop-color="#050908"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#1BB183" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#1BB183" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <ellipse cx="880" cy="120" rx="520" ry="380" fill="url(#glow)"/>
+  <g transform="translate(96 92) scale(2.6)" fill="none" stroke="#35C48E" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6"/>
+    <path d="M22.4 11.7 27 16l-4.6 4.3"/>
+  </g>
+  <g font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" fill="#E9F0ED">
+    <text x="190" y="152" font-size="46" font-weight="600" letter-spacing="-1">uqulang</text>
+    <text x="96" y="310" font-size="74" font-weight="700" letter-spacing="-2.5">The clarity of Swift.</text>
+    <text x="96" y="396" font-size="74" font-weight="700" letter-spacing="-2.5" fill="#35C48E">The control of C.</text>
+    <text x="96" y="470" font-size="30" font-weight="400" fill="#A3B2AC">A compiled systems language. Designed and built in Saudi Arabia.</text>
+    <text x="96" y="556" font-size="26" font-weight="500" fill="#82938D" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">uqulang.org</text>
+  </g>
+</svg>

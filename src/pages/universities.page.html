@@ -1,0 +1,201 @@
+<!--meta
+{
+  "title": "For universities",
+  "description": "Campus licensing for uqulang: what the licence includes, lab and offline deployment, teaching materials, support response targets, the product roadmap, and how to request a licence.",
+  "path": "/universities/",
+  "nav": "universities",
+  "section": "For universities",
+  "priority": "0.8"
+}
+meta-->
+
+<div class="container container--narrow page-head page-head--tight">
+  <div class="docs-header">
+    <span class="docs-header__eyebrow">Campus licensing</span>
+    <h1>uqulang for universities</h1>
+    <p class="docs-header__lead">
+      uqulang is licensed to universities and research institutions. One campus
+      licence covers every student, every member of staff and every machine in
+      your labs, with deployment that works on an air-gapped network.
+    </p>
+  </div>
+</div>
+
+<div class="container container--narrow" data-heading-anchors>
+  <section class="docs-article prose-wide">
+    <h2 id="who">Who it is for</h2>
+    <div class="grid grid--3">
+      <article class="card">
+        <h3 class="card__title">Systems courses</h3>
+        <p class="card__body">
+          Operating systems, compilers, computer architecture, embedded — any
+          course where the point is what the machine actually does.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Introductory programming</h3>
+        <p class="card__body">
+          A small, explicit language with diagnostics written to be read by
+          somebody who is still learning to read them.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Research groups</h3>
+        <p class="card__body">
+          Reproducible native builds with a pinned toolchain, so a result from
+          2026 still rebuilds bit-for-bit in 2029.
+        </p>
+      </article>
+    </div>
+
+    <h2 id="included">What a campus licence includes</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Included</th><th scope="col">Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Unlimited seats</strong></td>
+            <td>Every enrolled student and every member of teaching and research staff, on campus machines and their own.</td>
+          </tr>
+          <tr>
+            <td><strong>Lab deployment</strong></td>
+            <td>Image-ready archives for macOS, Linux and Windows, with offline activation so lab machines never contact a licence server.</td>
+          </tr>
+          <tr>
+            <td><strong>Course starter kit</strong></td>
+            <td>Lab exercises with worked solutions, sample assignments, and machine-readable test output (<code>uqu test --format json</code>) for autograders.</td>
+          </tr>
+          <tr>
+            <td><strong>Version pinning</strong></td>
+            <td>A named release held stable for the length of a semester, so a mid-term upgrade never breaks a running course.</td>
+          </tr>
+          <tr>
+            <td><strong>Faculty onboarding</strong></td>
+            <td>A training session for the teaching team before the first semester, plus written migration notes for every release.</td>
+          </tr>
+          <tr>
+            <td><strong>Support</strong></td>
+            <td>Named technical contacts with the response targets below.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="support">Support</h2>
+    <p>
+      Support is delivered through the <a href="{{support}}">support portal</a>
+      by your institution’s named contacts. Response targets are working hours,
+      Sunday to Thursday, Arabia Standard Time.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Severity</th><th scope="col">Example</th><th scope="col">First response</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Critical</td><td>Lab cannot compile during a scheduled session</td><td>4 working hours</td></tr>
+          <tr><td>High</td><td>Compiler defect blocking an assignment</td><td>1 working day</td></tr>
+          <tr><td>Normal</td><td>Incorrect diagnostic, documentation error</td><td>3 working days</td></tr>
+          <tr><td>Request</td><td>Feature request, curriculum question</td><td>5 working days</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout--note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+      <div class="callout__body">
+        <p>
+          A reduced test case is the single most useful thing you can attach to a
+          report, followed by the output of <code>uqu doctor</code>.
+        </p>
+      </div>
+    </div>
+
+    <h2 id="evaluation">Evaluating it first</h2>
+    <p>
+      Teaching staff can request a time-limited evaluation key covering a single
+      course or a pilot lab, with the full toolchain and the starter kit. Nothing
+      about the evaluation build is cut down — it is the shipping compiler.
+    </p>
+    <ul class="checklist">
+      <li>Run a pilot for one semester before committing to a campus licence.</li>
+      <li>Keep the material you write during the pilot; it stays yours.</li>
+      <li>Ask for a syllabus review — we will say when uqulang is the wrong fit.</li>
+    </ul>
+
+    <h2 id="roadmap">Roadmap</h2>
+    <p>
+      Dates are intentions, not commitments. The order is more stable than the
+      timing, and licensed institutions are told before anything on it changes.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Release</th><th scope="col">Contents</th><th scope="col">Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>0.1</strong></td>
+            <td>Self-hosting compiler, core language, C interop, single-binary toolchain</td>
+            <td><span class="badge">Current</span></td>
+          </tr>
+          <tr>
+            <td><strong>0.2</strong></td>
+            <td>Generics over constant values, standard library collections, benchmark harness for licensees</td>
+            <td><span class="badge badge--neutral">In progress</span></td>
+          </tr>
+          <tr>
+            <td><strong>0.3</strong></td>
+            <td>Dependency management, reproducible builds, autograder integration guide</td>
+            <td><span class="badge badge--neutral">Designed</span></td>
+          </tr>
+          <tr>
+            <td><strong>0.4</strong></td>
+            <td>Structured concurrency, non-blocking I/O, cross-compilation to bare metal targets</td>
+            <td><span class="badge badge--neutral">Designed</span></td>
+          </tr>
+          <tr>
+            <td><strong>1.0</strong></td>
+            <td>Language specification frozen, stability guarantee, long-term support release</td>
+            <td><span class="badge badge--neutral">Planned</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="influence">Asking for changes</h2>
+    <p>
+      Licensed institutions shape the language. Feature requests go through your
+      named contact, are answered in writing, and the accepted ones appear on the
+      roadmap above with the release they are scheduled for. Requests that come
+      from a course that is actually running carry the most weight — teaching
+      friction is the most useful signal we get.
+    </p>
+
+    <h2 id="contact">Request a licence</h2>
+    <p>
+      Write to <a href="mailto:{{email}}">{{email}}</a>. To get a useful answer in
+      the first reply rather than the third, include:
+    </p>
+    <ul class="checklist">
+      <li>Your institution and department.</li>
+      <li>The courses involved, and roughly how many students per semester.</li>
+      <li>The platforms in your labs, and whether they have outbound internet.</li>
+      <li>When your semester starts — it sets the deployment timeline.</li>
+    </ul>
+    <div class="hero__actions mt-6">
+      <a class="btn btn--primary" href="mailto:{{email}}?subject=Campus%20licence%20enquiry">Email {{email}}</a>
+      <a class="btn btn--secondary" href="{{support}}">Existing licensee support</a>
+    </div>
+
+    <h2 id="trademark">Using the name and mark</h2>
+    <p>
+      The name “uqulang” and the mark may be used in course descriptions,
+      syllabi, lecture material, academic papers and talks, and to say that
+      software was written in uqulang. They may not be used as the name of
+      another product, or in a way that implies a partnership that does not
+      exist.
+    </p>
+  </section>
+</div>

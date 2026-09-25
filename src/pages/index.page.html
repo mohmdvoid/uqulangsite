@@ -1,0 +1,465 @@
+<!--meta
+{
+  "title": "uqulang — a compiled systems language",
+  "raw_title": true,
+  "og_title": "uqulang — the clarity of Swift, the control of C",
+  "description": "uqulang is a compiled systems language with C-level control and Swift-level clarity, licensed to universities for teaching and research. Ahead-of-time compiled, no runtime, no garbage collector. Designed and built in Saudi Arabia.",
+  "path": "/",
+  "nav": null,
+  "section": "Home",
+  "priority": "1.0",
+  "alternates": { "en": "/", "ar": "/ar/" },
+  "head_extra": "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"uqulang\",\"url\":\"https://uqulang.org/\",\"description\":\"A compiled systems language with C-level control and Swift-level clarity, licensed to universities.\",\"inLanguage\":[\"en\",\"ar\"]}</script>"
+}
+meta-->
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div>
+      <a class="badge" href="{{url:/blog/announcing-uqulang/}}">
+        <span class="badge__dot"></span>
+        Preview release · 0.1
+      </a>
+
+      <h1 class="hero__title">The clarity of Swift.<br>The control of <em>C</em>.</h1>
+
+      <p class="hero__lead">
+        uqulang is a compiled systems language for people who need to know exactly
+        what the machine will do — and still want code that reads like prose.
+        Ahead-of-time compiled to native binaries. No runtime. No garbage collector.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="{{contact}}">
+          Request a campus licence
+          <svg class="btn__icon btn__icon--arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+        </a>
+        <a class="btn btn--secondary btn--lg" href="{{url:/docs/getting-started/}}">Read the documentation</a>
+      </div>
+
+      <p class="hero__meta">
+        Licensed to universities and research institutions. Current release
+        <code>0.1.0</code> · <a href="{{url:/universities/}}">what a campus licence includes</a>
+      </p>
+    </div>
+
+    <div class="tabs" data-tabs aria-label="Language samples">
+      <div class="tabs__list" role="tablist" aria-label="Code samples">
+        <button class="tabs__tab" type="button" role="tab" id="tab-hello" aria-controls="panel-hello" data-value="hello">Hello</button>
+        <button class="tabs__tab" type="button" role="tab" id="tab-types" aria-controls="panel-types" data-value="types">Types</button>
+        <button class="tabs__tab" type="button" role="tab" id="tab-errors" aria-controls="panel-errors" data-value="errors">Errors</button>
+        <button class="tabs__tab" type="button" role="tab" id="tab-ffi" aria-controls="panel-ffi" data-value="ffi">C interop</button>
+      </div>
+
+      <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-hello" aria-labelledby="tab-hello" tabindex="0">
+        <p class="tabs__panel-title">Hello</p>
+        <!--code file="hello.uqu" lang="uqulang"-->
+module hello
+
+import std.io
+
+func main() {
+    let names = ["world", "عالم", "мир"]
+
+    for name in names {
+        io.println("Hello, {}!", name)
+    }
+}
+<!--/code-->
+      </div>
+
+      <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-types" aria-labelledby="tab-types" tabindex="0" hidden>
+        <p class="tabs__panel-title">Types</p>
+        <!--code file="vec.uqu" lang="uqulang"-->
+struct Vec2 {
+    x: f32,
+    y: f32,
+}
+
+trait Length {
+    func length(self) -> f32
+}
+
+impl Length for Vec2 {
+    func length(self) -> f32 {
+        return math.sqrt(self.x * self.x + self.y * self.y)
+    }
+}
+
+// Stack allocated. Passed in registers. No vtable unless you ask for one.
+let v = Vec2{ x: 3.0, y: 4.0 }
+io.println("{}", v.length())   // 5.0
+<!--/code-->
+      </div>
+
+      <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-errors" aria-labelledby="tab-errors" tabindex="0" hidden>
+        <p class="tabs__panel-title">Errors</p>
+        <!--code file="parse.uqu" lang="uqulang"-->
+enum ParseError {
+    Empty,
+    BadDigit(byte),
+}
+
+func parse_u32(text: str) throws ParseError -> u32 {
+    guard text.len > 0 else { throw ParseError.Empty }
+
+    var value: u32 = 0
+    for ch in text.bytes() {
+        guard ch >= '0' and ch <= '9' else {
+            throw ParseError.BadDigit(ch)
+        }
+        value = value * 10 + u32(ch - '0')
+    }
+    return value
+}
+
+// Errors are values, and the compiler will not let you drop one.
+match try parse_u32("40two") {
+    case .ok(let n):    io.println("{}", n)
+    case .err(let why): io.eprintln("bad input: {}", why)
+}
+<!--/code-->
+      </div>
+
+      <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-ffi" aria-labelledby="tab-ffi" tabindex="0" hidden>
+        <p class="tabs__panel-title">C interop</p>
+        <!--code file="image.uqu" lang="uqulang"-->
+module image
+
+// No bindings generator, no wrapper library, no marshalling layer.
+extern "C" {
+    func stbi_load(path: *u8, w: *i32, h: *i32, ch: *i32, want: i32) -> *u8
+    func stbi_image_free(data: *void)
+}
+
+func load(path: str) -> ?Image {
+    var w: i32 = 0
+    var h: i32 = 0
+    var channels: i32 = 0
+
+    let pixels = stbi_load(path.c_str(), &w, &h, &channels, 4)
+    guard pixels != nil else { return nil }
+    defer stbi_image_free(pixels)
+
+    return Image.copy(pixels, usize(w), usize(h))
+}
+<!--/code-->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--flush">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">Why uqulang</span>
+      <h2>A small language that stays out of the way</h2>
+      <p class="section__lead">
+        Systems work asks two things of a language: predictable machine behaviour,
+        and code a team can still read in five years. uqulang is designed so you
+        never trade one for the other.
+      </p>
+    </div>
+
+    <div class="grid grid--3">
+      <article class="card">
+        <span class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6z"/></svg>
+        </span>
+        <h3 class="card__title">Ahead-of-time, always</h3>
+        <p class="card__body">
+          One native binary, statically linked by default. No interpreter, no JIT
+          warm-up, no runtime to ship alongside your program.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10M4 17h13"/></svg>
+        </span>
+        <h3 class="card__title">Reads like Swift</h3>
+        <p class="card__body">
+          Modules, traits, optionals, pattern matching and real generics — the
+          vocabulary you already know, without the header files.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M8 5v14M12.5 9.5h4M12.5 14h4"/></svg>
+        </span>
+        <h3 class="card__title">Memory you can account for</h3>
+        <p class="card__body">
+          Scope-based ownership and <code>defer</code>. Every allocation has a
+          visible owner, and nothing runs behind your back to free it.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 1 0-5.7l2.3-2.3a4 4 0 0 1 5.7 5.7l-1 1"/><path d="M14 10a4 4 0 0 1 0 5.7l-2.3 2.3a4 4 0 0 1-5.7-5.7l1-1"/></svg>
+        </span>
+        <h3 class="card__title">C without a wrapper</h3>
+        <p class="card__body">
+          Declare a C function, call it. Matching ABI, matching layout, zero
+          overhead — and your uqulang library is callable from C in return.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 20 8v8l-8 4.5L4 16V8z"/><path d="M12 12v8.5M20 8l-8 4-8-4"/></svg>
+        </span>
+        <h3 class="card__title">One toolchain</h3>
+        <p class="card__body">
+          Build, test, format and document with a single <code>uqu</code> binary.
+          No project generator, no plugin ecosystem to keep alive.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5 19 7v5.5c0 3.4-2.8 6-7 7.5-4.2-1.5-7-4.1-7-7.5V7z"/><path d="M9.2 12.2l2 2 3.6-3.8"/></svg>
+        </span>
+        <h3 class="card__title">Errors that can't be ignored</h3>
+        <p class="card__body">
+          Typed <code>throws</code>, checked at the call site. No exceptions
+          unwinding through code that never expected them.
+        </p>
+      </article>
+    </div>
+
+    <div class="callout callout--note mt-10">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+      <div class="callout__body">
+        <p class="callout__title">uqulang is pre-1.0, and we say so on the front page.</p>
+        <p>
+          The language and its compiler are under active development. Syntax can
+          still change between preview releases, and every change is written down
+          in the <a href="{{url:/blog/}}">release notes</a>. Read the
+          <a href="{{url:/universities/#roadmap}}">roadmap</a> before you build
+          production infrastructure on it.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--subtle">
+  <div class="container">
+    <div class="split">
+      <div>
+        <span class="section__eyebrow">Deterministic by design</span>
+        <h2>You can read the cost off the page</h2>
+        <p class="section__lead">
+          There is no hidden allocation, no implicit copy of a large value, and no
+          collector deciding when your latency spike happens. What you write is
+          what the back end emits.
+        </p>
+        <ul class="checklist">
+          <li>Values are stack-allocated unless you ask for the heap.</li>
+          <li><code>defer</code> runs at scope exit, in reverse order, always.</li>
+          <li>Moves are explicit; a copy of an owning type is a compile error.</li>
+          <li>No hidden control flow: no destructor magic, no operator surprises.</li>
+        </ul>
+      </div>
+
+      <!--code file="buffer.uqu" lang="uqulang"-->
+func read_all(path: str) throws io.Error -> Buffer {
+    let file = try io.open(path, .read)
+    defer file.close()          // runs on every exit path
+
+    let size = try file.size()
+    var buf = Buffer.with_capacity(size)
+    defer_on_error buf.free()   // released only if we throw
+
+    try file.read_into(&buf)
+    return move buf             // ownership moves to the caller
+}
+<!--/code-->
+    </div>
+  </div>
+</section>
+
+<section class="section" id="performance">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">Performance</span>
+      <h2>Measured, then published — never the other way round</h2>
+      <p class="section__lead">
+        uqulang targets the same machine code quality as a C compiler at
+        <code>-O2</code>, because it lowers to the same kind of IR and makes the
+        same guarantees about aliasing and layout. We publish a number only when
+        you can reproduce it.
+      </p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption class="visually-hidden">Benchmark results, pending publication</caption>
+        <thead>
+          <tr>
+            <th scope="col">Benchmark</th>
+            <th scope="col">uqulang</th>
+            <th scope="col">C (clang -O2)</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>binary-trees</td><td>—</td><td>—</td><td>Pending 0.1 release harness</td></tr>
+          <tr><td>json-parse (1 GB)</td><td>—</td><td>—</td><td>Pending 0.1 release harness</td></tr>
+          <tr><td>matrix-mul (1024²)</td><td>—</td><td>—</td><td>Pending 0.1 release harness</td></tr>
+          <tr><td>cold start, hello world</td><td>—</td><td>—</td><td>Pending 0.1 release harness</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--warn mt-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 4.5 21 19.5H3z"/><path d="M12 10v4M12 16.8v.2"/></svg>
+      <div class="callout__body">
+        <p>
+          The table above is intentionally empty. Every row will be filled from a
+          harness we ship to licensed institutions — hardware, compiler flags,
+          input data and raw timings — so your own staff can run it and get the
+          same answer on your own machines. Until then, treat performance claims
+          about uqulang, including ours, as unproven.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="teaching">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">In the classroom</span>
+      <h2>Small enough to teach in one semester</h2>
+      <p class="section__lead">
+        uqulang is licensed to universities because that is who it was designed
+        for: a language a student can hold in their head, on a toolchain that
+        behaves the same on every machine in the lab.
+      </p>
+    </div>
+
+    <div class="grid grid--2">
+      <article class="card">
+        <h3 class="card__title">One binary per lab machine</h3>
+        <p class="card__body">
+          No package manager, no per-student environment setup, no “it works on
+          my laptop”. Copy one file, or deploy the whole lab from an offline
+          image on an air-gapped network.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Reproducible builds for grading</h3>
+        <p class="card__body">
+          The same source and the same toolchain version produce a
+          byte-identical binary. Submissions compile the same way on the marker’s
+          machine as on the student’s.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">The concepts a systems course needs</h3>
+        <p class="card__body">
+          Pointers, layout, stack versus heap, ownership, the ABI — all visible
+          in the source rather than hidden behind a runtime, so a lecture can
+          point at the line where the cost is.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Diagnostics that teach</h3>
+        <p class="card__body">
+          Every error names what the compiler expected, what it found, and the
+          rule involved. Students spend the lab on the concept, not on decoding
+          the message.
+        </p>
+      </article>
+    </div>
+
+    <div class="hero__actions mt-10">
+      <a class="btn btn--primary" href="{{contact}}">Request a campus licence</a>
+      <a class="btn btn--ghost" href="{{url:/universities/#included}}">What is included</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--subtle">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">Get going</span>
+      <h2>Install it, build something, in that order</h2>
+    </div>
+
+    <div class="split">
+      <div data-platform-detect>
+        <p class="section__lead mt-0">
+          With a licence key, install the toolchain on
+          <strong data-platform-label>your platform</strong> and compile your
+          first program. The toolchain is a single binary and it does not touch
+          anything outside its own directory.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--secondary" href="{{url:/install/}}">Installation guide</a>
+          <a class="btn btn--ghost" href="{{url:/docs/}}">Read the docs</a>
+        </div>
+      </div>
+
+      <div class="tabs" data-tabs data-sync="platform">
+        <div class="tabs__list" role="tablist" aria-label="Install command per platform">
+          <button class="tabs__tab" type="button" role="tab" id="tab-q-macos" aria-controls="panel-q-macos" data-value="macos" data-default>macOS</button>
+          <button class="tabs__tab" type="button" role="tab" id="tab-q-linux" aria-controls="panel-q-linux" data-value="linux">Linux</button>
+          <button class="tabs__tab" type="button" role="tab" id="tab-q-windows" aria-controls="panel-q-windows" data-value="windows">Windows</button>
+        </div>
+
+        <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-q-macos" aria-labelledby="tab-q-macos" tabindex="0">
+          <p class="tabs__panel-title">macOS</p>
+          <!--code lang="shell"-->
+$ curl -fsSL https://uqulang.org/install.sh | sh
+$ uqu --version
+$ uqu init hello && cd hello && uqu run
+<!--/code-->
+        </div>
+
+        <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-q-linux" aria-labelledby="tab-q-linux" tabindex="0" hidden>
+          <p class="tabs__panel-title">Linux</p>
+          <!--code lang="shell"-->
+$ curl -fsSL https://uqulang.org/install.sh | sh
+$ uqu --version
+$ uqu init hello && cd hello && uqu run
+<!--/code-->
+        </div>
+
+        <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-q-windows" aria-labelledby="tab-q-windows" tabindex="0" hidden>
+          <p class="tabs__panel-title">Windows</p>
+          <!--code lang="shell"-->
+> winget install uqulang.uqu
+> uqu --version
+> uqu init hello; cd hello; uqu run
+<!--/code-->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid--3">
+      <a class="card card--link" href="{{url:/docs/getting-started/}}">
+        <h3 class="card__title">Getting started</h3>
+        <p class="card__body">Install the toolchain, compile a program, run the test suite — about five minutes.</p>
+        <span class="card__link">Start the tutorial</span>
+      </a>
+      <a class="card card--link" href="{{url:/docs/tour/}}">
+        <h3 class="card__title">Language tour</h3>
+        <p class="card__body">Every construct in the language, with runnable examples, in reading order.</p>
+        <span class="card__link">Take the tour</span>
+      </a>
+      <a class="card card--link" href="{{url:/universities/}}">
+        <h3 class="card__title">For universities</h3>
+        <p class="card__body">What a campus licence covers, how lab deployment works, support, training, and the roadmap.</p>
+        <span class="card__link">See licensing</span>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Editor / agent local config (contains machine-specific absolute paths)
+.claude/
+
+# Python
+__pycache__/
+*.pyc

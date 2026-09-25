@@ -1,0 +1,326 @@
+/* ==========================================================================
+   Layout: page shell, header, footer, sections, docs frame.
+   ========================================================================== */
+
+/* --- Containers --------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-inline-size: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container--narrow { max-inline-size: var(--container-narrow); }
+.container--docs { max-inline-size: var(--container-docs); }
+
+.section {
+  padding-block: var(--sp-16);
+  border-block-start: 1px solid var(--clr-border);
+}
+
+.section--flush { border-block-start: none; }
+.section--tight { padding-block: var(--sp-12); }
+.section--subtle { background-color: var(--clr-bg-subtle); }
+
+.section__head {
+  max-inline-size: 44rem;
+  margin-block-end: var(--sp-10);
+}
+
+.section__eyebrow {
+  display: block;
+  margin-block-end: var(--sp-3);
+  color: var(--clr-brand);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.section__lead {
+  margin-block-start: var(--sp-4);
+  color: var(--clr-text-muted);
+  font-size: var(--fs-600);
+  line-height: var(--lh-normal);
+  max-inline-size: var(--measure);
+}
+
+/* --- Header ------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-header);
+  background-color: color-mix(in srgb, var(--clr-bg) 88%, transparent);
+  border-block-end: 1px solid var(--clr-border);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .site-header { background-color: var(--clr-bg); }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  min-height: var(--header-h);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--clr-text);
+  font-size: var(--fs-500);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-tight);
+  text-decoration: none;
+  flex: none;
+}
+
+.brand:hover { color: var(--clr-text); }
+.brand__mark { inline-size: 1.75rem; block-size: 1.75rem; flex: none; }
+.brand__text { font-size: 1.0625rem; }
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-inline-start: var(--sp-6);
+  flex: 1 1 auto;
+}
+
+.site-nav__link {
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-3);
+  color: var(--clr-text-muted);
+  font-size: var(--fs-400);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav__link:hover {
+  background-color: var(--clr-bg-subtle);
+  color: var(--clr-text);
+}
+
+.site-nav__link[aria-current="page"] {
+  color: var(--clr-brand);
+  background-color: var(--clr-brand-soft);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-inline-start: auto;
+  flex: none;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-3);
+  color: var(--clr-text-muted);
+}
+
+.nav-toggle:hover { color: var(--clr-text); background-color: var(--clr-bg-subtle); }
+.nav-toggle__close { display: none; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__open { display: none; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__close { display: block; }
+
+/* Mobile: nav collapses into a drawer. With JS disabled the drawer markup is
+   hidden and a plain link row is shown instead (see .site-nav--fallback). */
+/* Very narrow phones: the Install call to action is already the second item in
+   the nav drawer, so drop the duplicate rather than crowding the header. */
+@media (max-width: 30rem) {
+  .site-header__actions > .btn--primary { display: none; }
+}
+
+@media (max-width: 60rem) {
+  .nav-toggle { display: inline-flex; }
+
+  .site-nav {
+    position: fixed;
+    inset: var(--header-h) 0 auto 0;
+    z-index: var(--z-drawer);
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-1);
+    margin: 0;
+    padding: var(--sp-4) var(--gutter) var(--sp-6);
+    background-color: var(--clr-bg);
+    border-block-end: 1px solid var(--clr-border);
+    box-shadow: var(--shadow-3);
+    max-block-size: calc(100vh - var(--header-h));
+    overflow-y: auto;
+  }
+
+  .js .site-nav[hidden] { display: none; }
+  .no-js .site-nav { position: static; box-shadow: none; padding: 0 0 var(--sp-3); overflow: visible; }
+  .no-js .nav-toggle { display: none; }
+  .no-js .site-header { position: static; }
+  .no-js .site-header__inner { flex-wrap: wrap; }
+
+  .site-nav__link { padding: var(--sp-3); font-size: var(--fs-500); }
+}
+
+/* --- Footer ------------------------------------------------------------- */
+.site-footer {
+  position: relative;
+  margin-block-start: var(--sp-24);
+  padding-block: var(--sp-16) var(--sp-10);
+  border-block-start: 1px solid var(--clr-border);
+  background-color: var(--clr-bg-subtle);
+  font-size: var(--fs-400);
+}
+
+/* Sadu weave band. The motif is a mask, so it takes the brand colour and works
+   in both themes; `mask` is progressive — without support the band is absent
+   and nothing else changes. */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 14px;
+  background-color: var(--clr-brand);
+  opacity: 0.38;
+  -webkit-mask: url("../img/sadu.svg") repeat-x center / auto 14px;
+  mask: url("../img/sadu.svg") repeat-x center / auto 14px;
+  pointer-events: none;
+}
+
+.footer-etymology {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin-block-start: var(--sp-4);
+  color: var(--clr-text-subtle);
+  font-size: var(--fs-300);
+}
+
+.footer-etymology > [lang="ar"] {
+  font-family: var(--font-arabic);
+  font-size: var(--fs-600);
+  color: var(--clr-brand);
+  line-height: 1.2;
+}
+
+.site-footer__grid {
+  display: grid;
+  /* min(100%, …) lets every track collapse to full width on a phone instead of
+     forcing the page wider than the viewport. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: var(--sp-10) var(--sp-8);
+}
+
+@media (min-width: 56rem) {
+  .site-footer__grid { grid-template-columns: 1.6fr repeat(3, minmax(0, 1fr)); }
+}
+
+.site-footer__about { max-inline-size: 26rem; color: var(--clr-text-muted); }
+.site-footer__about p { margin-block-start: var(--sp-3); }
+
+.footer-group__title {
+  margin-block-end: var(--sp-3);
+  color: var(--clr-text);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.footer-group__list { list-style: none; margin: 0; padding: 0; }
+.footer-group__list li + li { margin-block-start: var(--sp-2); }
+
+.footer-group__list a {
+  color: var(--clr-text-muted);
+  text-decoration: none;
+}
+
+.footer-group__list a:hover { color: var(--clr-brand); text-decoration: underline; }
+
+.site-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-6);
+  margin-block-start: var(--sp-12);
+  padding-block-start: var(--sp-6);
+  border-block-start: 1px solid var(--clr-border);
+  color: var(--clr-text-subtle);
+  font-size: var(--fs-300);
+}
+
+.site-footer__bottom p { margin: 0; }
+.site-footer__made { margin-inline-start: auto; }
+
+/* --- Docs frame --------------------------------------------------------- */
+.docs {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr) 14rem;
+  gap: var(--sp-10);
+  align-items: start;
+  padding-block: var(--sp-10) var(--sp-16);
+}
+
+.docs-sidebar,
+.docs-toc {
+  position: sticky;
+  inset-block-start: calc(var(--header-h) + var(--sp-6));
+  max-block-size: calc(100vh - var(--header-h) - var(--sp-10));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font-size: var(--fs-400);
+}
+
+.docs-main { min-inline-size: 0; }
+
+.docs-article { max-inline-size: var(--measure); font-size: var(--fs-550); }
+.docs-article > * + * { margin-block-start: var(--sp-5); }
+.docs-article > h2 { margin-block-start: var(--sp-12); }
+.docs-article > h3 { margin-block-start: var(--sp-8); }
+.docs-article > ul, .docs-article > ol { line-height: var(--lh-relaxed); }
+.docs-article p { line-height: var(--lh-relaxed); }
+.docs-article > .code-block,
+.docs-article > .tabs,
+.docs-article > .callout,
+.docs-article > .table-wrap { margin-block: var(--sp-6); max-inline-size: none; }
+
+@media (max-width: 78rem) {
+  .docs { grid-template-columns: 15rem minmax(0, 1fr); }
+  .docs-toc { display: none; }
+}
+
+@media (max-width: 60rem) {
+  .docs { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); }
+
+  .docs-sidebar {
+    position: static;
+    max-block-size: none;
+    overflow: visible;
+    padding-block-end: var(--sp-5);
+    border-block-end: 1px solid var(--clr-border);
+  }
+}
+
+/* --- Generic grids ------------------------------------------------------ */
+.grid { display: grid; gap: var(--sp-6); }
+.grid > *, .split > * { min-inline-size: 0; }
+.grid--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+.grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+.grid--4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: var(--sp-10);
+  align-items: center;
+}

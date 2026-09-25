@@ -1,0 +1,242 @@
+/* ==========================================================================
+   uqulang.org — design tokens
+   Single source of truth for colour, type, space, motion.
+   Every value below is referenced by name elsewhere; never hard-code a colour
+   outside this file.
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  /* --- Brand -------------------------------------------------------------
+     Palm green (the language) + desert gold (accents).                     */
+  --brand-900: #073B2A;
+  --brand-800: #0A5E42;
+  --brand-700: #0E7A57;
+  --brand-600: #12946A;
+  --brand-500: #1BB183;
+  --brand-400: #35C48E;
+  --brand-300: #7FDCBA;
+  --brand-100: #D9F2E8;
+  --brand-050: #EEF8F4;
+
+  --gold-800: #7A5010;
+  --gold-700: #A9701A;
+  --gold-600: #C98F2A;
+  --gold-500: #E4A93C;
+  --gold-100: #FBF0DA;
+
+  /* --- Neutrals (very slightly green-shifted to sit with the brand) ------ */
+  --ink-950: #070C0A;
+  --ink-900: #0A100E;
+  --ink-850: #0F1714;
+  --ink-800: #121B18;
+  --ink-700: #1F2C27;
+  --ink-600: #2E403A;
+  --ink-500: #4E5F59;
+  --ink-400: #6B7C76;
+  --ink-300: #9BAAA4;
+  --ink-200: #C3CFCA;
+  --ink-150: #DDE4E1;
+  --ink-100: #EEF2F0;
+  --ink-050: #F6F8F7;
+  --ink-000: #FFFFFF;
+
+  /* --- Semantic: light theme -------------------------------------------- */
+  --clr-bg: var(--ink-000);
+  --clr-bg-subtle: var(--ink-050);
+  --clr-bg-sunken: var(--ink-100);
+  --clr-surface: var(--ink-000);
+  --clr-surface-raised: var(--ink-000);
+  --clr-border: var(--ink-150);
+  --clr-border-strong: var(--ink-200);
+  --clr-text: #0C1512;
+  --clr-text-muted: var(--ink-500);
+  --clr-text-subtle: var(--ink-400);
+  --clr-text-inverse: var(--ink-000);
+
+  --clr-brand: var(--brand-700);
+  --clr-brand-hover: var(--brand-800);
+  --clr-brand-active: var(--brand-900);
+  --clr-brand-soft: var(--brand-050);
+  --clr-brand-soft-border: var(--brand-100);
+  --clr-on-brand: #FFFFFF;
+
+  --clr-accent: var(--gold-700);
+  --clr-accent-soft: var(--gold-100);
+
+  --clr-focus: var(--brand-600);
+  --clr-selection: var(--brand-100);
+
+  /* Code surfaces are always the "deep" treatment in both themes so that
+     syntax colours stay stable and screenshots match the docs. */
+  --clr-code-bg: var(--ink-950);
+  --clr-code-border: var(--ink-700);
+  --clr-code-text: #E6EDEA;
+  --clr-code-gutter: #55655F;
+
+  --syn-comment: #7E8F89;
+  --syn-keyword: #F49AC4;
+  --syn-type: #C3A0F5;
+  --syn-string: var(--brand-400);
+  --syn-number: var(--gold-500);
+  --syn-func: #74B8F2;
+  --syn-attr: #E4A93C;
+  --syn-punct: #9BAAA4;
+
+  /* --- Type -------------------------------------------------------------- */
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-arabic: "SF Arabic", "Geeza Pro", "Noto Sans Arabic", "Segoe UI",
+    Tahoma, var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Cascadia Mono", "Liberation Mono", monospace;
+
+  --fs-300: 0.8125rem;   /* 13px — meta, captions               */
+  --fs-400: 0.9375rem;   /* 15px — UI, nav                      */
+  --fs-500: 1rem;        /* 16px — body                         */
+  --fs-550: 1.0625rem;   /* 17px — docs body                    */
+  --fs-600: 1.125rem;    /* 18px — lead                         */
+  --fs-700: clamp(1.25rem, 0.5vw + 1.15rem, 1.375rem);
+  --fs-800: clamp(1.5rem, 1vw + 1.3rem, 1.75rem);
+  --fs-900: clamp(1.875rem, 2vw + 1.4rem, 2.5rem);
+  --fs-1000: clamp(2.25rem, 4vw + 1.25rem, 3.75rem);
+
+  --lh-tight: 1.15;
+  --lh-snug: 1.3;
+  --lh-normal: 1.55;
+  --lh-relaxed: 1.7;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* --- Space (4px base) -------------------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+  --sp-32: 8rem;
+
+  /* --- Layout ------------------------------------------------------------ */
+  --measure: 68ch;              /* readable line length            */
+  --container: 76rem;           /* 1216px marketing width          */
+  --container-narrow: 46rem;
+  --container-docs: 88rem;
+  --header-h: 3.75rem;
+  --gutter: var(--sp-5);
+
+  /* --- Shape & depth ----------------------------------------------------- */
+  --radius-2: 4px;
+  --radius-3: 6px;
+  --radius-4: 10px;
+  --radius-5: 14px;
+  --radius-pill: 999px;
+
+  --shadow-1: 0 1px 2px rgb(7 12 10 / 0.06), 0 1px 1px rgb(7 12 10 / 0.04);
+  --shadow-2: 0 4px 12px rgb(7 12 10 / 0.08), 0 1px 3px rgb(7 12 10 / 0.05);
+  --shadow-3: 0 18px 40px rgb(7 12 10 / 0.12), 0 2px 8px rgb(7 12 10 / 0.06);
+
+  /* --- Motion ------------------------------------------------------------ */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+
+  /* --- Elevation order --------------------------------------------------- */
+  --z-base: 0;
+  --z-sticky: 20;
+  --z-header: 40;
+  --z-drawer: 60;
+  --z-skiplink: 80;
+}
+
+/* --- Dark theme ---------------------------------------------------------
+   Applied when the OS asks for it (unless the visitor forced light) or when
+   the visitor explicitly chose dark.                                      */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --clr-bg: var(--ink-900);
+    --clr-bg-subtle: var(--ink-850);
+    --clr-bg-sunken: var(--ink-950);
+    --clr-surface: var(--ink-850);
+    --clr-surface-raised: var(--ink-800);
+    --clr-border: var(--ink-700);
+    --clr-border-strong: var(--ink-600);
+    --clr-text: #E9F0ED;
+    --clr-text-muted: #A3B2AC;
+    --clr-text-subtle: #82938D;
+    --clr-text-inverse: var(--ink-950);
+
+    --clr-brand: var(--brand-400);
+    --clr-brand-hover: var(--brand-300);
+    --clr-brand-active: var(--brand-100);
+    --clr-brand-soft: #0E2B21;
+    --clr-brand-soft-border: #17422F;
+    --clr-on-brand: var(--ink-950);
+
+    --clr-accent: var(--gold-500);
+    --clr-accent-soft: #2A2113;
+
+    --clr-focus: var(--brand-400);
+    --clr-selection: #17422F;
+
+    --clr-code-bg: #050908;
+    --clr-code-border: var(--ink-700);
+
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
+    --shadow-2: 0 4px 14px rgb(0 0 0 / 0.55);
+    --shadow-3: 0 20px 44px rgb(0 0 0 / 0.6);
+  }
+}
+
+:root[data-theme="dark"] {
+  --clr-bg: var(--ink-900);
+  --clr-bg-subtle: var(--ink-850);
+  --clr-bg-sunken: var(--ink-950);
+  --clr-surface: var(--ink-850);
+  --clr-surface-raised: var(--ink-800);
+  --clr-border: var(--ink-700);
+  --clr-border-strong: var(--ink-600);
+  --clr-text: #E9F0ED;
+  --clr-text-muted: #A3B2AC;
+  --clr-text-subtle: #82938D;
+  --clr-text-inverse: var(--ink-950);
+
+  --clr-brand: var(--brand-400);
+  --clr-brand-hover: var(--brand-300);
+  --clr-brand-active: var(--brand-100);
+  --clr-brand-soft: #0E2B21;
+  --clr-brand-soft-border: #17422F;
+  --clr-on-brand: var(--ink-950);
+
+  --clr-accent: var(--gold-500);
+  --clr-accent-soft: #2A2113;
+
+  --clr-focus: var(--brand-400);
+  --clr-selection: #17422F;
+
+  --clr-code-bg: #050908;
+  --clr-code-border: var(--ink-700);
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
+  --shadow-2: 0 4px 14px rgb(0 0 0 / 0.55);
+  --shadow-3: 0 20px 44px rgb(0 0 0 / 0.6);
+}
+
+:root[data-theme="dark"] { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }

@@ -1,0 +1,458 @@
+<!--meta
+{
+  "title": "Language tour",
+  "description": "A tour of the uqulang language: bindings, types, structs, enums, pattern matching, traits, generics, optionals, errors, ownership, modules and C interoperability.",
+  "path": "/docs/tour/",
+  "nav": "docs",
+  "section": "Documentation",
+  "priority": "0.8"
+}
+meta-->
+
+<div class="container container--docs docs">
+  {{docs_aside}}
+
+  <div class="docs-main">
+    <ol class="breadcrumb">
+      <li><a href="{{url:/docs/}}">Docs</a></li>
+      <li>Language tour</li>
+    </ol>
+
+    <header class="docs-header">
+      <span class="docs-header__eyebrow">Reference tutorial</span>
+      <h1>Language tour</h1>
+      <p class="docs-header__lead">
+        The whole language, in the order it makes sense to learn it. If you have
+        written C, C++, Swift, Rust or Go, you can read this in one sitting.
+      </p>
+      <p class="docs-header__meta">Covers toolchain 0.1.0 · updated {{build_date}}</p>
+    </header>
+
+    <article class="docs-article" data-heading-anchors>
+      <h2 id="bindings">Bindings</h2>
+      <p>
+        <code>let</code> binds a value that cannot be reassigned;
+        <code>var</code> binds one that can. Types are inferred from the
+        initialiser, and written explicitly when you want the contract visible.
+      </p>
+      <!--code lang="uqulang"-->
+let limit = 4096             // inferred u32
+let name: str = "uqulang"    // explicit
+var count: u64 = 0           // mutable
+
+count = count + 1
+// limit = 8192              // error: cannot assign to a let binding
+<!--/code-->
+      <p>
+        There is no uninitialised binding. A declaration without a value must be
+        assigned on every path before it is read, and the compiler checks that.
+      </p>
+
+      <h2 id="numbers">Numbers and operators</h2>
+      <p>
+        Integer types name their width: <code>i8</code> … <code>i64</code>,
+        <code>u8</code> … <code>u64</code>, plus <code>isize</code> and
+        <code>usize</code> for pointer-sized values. There are no implicit
+        conversions between them — a widening conversion is still written down.
+      </p>
+      <!--code lang="uqulang"-->
+let a: i32 = 7
+let b: i64 = i64(a)          // explicit, always
+
+let mask = 0b1010_1100
+let addr = 0xFFFF_0000
+let ratio = 1.5e-3           // f64
+
+// Overflow is checked in debug builds and wraps only where you ask:
+let sum = a + 1              // traps on overflow in debug
+let wrap = a &+ 1            // wrapping add, in any build
+<!--/code-->
+
+      <h2 id="control-flow">Control flow</h2>
+      <p>
+        <code>if</code>, <code>while</code> and <code>for</code> behave as you
+        expect. Conditions are <code>bool</code>; an integer is not a condition.
+        <code>guard</code> states a precondition and must exit the scope.
+      </p>
+      <!--code lang="uqulang"-->
+func classify(n: i32) -> str {
+    if n < 0 {
+        return "negative"
+    } else if n == 0 {
+        return "zero"
+    }
+    return "positive"
+}
+
+func sum_to(n: u32) -> u32 {
+    var total: u32 = 0
+    for i in 1...n {          // inclusive range; 1..<n is exclusive
+        total = total + i
+    }
+    return total
+}
+
+func head(items: []i32) -> i32 {
+    guard items.len > 0 else { return 0 }
+    return items[0]
+}
+<!--/code-->
+
+      <h2 id="functions">Functions</h2>
+      <p>
+        Parameters are immutable bindings. Pass a pointer when the callee must
+        write through it, and the call site shows it with <code>&amp;</code>.
+      </p>
+      <!--code lang="uqulang"-->
+func min(a: i32, b: i32) -> i32 {
+    return a < b ? a : b
+}
+
+func swap(x: *i32, y: *i32) {
+    let t = x.*
+    x.* = y.*
+    y.* = t
+}
+
+var left = 1
+var right = 2
+swap(&left, &right)
+
+// Multiple results are a tuple, destructured at the call site.
+func divmod(n: u32, d: u32) -> (u32, u32) {
+    return (n / d, n % d)
+}
+
+let (q, r) = divmod(17, 5)
+<!--/code-->
+
+      <h2 id="structs">Structs</h2>
+      <p>
+        A struct is data with a predictable layout: fields in declaration order,
+        alignment following the platform C rules. Methods live in an
+        <code>impl</code> block, and <code>self</code> is explicit.
+      </p>
+      <!--code lang="uqulang"-->
+pub struct Rect {
+    pub w: f32,
+    pub h: f32,
+}
+
+impl Rect {
+    pub func square(side: f32) -> Rect {       // no self: a constructor
+        return Rect{ w: side, h: side }
+    }
+
+    pub func area(self) -> f32 {               // borrows self
+        return self.w * self.h
+    }
+
+    pub func scale(self: *Rect, k: f32) {      // mutates through a pointer
+        self.w = self.w * k
+        self.h = self.h * k
+    }
+}
+
+var r = Rect.square(2.0)
+r.scale(3.0)
+io.println("{}", r.area())    // 36.0
+<!--/code-->
+      <p>
+        <code>@layout("c")</code> pins a struct to the exact C layout when you
+        need to share it across an FFI boundary.
+      </p>
+
+      <h2 id="enums">Enums and pattern matching</h2>
+      <p>
+        Enums carry payloads, and <code>match</code> must cover every case. An
+        uncovered case is a compile error, not a warning — which is what makes
+        adding a variant safe.
+      </p>
+      <!--code lang="uqulang"-->
+enum Shape {
+    Circle(radius: f32),
+    Rect(w: f32, h: f32),
+    Point,
+}
+
+func area(s: Shape) -> f32 {
+    match s {
+        case .Circle(let radius):  return 3.14159 * radius * radius
+        case .Rect(let w, let h):  return w * h
+        case .Point:               return 0.0
+    }
+}
+<!--/code-->
+      <p>Patterns also match values, ranges and tuples:</p>
+      <!--code lang="uqulang"-->
+match (code, retries) {
+    case (200, _):            return .ok
+    case (429, let n) if n < 3: return .retry
+    case (500...599, _):      return .server_error
+    default:                  return .fail
+}
+<!--/code-->
+
+      <h2 id="optionals">Optionals</h2>
+      <p>
+        <code>?T</code> is a value that may be absent. There is no null pointer
+        hiding inside an ordinary type, and an optional must be unwrapped before
+        use.
+      </p>
+      <!--code lang="uqulang"-->
+func find(haystack: []str, needle: str) -> ?usize {
+    for i in 0..<haystack.len {
+        if haystack[i] == needle { return i }
+    }
+    return nil
+}
+
+if let index = find(words, "uqu") {
+    io.println("found at {}", index)
+} else {
+    io.println("not found")
+}
+
+let position = find(words, "uqu") ?? 0     // default if absent
+<!--/code-->
+
+      <h2 id="errors">Errors</h2>
+      <p>
+        A function that can fail is marked <code>throws</code>, optionally with
+        the error type it throws. Callers propagate with <code>try</code> or
+        handle with <code>match</code>. Errors are ordinary values moving up the
+        call stack — there is no unwinding machinery and no cost when nothing
+        fails.
+      </p>
+      <!--code lang="uqulang"-->
+enum ConfigError {
+    Missing(key: str),
+    Invalid(key: str, value: str),
+}
+
+func port(cfg: Config) throws ConfigError -> u16 {
+    guard let raw = cfg.get("port") else {
+        throw ConfigError.Missing(key: "port")
+    }
+    guard let n = u16.parse(raw) else {
+        throw ConfigError.Invalid(key: "port", value: raw)
+    }
+    return n
+}
+
+func start(cfg: Config) throws {
+    let p = try port(cfg)        // propagate
+    try listen(p)
+}
+
+// Or handle it here:
+match port(cfg) {
+    case .ok(let p):  io.println("port {}", p)
+    case .err(let e): io.eprintln("config: {}", e)
+}
+<!--/code-->
+      <div class="callout callout--note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+        <div class="callout__body">
+          <p>
+            Ignoring a failure is possible, but you have to write it:
+            <code>discard try f()</code>. Grep finds every one of them.
+          </p>
+        </div>
+      </div>
+
+      <h2 id="memory">Memory and ownership</h2>
+      <p>
+        Values live on the stack. Heap allocation is a function call you can see,
+        and every allocation has exactly one owner. When the owner goes out of
+        scope, the memory is released — no collector, no reference counting unless
+        you opt into it.
+      </p>
+      <!--code lang="uqulang"-->
+func build_report() throws -> Buffer {
+    var buf = try Buffer.with_capacity(4096)   // buf owns the allocation
+    defer_on_error buf.free()                  // freed only if we throw below
+
+    try buf.write("total: ")
+    try buf.write_u64(compute_total())
+
+    return move buf                            // ownership goes to the caller
+}
+
+func use_it() throws {
+    let report = try build_report()
+    defer report.free()                        // released at scope exit
+
+    io.write(report.bytes())
+    // io.write(report.bytes())  after a `move report` would be a compile error
+}
+<!--/code-->
+      <ul>
+        <li><code>defer</code> runs at scope exit, in reverse order of declaration.</li>
+        <li><code>move</code> transfers ownership; the source binding is dead afterwards.</li>
+        <li>Reading a moved-from binding is a compile error, not undefined behaviour.</li>
+        <li>Shared ownership is explicit: <code>Rc&lt;T&gt;</code> from the standard library.</li>
+      </ul>
+
+      <h2 id="slices">Arrays, slices and strings</h2>
+      <p>
+        <code>[N]T</code> is a fixed-size array. <code>[]T</code> is a slice: a
+        pointer and a length, bounds-checked in debug builds. <code>str</code> is
+        a UTF-8 slice of bytes with no terminator.
+      </p>
+      <!--code lang="uqulang"-->
+let fixed: [4]u8 = [1, 2, 3, 4]
+let all: []u8 = fixed[..]        // slice over the whole array
+let tail = fixed[1..]            // slice from index 1
+
+let text = "مرحبا, uqulang"
+io.println("{} bytes", text.len)              // byte length
+for scalar in text.scalars() { /* … */ }      // Unicode scalars
+for byte in text.bytes() { /* … */ }          // raw bytes
+
+// C interop wants a terminator; ask for one explicitly.
+let c_string = text.c_str()
+<!--/code-->
+
+      <h2 id="traits">Traits and generics</h2>
+      <p>
+        A trait is a set of requirements a type can satisfy. Generic functions are
+        monomorphised — one specialised copy per concrete type, dispatched
+        statically, with no vtable unless you ask for dynamic dispatch with
+        <code>dyn</code>.
+      </p>
+      <!--code lang="uqulang"-->
+trait Writer {
+    func write(self: *Self, bytes: []u8) throws -> usize
+}
+
+trait Display {
+    func format(self) -> str
+}
+
+func log<W: Writer, T: Display>(out: *W, value: T) throws {
+    try out.write(value.format().bytes())
+}
+
+// Dynamic dispatch when the concrete type is only known at run time:
+func log_all(out: *dyn Writer, items: []dyn Display) throws {
+    for item in items {
+        try out.write(item.format().bytes())
+    }
+}
+<!--/code-->
+
+      <h2 id="modules">Modules and visibility</h2>
+      <p>
+        One file is one module, named by its path from the source root. Nothing
+        leaves a module unless it is marked <code>pub</code>, and there are no
+        header files to keep in sync.
+      </p>
+      <!--code lang="uqulang"-->
+// src/net/http.uqu
+module net.http
+
+pub struct Request { /* … */ }
+pub func get(url: str) throws -> Response { /* … */ }
+
+func parse_status(line: str) -> u16 { /* private to this module */ }
+<!--/code-->
+      <!--code lang="uqulang"-->
+// src/main.uqu
+module main
+
+import std.io
+import net.http                  // whole module
+import net.http.get              // one symbol
+
+func main() throws {
+    let response = try http.get("https://example.org")
+    io.println("{}", response.status)
+}
+<!--/code-->
+
+      <h2 id="c-interop">C interoperability</h2>
+      <p>
+        Declaring a C function is enough to call it: no bindings generator, no
+        marshalling, no wrapper library. The call is a direct call with the
+        platform ABI.
+      </p>
+      <!--code lang="uqulang"-->
+extern "C" {
+    func clock_gettime(clk: i32, ts: *TimeSpec) -> i32
+    func write(fd: i32, buf: *void, count: usize) -> isize
+}
+
+@layout("c")
+struct TimeSpec {
+    seconds: i64,
+    nanos: i64,
+}
+
+func now() -> i64 {
+    var ts = TimeSpec{ seconds: 0, nanos: 0 }
+    discard clock_gettime(0, &ts)
+    return ts.seconds
+}
+<!--/code-->
+      <p>And in the other direction — exporting for C to call:</p>
+      <!--code lang="uqulang"-->
+@export("uqu_checksum")
+pub func checksum(data: *u8, len: usize) -> u32 {
+    var hash: u32 = 2166136261
+    for i in 0..<len {
+        hash = (hash ^ u32((data + i).*)) &* 16777619
+    }
+    return hash
+}
+<!--/code-->
+
+      <h2 id="attributes">Attributes</h2>
+      <div class="dl-grid">
+        <div><dt>@inline / @noinline</dt><dd>Force or forbid inlining of a function.</dd></div>
+        <div><dt>@layout("c")</dt><dd>Use the platform C layout and padding for a struct.</dd></div>
+        <div><dt>@export("name")</dt><dd>Expose a symbol under an exact name for C callers.</dd></div>
+        <div><dt>@deprecated("use x")</dt><dd>Warn at every use site, with your message.</dd></div>
+        <div><dt>@target(os: "linux")</dt><dd>Compile a declaration only for matching targets.</dd></div>
+      </div>
+
+      <h2 id="tests">Tests</h2>
+      <p>
+        <code>test</code> blocks are part of the language, not a library. They are
+        compiled out of release builds entirely.
+      </p>
+      <!--code lang="uqulang"-->
+test "checksum is stable" {
+    let data: [3]u8 = [1, 2, 3]
+    assert.equal(checksum(&data[0], 3), 0x2E3D_1A47)
+}
+
+test "empty input" {
+    assert.equal(checksum(nil, 0), 2166136261)
+}
+<!--/code-->
+
+      <h2 id="planned">Planned, not yet shipped</h2>
+      <p>These are designed and discussed, and not in 0.1. Do not write code against them yet.</p>
+      <ul>
+        <li>Generics over constant values, for fixed-capacity containers.</li>
+        <li>Compile-time evaluation beyond constant folding.</li>
+        <li>Structured concurrency and non-blocking I/O in the standard library.</li>
+        <li>A package registry and a lockfile format.</li>
+      </ul>
+    </article>
+
+    <nav class="page-nav" aria-label="Pagination">
+      <a class="page-nav__link" href="{{url:/docs/getting-started/}}">
+        <span class="page-nav__dir">Previous</span>
+        <span class="page-nav__title">Getting started</span>
+      </a>
+      <a class="page-nav__link page-nav__link--next" href="{{url:/docs/cli/}}">
+        <span class="page-nav__dir">Next</span>
+        <span class="page-nav__title">Compiler CLI</span>
+      </a>
+    </nav>
+  </div>
+
+  {{docs_toc}}
+</div>

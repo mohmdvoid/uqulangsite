@@ -1,0 +1,15 @@
+{
+  "name": "uqulang",
+  "short_name": "uqulang",
+  "description": "A compiled systems language with C-level control and Swift-level clarity.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a100e",
+  "theme_color": "#0e7a57",
+  "icons": [
+    { "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

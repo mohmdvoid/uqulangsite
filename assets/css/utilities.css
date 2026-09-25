@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Utilities. A closed set, used where a one-off class would be noise.
+   They exist so that no page needs an inline `style` attribute, which lets the
+   Content-Security-Policy stay free of 'unsafe-inline'.
+   ========================================================================== */
+
+.page-head { padding-block: var(--sp-12) var(--sp-8); }
+.page-head--tight { padding-block: var(--sp-12) var(--sp-4); }
+.page-center { padding-block: var(--sp-24) var(--sp-16); text-align: center; }
+
+.prose-wide { max-inline-size: none; }
+.mx-auto { margin-inline: auto; }
+.justify-center { justify-content: center; }
+
+.mt-0 { margin-block-start: 0; }
+.mt-3 { margin-block-start: var(--sp-3); }
+.mt-4 { margin-block-start: var(--sp-4); }
+.mt-6 { margin-block-start: var(--sp-6); }
+.mt-10 { margin-block-start: var(--sp-10); }
+.mb-4 { margin-block-end: var(--sp-4); }
+.my-4 { margin-block: var(--sp-4); }
+
+.note-small { color: var(--clr-text-subtle); font-size: var(--fs-400); }

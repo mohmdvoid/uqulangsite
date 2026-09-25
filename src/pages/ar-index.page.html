@@ -1,0 +1,164 @@
+<!--meta
+{
+  "title": "uqulang — لغة برمجة مترجَمة للأنظمة",
+  "raw_title": true,
+  "lang": "ar",
+  "description": "لغة uqulang لغة برمجة مترجَمة للأنظمة، تجمع بين تحكّم لغة C ووضوح لغة Swift، ومرخّصة للجامعات والمؤسسات البحثية للتعليم والبحث. تُترجَم مسبقاً إلى ملفات تنفيذية أصلية، بلا بيئة تشغيل وبلا جامع مهملات. صُممت وبُنيت في السعودية.",
+  "path": "/ar/",
+  "nav": null,
+  "section": "الرئيسية",
+  "priority": "0.9",
+  "search": false,
+  "alternates": { "en": "/", "ar": "/ar/" }
+}
+meta-->
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div>
+      <a class="badge" href="{{url:/blog/}}">
+        <span class="badge__dot"></span>
+        إصدار أوّلي · 0.1
+      </a>
+
+      <h1 class="hero__title">وضوح <em>Swift</em>،<br>وتحكُّم <em>C</em>.</h1>
+
+      <p class="hero__lead">
+        لغة uqulang لغة برمجة مترجَمة للأنظمة، لمن يحتاج أن يعرف بالضبط ما ستفعله
+        الآلة، ويريد في الوقت نفسه شيفرة تُقرأ بسهولة. تُترجَم مسبقاً إلى ملفات
+        تنفيذية أصلية: بلا بيئة تشغيل، وبلا جامع مهملات.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="{{contact}}">
+          اطلب ترخيصاً جامعياً
+          <svg class="btn__icon btn__icon--arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+        </a>
+        <a class="btn btn--secondary btn--lg" href="{{url:/docs/getting-started/}}">اقرأ التوثيق</a>
+      </div>
+
+      <p class="hero__meta">
+        مرخّصة للجامعات والمؤسسات البحثية. الإصدار الحالي <code>0.1.0</code> ·
+        <a href="{{url:/universities/}}">ما الذي يشمله الترخيص الجامعي</a>
+      </p>
+    </div>
+
+    <!--code file="hello.uqu" lang="uqulang"-->
+module hello
+
+import std.io
+
+func main() {
+    let names = ["عالم", "world", "мир"]
+
+    for name in names {
+        io.println("مرحباً، {}!", name)
+    }
+}
+<!--/code-->
+  </div>
+</section>
+
+<section class="section section--flush">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">لماذا uqulang</span>
+      <h2>لغة صغيرة لا تقف في طريقك</h2>
+      <p class="section__lead">
+        برمجة الأنظمة تطلب أمرين: سلوكاً يمكن التنبؤ به على مستوى الآلة، وشيفرة
+        يستطيع الفريق قراءتها بعد خمس سنوات. صُمِّمت uqulang كي لا تضحّي بأحدهما
+        مقابل الآخر.
+      </p>
+    </div>
+
+    <div class="grid grid--3">
+      <article class="card">
+        <h3 class="card__title">ترجمة مسبقة دائماً</h3>
+        <p class="card__body">ملف تنفيذي أصلي واحد، مرتبط استاتيكياً افتراضياً. بلا مفسّر، وبلا بيئة تشغيل تُشحن مع برنامجك.</p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">تُقرأ مثل Swift</h3>
+        <p class="card__body">وحدات، وسمات (traits)، وأنواع اختيارية، ومطابقة أنماط، وأنواع عامة حقيقية — بلا ملفات ترويسة.</p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">ذاكرة يمكنك حسابها</h3>
+        <p class="card__body">ملكية مرتبطة بالنطاق مع <code>defer</code>. لكل تخصيص مالك ظاهر، ولا شيء يعمل خلف ظهرك ليحرّره.</p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">تكامل مع C بلا غلاف</h3>
+        <p class="card__body">صرِّح بدالة C ثم استدعِها. نفس الـ ABI ونفس التخطيط وبلا كلفة إضافية، والعكس صحيح أيضاً.</p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">أدوات في ملف واحد</h3>
+        <p class="card__body">البناء والاختبار والتنسيق والتوثيق عبر الأمر <code>uqu</code> وحده. بلا مولّد مشاريع وبلا إضافات.</p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">أخطاء لا يمكن تجاهلها</h3>
+        <p class="card__body">‏<code>throws</code> بنوع محدّد، يُفحص عند موضع الاستدعاء. بلا استثناءات تمرّ عبر شيفرة لم تتوقعها.</p>
+      </article>
+    </div>
+
+    <div class="callout callout--note mt-10">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+      <div class="callout__body">
+        <p class="callout__title">‏uqulang ما تزال قبل الإصدار 1.0، ونقولها في الصفحة الأولى.</p>
+        <p>
+          اللغة ومترجمها قيد التطوير النشط، وقد تتغيّر الصياغة بين الإصدارات
+          الأولية. راجع <a href="{{url:/universities/#roadmap}}">خطة الطريق</a> قبل
+          اعتمادها في مقرّر دراسي قائم.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--subtle">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">ابدأ الآن</span>
+      <h2>ثبّتها، ثم ابنِ شيئاً بها</h2>
+      <p class="section__lead">
+        أدوات uqulang ملف تنفيذي واحد، ولا تكتب شيئاً خارج مجلدها الخاص.
+      </p>
+    </div>
+
+    <div class="tabs" data-tabs data-sync="platform">
+      <div class="tabs__list" role="tablist" aria-label="أمر التثبيت لكل نظام">
+        <button class="tabs__tab" type="button" role="tab" id="tab-ar-macos" aria-controls="panel-ar-macos" data-value="macos" data-default>macOS</button>
+        <button class="tabs__tab" type="button" role="tab" id="tab-ar-linux" aria-controls="panel-ar-linux" data-value="linux">Linux</button>
+        <button class="tabs__tab" type="button" role="tab" id="tab-ar-windows" aria-controls="panel-ar-windows" data-value="windows">Windows</button>
+      </div>
+      <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-ar-macos" aria-labelledby="tab-ar-macos" tabindex="0">
+        <p class="tabs__panel-title">macOS</p>
+        <!--code lang="shell"-->
+$ curl -fsSL https://uqulang.org/install.sh | sh
+$ uqu init hello && cd hello && uqu run
+<!--/code-->
+      </div>
+      <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-ar-linux" aria-labelledby="tab-ar-linux" tabindex="0" hidden>
+        <p class="tabs__panel-title">Linux</p>
+        <!--code lang="shell"-->
+$ curl -fsSL https://uqulang.org/install.sh | sh
+$ uqu init hello && cd hello && uqu run
+<!--/code-->
+      </div>
+      <div class="tabs__panel tabs__panel--flush" role="tabpanel" id="panel-ar-windows" aria-labelledby="tab-ar-windows" tabindex="0" hidden>
+        <p class="tabs__panel-title">Windows</p>
+        <!--code lang="shell"-->
+> winget install uqulang.uqu
+> uqu init hello; cd hello; uqu run
+<!--/code-->
+      </div>
+    </div>
+
+    <div class="callout mt-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+      <div class="callout__body">
+        <p>
+          التوثيق التفصيلي متاح حالياً بالإنجليزية، وتعريب التوثيق قيد العمل.
+          يمكنك البدء من <a href="{{url:/docs/getting-started/}}">دليل البداية</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

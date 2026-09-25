@@ -1,0 +1,5 @@
+# uqulang.com
+User-agent: *
+Allow: /
+
+Sitemap: https://uqulang.com/sitemap.xml

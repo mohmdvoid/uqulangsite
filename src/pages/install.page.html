@@ -1,0 +1,221 @@
+<!--meta
+{
+  "title": "Install",
+  "description": "Install the uqulang toolchain on macOS, Linux or Windows with your institution's licence key. Single-binary install, checksum verification, offline and lab-wide deployment.",
+  "path": "/install/",
+  "nav": "install",
+  "section": "Install",
+  "priority": "0.9",
+  "body_class": "",
+  "header_cta": ""
+}
+meta-->
+
+<div class="container container--narrow page-head">
+  <div class="docs-header">
+    <span class="docs-header__eyebrow">Toolchain</span>
+    <h1>Install uqulang</h1>
+    <p class="docs-header__lead">
+      The toolchain is one binary called <code>uqu</code>: compiler, test runner,
+      formatter and package fetcher. It installs into a single directory and can
+      be removed by deleting that directory.
+    </p>
+    <p class="docs-header__meta">
+      Current release: <strong>0.1.0</strong> · Licensed software ·
+      <a href="{{portal}}">all builds and checksums in the licence portal</a>
+    </p>
+  </div>
+
+  <div class="callout callout--note">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></svg>
+    <div class="callout__body">
+      <p class="callout__title">You need a licence key.</p>
+      <p>
+        The toolchain is licensed per institution. Your licence key comes from
+        your university’s administrator, or from the
+        <a href="{{portal}}">licence portal</a> if you hold the site licence.
+        No key yet? <a href="{{contact}}">Request a campus licence</a> —
+        evaluation keys are available for teaching staff.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout callout--warn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 4.5 21 19.5H3z"/><path d="M12 10v4M12 16.8v.2"/></svg>
+    <div class="callout__body">
+      <p class="callout__title">0.1 is a preview release.</p>
+      <p>
+        Breaking language changes are still expected between 0.x releases. Pin an
+        exact version for a course that is already running, and read the
+        <a href="{{url:/blog/}}">release notes</a> before upgrading mid-semester.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container container--narrow" data-platform-detect data-heading-anchors>
+  <section class="docs-article prose-wide">
+    <h2 id="install-script">Install with the script</h2>
+    <p>
+      The script downloads the build for your platform, verifies its SHA-256
+      checksum against the signed manifest, unpacks it into
+      <code>~/.uqulang</code> and registers your licence key. Nothing is written
+      outside your home directory and nothing needs <code>sudo</code>.
+    </p>
+
+    <div class="tabs" data-tabs data-sync="platform">
+      <div class="tabs__list" role="tablist" aria-label="Operating system">
+        <button class="tabs__tab" type="button" role="tab" id="tab-i-macos" aria-controls="panel-i-macos" data-value="macos" data-default>macOS</button>
+        <button class="tabs__tab" type="button" role="tab" id="tab-i-linux" aria-controls="panel-i-linux" data-value="linux">Linux</button>
+        <button class="tabs__tab" type="button" role="tab" id="tab-i-windows" aria-controls="panel-i-windows" data-value="windows">Windows</button>
+      </div>
+
+      <div class="tabs__panel" role="tabpanel" id="panel-i-macos" aria-labelledby="tab-i-macos" tabindex="0">
+        <p class="tabs__panel-title">macOS</p>
+        <p class="mb-4">macOS 13 or newer, on Apple silicon or Intel.</p>
+        <!--code lang="shell"-->
+$ curl -fsSL https://get.uqulang.com/install.sh | sh
+$ uqu licence activate UQU-XXXX-XXXX-XXXX
+<!--/code-->
+        <p class="my-4">Or with Homebrew:</p>
+        <!--code lang="shell"-->
+$ brew install uqulang
+<!--/code-->
+      </div>
+
+      <div class="tabs__panel" role="tabpanel" id="panel-i-linux" aria-labelledby="tab-i-linux" tabindex="0" hidden>
+        <p class="tabs__panel-title">Linux</p>
+        <p class="mb-4">glibc 2.31+ or musl, on x86-64 or aarch64.</p>
+        <!--code lang="shell"-->
+$ curl -fsSL https://get.uqulang.com/install.sh | sh
+$ uqu licence activate UQU-XXXX-XXXX-XXXX
+<!--/code-->
+        <p class="my-4">
+          Prefer to inspect the script before running it? That is the right
+          instinct — download it first, read it, then run it:
+        </p>
+        <!--code lang="shell"-->
+$ curl -fsSLO https://get.uqulang.com/install.sh
+$ less install.sh
+$ sh install.sh
+<!--/code-->
+      </div>
+
+      <div class="tabs__panel" role="tabpanel" id="panel-i-windows" aria-labelledby="tab-i-windows" tabindex="0" hidden>
+        <p class="tabs__panel-title">Windows</p>
+        <p class="mb-4">Windows 10 22H2 or newer, x86-64 or arm64.</p>
+        <!--code lang="shell"-->
+> winget install uqulang.uqu
+<!--/code-->
+        <p class="my-4">In PowerShell, without a package manager:</p>
+        <!--code lang="shell"-->
+> irm https://get.uqulang.com/install.ps1 | iex
+<!--/code-->
+      </div>
+    </div>
+
+    <h2 id="verify">Verify the install</h2>
+    <p>
+      Every release publishes a <code>SHA256SUMS</code> file and a detached
+      signature. Verifying takes ten seconds and is worth doing on any machine
+      you care about:
+    </p>
+    <!--code lang="shell"-->
+$ uqu --version
+uqu 0.1.0 (preview) aarch64-apple-darwin
+
+$ uqu doctor
+toolchain   ~/.uqulang/0.1.0
+licence     site (King Example University) — valid to 2027-08-31
+linker      cc (found)
+target      aarch64-apple-darwin
+cache       ~/.uqulang/cache (0 B)
+status      ready
+<!--/code-->
+
+    <div class="callout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+      <div class="callout__body">
+        <p>
+          <code>uqu doctor</code> is the first thing to run when something looks
+          wrong, and the first thing to paste into a bug report.
+        </p>
+      </div>
+    </div>
+
+    <h2 id="labs">Lab and offline deployment</h2>
+    <p>
+      A teaching lab usually cannot run an installer per machine, and often has
+      no outbound internet at all. Both cases are supported by the same archive.
+    </p>
+    <p>
+      Download the platform archive once from the
+      <a href="{{portal}}">licence portal</a>, put it on your image or file
+      share, and point machines at it. Activation can be done once for the site
+      rather than per machine:
+    </p>
+    <!--code lang="shell"-->
+# On a build or image host, no internet needed after this step
+$ tar -xzf uqu-0.1.0-x86_64-linux.tar.gz -C /opt
+$ /opt/uqulang/bin/uqu licence activate --offline licence.jwt
+$ ln -s /opt/uqulang/bin/uqu /usr/local/bin/uqu
+
+# Verify on a lab machine
+$ uqu doctor
+<!--/code-->
+    <div class="callout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+      <div class="callout__body">
+        <p>
+          Site licences include an offline activation file so lab machines never
+          contact a licence server. Ask your administrator, or
+          <a href="{{support}}">open a support request</a>.
+        </p>
+      </div>
+    </div>
+
+    <h2 id="editors">Editor support</h2>
+    <p>
+      <code>uqu lsp</code> implements the Language Server Protocol, so any editor
+      with an LSP client can get diagnostics, completion, go-to-definition and
+      formatting. Editor plugins are distributed through the
+      <a href="{{portal}}">licence portal</a> and the usual editor marketplaces.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Editor</th><th scope="col">How</th><th scope="col">Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>VS Code</td><td>Marketplace extension</td><td>Preview</td></tr>
+          <tr><td>Neovim</td><td><code>nvim-lspconfig</code> entry</td><td>Preview</td></tr>
+          <tr><td>Zed</td><td>Extension registry</td><td>Preview</td></tr>
+          <tr><td>Any LSP client</td><td><code>uqu lsp</code> over stdio</td><td>Supported</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="uninstall">Uninstall</h2>
+    <p>
+      Delete the toolchain directory and the shim on your <code>PATH</code>.
+      There is nothing else — no system services, no registry keys, no files
+      outside these two locations.
+    </p>
+    <!--code lang="shell"-->
+$ rm -rf ~/.uqulang
+$ rm ~/.local/bin/uqu
+<!--/code-->
+  </section>
+
+  <nav class="page-nav" aria-label="Next steps">
+    <a class="page-nav__link" href="{{url:/docs/}}">
+      <span class="page-nav__dir">Documentation</span>
+      <span class="page-nav__title">Overview</span>
+    </a>
+    <a class="page-nav__link page-nav__link--next" href="{{url:/docs/getting-started/}}">
+      <span class="page-nav__dir">Next</span>
+      <span class="page-nav__title">Getting started</span>
+    </a>
+  </nav>
+</div>

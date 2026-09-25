@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 36" role="img" aria-label="uqulang">
+  <g transform="translate(2 2)" fill="none" stroke="#0E7A57" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6"/>
+    <path d="M22.4 11.7 27 16l-4.6 4.3"/>
+  </g>
+  <text x="40" y="25" fill="#0C1512" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="21" font-weight="600" letter-spacing="-0.6">uqulang</text>
+</svg>

@@ -1,0 +1,134 @@
+# uqulang.com
+
+The website for uqulang, a compiled systems language licensed to universities
+and research institutions: home, installation, documentation, campus licensing
+and blog, in English with an Arabic (RTL) home page.
+
+Plain static HTML, CSS and ES modules. **No framework, no npm, no build step at
+deploy time.** The `.html` files in this repository are the deployable artifact —
+upload them and you are live.
+
+## Why it is built this way
+
+At 1M+ visitors the failure modes that matter are operational, not aesthetic:
+
+- **Nothing to install to deploy.** No Node version, no lockfile, no transitive
+  dependency that stops publishing security patches in 2028.
+- **One CDN hit per page.** No hydration, no client-side router, no JS execution
+  needed before text is on screen. The whole CSS payload is ~30 KB uncompressed.
+- **No third-party requests.** System font stack, self-hosted SVG, no analytics
+  by default, no Google Fonts. Nothing to leak, nothing to rate-limit you.
+- **Nothing to leak about customers.** No forms, no backend, no database — the
+  licensing page routes enquiries to email and the support portal.
+- **It degrades.** With JavaScript disabled every page is complete: tabs show all
+  panels with headings, code is readable (unhighlighted), navigation is links.
+
+Swift, Go, Zig and Rust all ship their language sites as generated static HTML
+for the same reasons.
+
+## Layout
+
+```
+src/pages/*.page.html     page sources: JSON front matter + body
+src/_layout.html          the shared shell (head, header, footer)
+tools/build.py            generator: pages + sitemap.xml + search-index.json
+tools/check_links.py      broken links, duplicate ids, missing metadata
+tools/csp_hash.py         CSP hash for the one inline script
+
+assets/css/               tokens → base → layout → components → docs → utilities
+assets/js/core/           Component, App, EventBus, Store
+assets/js/components/     ThemeToggle, NavDrawer, TabGroup, CodeBlock,
+                          PlatformDetector, TableOfContents, HeadingAnchors,
+                          DocsSearch
+assets/js/lang/           syntax grammars + highlighter
+assets/img/               mark, favicon, app icons, Open Graph image
+
+index.html, install/, docs/, universities/, blog/, ar/, 404.html  ← generated
+sitemap.xml, search-index.json                                  ← generated
+```
+
+## Working on it
+
+```bash
+python3 tools/build.py          # regenerate the site
+python3 tools/check_links.py    # verify it
+python3 -m http.server 4173     # then open http://localhost:4173
+```
+
+Edit `src/`, never the generated `.html` — `build.py --check` fails in CI if the
+output does not match the sources.
+
+### Adding a page
+
+1. Create `src/pages/my-page.page.html` starting with a meta block:
+
+   ```html
+   <!--meta
+   { "title": "My page", "description": "…50+ characters…", "path": "/my-page/", "nav": "docs" }
+   meta-->
+   ```
+
+2. Add it to `DOCS_TREE` in `tools/build.py` if it belongs in the docs sidebar.
+3. Run the build. The sitemap and the docs search index update themselves.
+
+### Adding a code sample
+
+```html
+<!--code file="example.uqu" lang="uqulang"-->
+func main() { io.println("Hello") }
+<!--/code-->
+```
+
+Write raw source — escaping, the copy button and the syntax markup are generated.
+Languages: `uqulang`, `shell`, `json`, `text`.
+
+## Design system
+
+All colour, type, spacing and motion values live in `assets/css/tokens.css`.
+Brand: palm green `#0E7A57` (light) / `#35C48E` (dark), desert gold accent, with
+a mark drawn from ع — the first letter of *ʿaql* (عقل), "mind" — opening into a
+compiler arrow. Light and dark themes are both first-class; dark follows the OS
+unless the visitor chooses otherwise.
+
+Saudi detail is deliberately quiet: a sadu-weave band above the footer
+(`assets/img/sadu.svg`, applied as a CSS mask so it takes the theme colour), the
+ع etymology in the footer, Hijri dates beside Gregorian ones on the blog, and
+the Arabic RTL home page. Nothing else is themed — the rest is the same
+restrained layout.
+
+Every stylesheet uses CSS logical properties, so `dir="rtl"` mirrors the entire
+layout with no RTL-specific stylesheet. `/ar/` is the proof.
+
+## JavaScript architecture
+
+`Component` is the base class: `static selector`, `mount()`, tracked listeners,
+`destroy()`. `App` finds and mounts each registered component **inside its own
+try/catch**, so one broken widget can never take a page down; failures land in
+`app.failures` and the console. Components talk through an `EventBus`, and
+`Store` wraps `localStorage` so blocked storage degrades to "no preference
+remembered" instead of an exception.
+
+## Deploying
+
+Any static host. Serve from the domain root, or set `BASE` in `tools/build.py`
+for a sub-path deploy.
+
+- **Cloudflare Pages / Netlify** — `_headers` is already in the right format.
+- **nginx** — `root /srv/uqulang.com;` plus `try_files $uri $uri/index.html =404;`
+  and `error_page 404 /404.html;`. Copy the headers from `_headers` into
+  `add_header` directives.
+- **S3 + CloudFront** — index document `index.html`, error document `404.html`.
+
+`_headers` sets CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy` and
+`Permissions-Policy`. The CSP allows exactly one inline script by hash; re-run
+`tools/csp_hash.py` if that script ever changes.
+
+Caching is conservative on purpose: HTML revalidates every request, assets cache
+for an hour. Once asset filenames are fingerprinted, raise `/assets/*` to
+`max-age=31536000, immutable`.
+
+## Before launch
+
+Read [PLACEHOLDERS.md](PLACEHOLDERS.md). It lists every invented value on the
+site — syntax, version numbers, install commands, URLs and the deliberately
+empty benchmark table.

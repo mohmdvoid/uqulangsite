@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Docs-only UI: sidebar, table of contents, heading anchors, search.
+   ========================================================================== */
+
+/* --- Sidebar ------------------------------------------------------------ */
+.docs-sidebar__title,
+.docs-toc__title {
+  margin-block-end: var(--sp-3);
+  color: var(--clr-text-subtle);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.docs-nav { list-style: none; margin: 0; padding: 0; }
+.docs-nav li { margin: 0; }
+
+.docs-nav__group + .docs-nav__group { margin-block-start: var(--sp-6); }
+
+.docs-nav__group-title {
+  display: block;
+  margin-block-end: var(--sp-2);
+  color: var(--clr-text);
+  font-size: var(--fs-400);
+  font-weight: var(--fw-semibold);
+}
+
+.docs-nav__sub { list-style: none; margin: 0; padding: 0; border-inline-start: 1px solid var(--clr-border); }
+
+.docs-nav__link {
+  display: block;
+  padding: var(--sp-2) var(--sp-3);
+  margin-inline-start: -1px;
+  border-inline-start: 1px solid transparent;
+  color: var(--clr-text-muted);
+  text-decoration: none;
+}
+
+.docs-nav__link:hover { color: var(--clr-text); background-color: var(--clr-bg-subtle); }
+
+.docs-nav__link[aria-current="page"] {
+  border-inline-start-color: var(--clr-brand);
+  color: var(--clr-brand);
+  font-weight: var(--fw-medium);
+  background-color: var(--clr-brand-soft);
+}
+
+/* On small screens the sidebar collapses into a disclosure. */
+.docs-sidebar__disclosure { display: contents; }
+.docs-sidebar__disclosure > summary { display: none; }
+
+@media (max-width: 60rem) {
+  .docs-sidebar__disclosure { display: block; }
+  .docs-sidebar__disclosure > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-4);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-3);
+    background-color: var(--clr-bg-subtle);
+    font-size: var(--fs-400);
+    font-weight: var(--fw-semibold);
+  }
+  .docs-sidebar__disclosure > summary::marker { content: ""; }
+  .docs-sidebar__disclosure[open] > summary { margin-block-end: var(--sp-4); }
+  .docs-sidebar__title { display: none; }
+}
+
+/* --- Table of contents -------------------------------------------------- */
+.docs-toc__list { list-style: none; margin: 0; padding: 0; border-inline-start: 1px solid var(--clr-border); }
+.docs-toc__list li { margin: 0; }
+
+.docs-toc__link {
+  display: block;
+  padding: var(--sp-1) var(--sp-3);
+  margin-inline-start: -1px;
+  border-inline-start: 1px solid transparent;
+  color: var(--clr-text-muted);
+  font-size: var(--fs-400);
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.docs-toc__link:hover { color: var(--clr-text); }
+.docs-toc__link[data-depth="3"] { padding-inline-start: var(--sp-6); font-size: var(--fs-300); }
+
+.docs-toc__link[aria-current="true"] {
+  border-inline-start-color: var(--clr-brand);
+  color: var(--clr-brand);
+  font-weight: var(--fw-medium);
+}
+
+/* --- Heading anchors ---------------------------------------------------- */
+.heading-anchor {
+  margin-inline-start: var(--sp-2);
+  color: var(--clr-text-subtle);
+  font-weight: var(--fw-regular);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity var(--dur-1) var(--ease-out);
+}
+
+:where(h2, h3, h4):hover > .heading-anchor,
+.heading-anchor:focus-visible { opacity: 1; }
+
+.heading-anchor:hover { color: var(--clr-brand); }
+
+/* --- Docs page header --------------------------------------------------- */
+.docs-header { margin-block-end: var(--sp-8); }
+.docs-header__eyebrow { color: var(--clr-brand); font-size: var(--fs-300); font-weight: var(--fw-semibold); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+.docs-header h1 { margin-block: var(--sp-3) var(--sp-4); }
+.docs-header__lead { color: var(--clr-text-muted); font-size: var(--fs-600); max-inline-size: var(--measure); }
+.docs-header__meta { margin-block-start: var(--sp-4); color: var(--clr-text-subtle); font-size: var(--fs-300); }
+
+/* --- Search ------------------------------------------------------------- */
+.docs-search { position: relative; margin-block-end: var(--sp-6); }
+.no-js .docs-search { display: none; }
+
+.docs-search__input {
+  inline-size: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  padding-inline-start: 2.1rem;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-3);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-size: var(--fs-400);
+}
+
+.docs-search__input:focus-visible { border-color: var(--clr-brand); }
+
+.docs-search__icon {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--sp-3);
+  translate: 0 -50%;
+  inline-size: 0.95rem;
+  block-size: 0.95rem;
+  color: var(--clr-text-subtle);
+  pointer-events: none;
+}
+
+.docs-search__results {
+  list-style: none;
+  margin: var(--sp-2) 0 0;
+  padding: var(--sp-1);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-3);
+  background-color: var(--clr-surface-raised);
+  box-shadow: var(--shadow-2);
+  max-block-size: 20rem;
+  overflow-y: auto;
+}
+
+.docs-search__results:empty { display: none; }
+.docs-search__results li { margin: 0; }
+
+.docs-search__result {
+  display: block;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-2);
+  color: var(--clr-text);
+  text-decoration: none;
+}
+
+.docs-search__result:hover,
+.docs-search__result[data-active="true"] { background-color: var(--clr-brand-soft); color: var(--clr-brand); }
+.docs-search__result small { display: block; color: var(--clr-text-subtle); font-size: var(--fs-300); }
+.docs-search__empty { padding: var(--sp-3); color: var(--clr-text-subtle); font-size: var(--fs-400); }
+
+/* --- Definition list (CLI flags, options) ------------------------------- */
+.dl-grid { display: grid; gap: 0; }
+.dl-grid > div { display: grid; grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr); gap: var(--sp-4); padding-block: var(--sp-4); border-block-start: 1px solid var(--clr-border); }
+.dl-grid > div:first-child { border-block-start: none; }
+.dl-grid dt { font-family: var(--font-mono); font-size: var(--fs-400); color: var(--clr-text); }
+.dl-grid dd { margin: 0; color: var(--clr-text-muted); font-size: var(--fs-400); }
+
+@media (max-width: 40rem) {
+  .dl-grid > div { grid-template-columns: minmax(0, 1fr); gap: var(--sp-1); }
+}

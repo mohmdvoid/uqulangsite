@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For universities — uqulang</title>
+<meta name="description" content="Campus licensing for uqulang: what the licence includes, lab and offline deployment, teaching materials, support response targets, the product roadmap, and how to request a licence.">
+<link rel="canonical" href="https://uqulang.com/universities/">
+
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a100e" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="uqulang">
+<meta property="og:locale" content="en">
+<meta property="og:title" content="For universities — uqulang">
+<meta property="og:description" content="Campus licensing for uqulang: what the licence includes, lab and offline deployment, teaching materials, support response targets, the product roadmap, and how to request a licence.">
+<meta property="og:url" content="https://uqulang.com/universities/">
+<meta property="og:image" content="https://uqulang.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="uqulang — a compiled systems language">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+<link rel="stylesheet" href="/assets/css/utilities.css">
+
+<script>/* see assets/js/theme-init.js */
+(function(){var r=document.documentElement;r.classList.remove('no-js');r.classList.add('js');try{var t=window.localStorage.getItem('uqulang:theme');if(t==='dark'||t==='light')r.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<script type="module" src="/assets/js/main.js"></script>
+
+</head>
+<body class="">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" data-nav-drawer>
+  <div class="container site-header__inner">
+    <a class="brand" href="/" aria-label="uqulang — home">
+      <svg class="brand__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round"/>
+        <path d="M22.4 11.7 27 16l-4.6 4.3" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand__text">uqulang</span>
+    </a>
+
+    <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu">
+      <svg class="nav-toggle__open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="nav-toggle__close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <nav class="site-nav" id="site-nav" data-nav-panel aria-label="Main">
+      <a class="site-nav__link" href="/docs/">Documentation</a>
+      <a class="site-nav__link" href="/install/">Install</a>
+      <a class="site-nav__link" href="/universities/" aria-current="page">For universities</a>
+      <a class="site-nav__link" href="/blog/">Blog</a>
+    </nav>
+
+    <div class="site-header__actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+        <svg class="theme-toggle__icon theme-toggle__icon--light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+      </button>
+      
+      <a class="btn btn--primary btn--sm" href="/universities/#contact">Request a licence</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="container container--narrow page-head page-head--tight">
+  <div class="docs-header">
+    <span class="docs-header__eyebrow">Campus licensing</span>
+    <h1>uqulang for universities</h1>
+    <p class="docs-header__lead">
+      uqulang is licensed to universities and research institutions. One campus
+      licence covers every student, every member of staff and every machine in
+      your labs, with deployment that works on an air-gapped network.
+    </p>
+  </div>
+</div>
+
+<div class="container container--narrow" data-heading-anchors>
+  <section class="docs-article prose-wide">
+    <h2 id="who">Who it is for</h2>
+    <div class="grid grid--3">
+      <article class="card">
+        <h3 class="card__title">Systems courses</h3>
+        <p class="card__body">
+          Operating systems, compilers, computer architecture, embedded — any
+          course where the point is what the machine actually does.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Introductory programming</h3>
+        <p class="card__body">
+          A small, explicit language with diagnostics written to be read by
+          somebody who is still learning to read them.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Research groups</h3>
+        <p class="card__body">
+          Reproducible native builds with a pinned toolchain, so a result from
+          2026 still rebuilds bit-for-bit in 2029.
+        </p>
+      </article>
+    </div>
+
+    <h2 id="included">What a campus licence includes</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Included</th><th scope="col">Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Unlimited seats</strong></td>
+            <td>Every enrolled student and every member of teaching and research staff, on campus machines and their own.</td>
+          </tr>
+          <tr>
+            <td><strong>Lab deployment</strong></td>
+            <td>Image-ready archives for macOS, Linux and Windows, with offline activation so lab machines never contact a licence server.</td>
+          </tr>
+          <tr>
+            <td><strong>Course starter kit</strong></td>
+            <td>Lab exercises with worked solutions, sample assignments, and machine-readable test output (<code>uqu test --format json</code>) for autograders.</td>
+          </tr>
+          <tr>
+            <td><strong>Version pinning</strong></td>
+            <td>A named release held stable for the length of a semester, so a mid-term upgrade never breaks a running course.</td>
+          </tr>
+          <tr>
+            <td><strong>Faculty onboarding</strong></td>
+            <td>A training session for the teaching team before the first semester, plus written migration notes for every release.</td>
+          </tr>
+          <tr>
+            <td><strong>Support</strong></td>
+            <td>Named technical contacts with the response targets below.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="support">Support</h2>
+    <p>
+      Support is delivered through the <a href="https://support.uqulang.com">support portal</a>
+      by your institution’s named contacts. Response targets are working hours,
+      Sunday to Thursday, Arabia Standard Time.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Severity</th><th scope="col">Example</th><th scope="col">First response</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Critical</td><td>Lab cannot compile during a scheduled session</td><td>4 working hours</td></tr>
+          <tr><td>High</td><td>Compiler defect blocking an assignment</td><td>1 working day</td></tr>
+          <tr><td>Normal</td><td>Incorrect diagnostic, documentation error</td><td>3 working days</td></tr>
+          <tr><td>Request</td><td>Feature request, curriculum question</td><td>5 working days</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout--note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg>
+      <div class="callout__body">
+        <p>
+          A reduced test case is the single most useful thing you can attach to a
+          report, followed by the output of <code>uqu doctor</code>.
+        </p>
+      </div>
+    </div>
+
+    <h2 id="evaluation">Evaluating it first</h2>
+    <p>
+      Teaching staff can request a time-limited evaluation key covering a single
+      course or a pilot lab, with the full toolchain and the starter kit. Nothing
+      about the evaluation build is cut down — it is the shipping compiler.
+    </p>
+    <ul class="checklist">
+      <li>Run a pilot for one semester before committing to a campus licence.</li>
+      <li>Keep the material you write during the pilot; it stays yours.</li>
+      <li>Ask for a syllabus review — we will say when uqulang is the wrong fit.</li>
+    </ul>
+
+    <h2 id="roadmap">Roadmap</h2>
+    <p>
+      Dates are intentions, not commitments. The order is more stable than the
+      timing, and licensed institutions are told before anything on it changes.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Release</th><th scope="col">Contents</th><th scope="col">Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>0.1</strong></td>
+            <td>Self-hosting compiler, core language, C interop, single-binary toolchain</td>
+            <td><span class="badge">Current</span></td>
+          </tr>
+          <tr>
+            <td><strong>0.2</strong></td>
+            <td>Generics over constant values, standard library collections, benchmark harness for licensees</td>
+            <td><span class="badge badge--neutral">In progress</span></td>
+          </tr>
+          <tr>
+            <td><strong>0.3</strong></td>
+            <td>Dependency management, reproducible builds, autograder integration guide</td>
+            <td><span class="badge badge--neutral">Designed</span></td>
+          </tr>
+          <tr>
+            <td><strong>0.4</strong></td>
+            <td>Structured concurrency, non-blocking I/O, cross-compilation to bare metal targets</td>
+            <td><span class="badge badge--neutral">Designed</span></td>
+          </tr>
+          <tr>
+            <td><strong>1.0</strong></td>
+            <td>Language specification frozen, stability guarantee, long-term support release</td>
+            <td><span class="badge badge--neutral">Planned</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="influence">Asking for changes</h2>
+    <p>
+      Licensed institutions shape the language. Feature requests go through your
+      named contact, are answered in writing, and the accepted ones appear on the
+      roadmap above with the release they are scheduled for. Requests that come
+      from a course that is actually running carry the most weight — teaching
+      friction is the most useful signal we get.
+    </p>
+
+    <h2 id="contact">Request a licence</h2>
+    <p>
+      Write to <a href="mailto:universities@uqulang.com">universities@uqulang.com</a>. To get a useful answer in
+      the first reply rather than the third, include:
+    </p>
+    <ul class="checklist">
+      <li>Your institution and department.</li>
+      <li>The courses involved, and roughly how many students per semester.</li>
+      <li>The platforms in your labs, and whether they have outbound internet.</li>
+      <li>When your semester starts — it sets the deployment timeline.</li>
+    </ul>
+    <div class="hero__actions mt-6">
+      <a class="btn btn--primary" href="mailto:universities@uqulang.com?subject=Campus%20licence%20enquiry">Email universities@uqulang.com</a>
+      <a class="btn btn--secondary" href="https://support.uqulang.com">Existing licensee support</a>
+    </div>
+
+    <h2 id="trademark">Using the name and mark</h2>
+    <p>
+      The name “uqulang” and the mark may be used in course descriptions,
+      syllabi, lecture material, academic papers and talks, and to say that
+      software was written in uqulang. They may not be used as the name of
+      another product, or in a way that implies a partnership that does not
+      exist.
+    </p>
+  </section>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__about">
+        <a class="brand" href="/">
+          <svg class="brand__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+            <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round"/>
+            <path d="M22.4 11.7 27 16l-4.6 4.3" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="brand__text">uqulang</span>
+        </a>
+        <p>A compiled systems language for teaching and research, licensed to universities and research institutions.</p><p class="footer-etymology"><span lang="ar" dir="rtl">عقل</span> <span class="footer-etymology__gloss">ʿaql — the reasoning mind</span></p>
+      </div>
+      <div class="footer-group">
+        <h2 class="footer-group__title">Learn</h2>
+        <ul class="footer-group__list">
+          <li><a href="/docs/getting-started/">Getting started</a></li>
+          <li><a href="/docs/tour/">Language tour</a></li>
+          <li><a href="/docs/cli/">Compiler CLI</a></li>
+          <li><a href="/docs/">All documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-group">
+        <h2 class="footer-group__title">Product</h2>
+        <ul class="footer-group__list">
+          <li><a href="/install/">Install</a></li>
+          <li><a href="/blog/">Release notes</a></li>
+          <li><a href="/universities/#roadmap">Roadmap</a></li>
+          <li><a href="/universities/#included">What is included</a></li>
+        </ul>
+      </div>
+      <div class="footer-group">
+        <h2 class="footer-group__title">Institutions</h2>
+        <ul class="footer-group__list">
+          <li><a href="/universities/">Campus licensing</a></li>
+          <li><a href="/universities/#contact">Request a licence</a></li>
+          <li><a href="https://portal.uqulang.com">Licence portal</a></li>
+          <li><a href="https://support.uqulang.com">Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© 2026 uqulang. All rights reserved. Use of the compiler and toolchain is governed by your institution’s licence agreement.</p>
+      <p class="site-footer__made">صُنع في السعودية · Made in Saudi Arabia</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
