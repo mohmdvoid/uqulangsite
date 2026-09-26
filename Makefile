@@ -32,8 +32,7 @@ check: build
 	@$(PYTHON) tools/check_links.py
 
 serve: build
-	@echo "http://localhost:$(PORT)"
-	@$(PYTHON) -m http.server $(PORT)
+	@$(PYTHON) tools/serve.py --port $(PORT)
 
 clean:
 	@rm -rf assets/css/site.*.css sitemap.xml search-index.json

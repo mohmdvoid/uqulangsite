@@ -57,7 +57,7 @@ Python 3.9+ and nothing else — no Node, no Ruby.
 
 ```bash
 make setup     # once: .venv with the single build dependency
-make serve     # build, then http://localhost:4173
+make serve     # build, then http://localhost:4173 (no-store, logs 404s)
 make check     # what CI runs: output freshness, links, headings, metadata
 make build     # regenerate only
 ```

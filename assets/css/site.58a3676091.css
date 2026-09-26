@@ -1075,7 +1075,10 @@ abbr[title] { text-decoration: underline dotted; cursor: help; }
   gap: var(--sp-3);
   padding: var(--sp-2) var(--sp-3) var(--sp-2) var(--sp-4);
   border-block-end: 1px solid var(--clr-code-border);
-  background-color: color-mix(in srgb, var(--clr-code-bg) 80%, #ffffff 6%);
+  /* Same slab as the code below it. A lighter head reads as a separate
+     floating bar once the block sits on a raised surface, such as a tab
+     panel. */
+  background-color: var(--clr-code-bg);
   color: var(--clr-code-gutter);
   font-family: var(--font-mono);
   font-size: var(--fs-300);
@@ -1179,7 +1182,7 @@ abbr[title] { text-decoration: underline dotted; cursor: help; }
 }
 
 .tabs__panel { padding: var(--sp-5); }
-.tabs__panel > .code-block { border: none; border-radius: var(--radius-3); }
+.tabs__panel > .code-block { border-radius: var(--radius-3); }
 .tabs__panel--flush { padding: 0; }
 .tabs__panel--flush > .code-block { border-radius: 0; border: none; }
 .tabs__panel-title { display: none; }
