@@ -23,6 +23,8 @@ HREF_RE = re.compile(r'(?:href|src)="([^"]+)"')
 ID_RE = re.compile(r'\bid="([^"]+)"')
 IMG_RE = re.compile(r"<img\b(?![^>]*\balt=)[^>]*>", re.IGNORECASE)
 TITLE_RE = re.compile(r"<title>(.*?)</title>", re.DOTALL)
+HEADING_RE = re.compile(r"<h([1-6])\b[^>]*>", re.IGNORECASE)
+MACRO_RE = re.compile(r"\{\{[^}\n]{1,60}\}\}")
 DESC_RE = re.compile(r'<meta name="description" content="([^"]*)"')
 
 
@@ -72,6 +74,23 @@ def main() -> int:
             problems.append(f"{rel}: <img> without alt — {tag[:70]}")
         if 'lang="' not in text.split("\n")[1]:
             problems.append(f"{rel}: <html> without a lang attribute")
+
+        # Exactly one h1, and no skipped levels — the outline screen readers
+        # and search engines actually consume.
+        levels = [int(level) for level in HEADING_RE.findall(text)]
+        h1_count = levels.count(1)
+        if h1_count != 1:
+            problems.append(f"{rel}: expected exactly one <h1>, found {h1_count}")
+
+        previous = None
+        for level in levels:
+            if previous is not None and level > previous + 1:
+                problems.append(f"{rel}: heading jumps from h{previous} to h{level}")
+                break
+            previous = level
+
+        for macro in MACRO_RE.findall(text):
+            problems.append(f"{rel}: unresolved template macro {macro}")
 
     # Second pass: every internal link must resolve to a file, every fragment to an id.
     for path in files:

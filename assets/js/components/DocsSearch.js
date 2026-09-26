@@ -18,6 +18,7 @@ export class DocsSearch extends Component {
   mount() {
     this.input = this.$('[data-search-input]');
     this.output = this.$('[data-search-results]');
+    this.status = this.$('[data-search-status]');
     this.indexUrl = this.option('search');
     if (!this.input || !this.output || !this.indexUrl) return;
 
@@ -104,6 +105,7 @@ export class DocsSearch extends Component {
 
     if (results.length === 0) {
       this.output.innerHTML = `<li class="docs-search__empty">No matches for “${DocsSearch.escape(query)}”.</li>`;
+      this._announce(`No results for ${query}`);
       return;
     }
 
@@ -117,6 +119,12 @@ export class DocsSearch extends Component {
       .join('');
 
     this.results = Array.from(this.output.querySelectorAll('.docs-search__result'));
+    this._announce(`${results.length} result${results.length === 1 ? '' : 's'}`);
+  }
+
+  /** Screen readers get the result count; the list itself is plain links. */
+  _announce(message) {
+    if (this.status) this.status.textContent = message;
   }
 
   _onKeydown(event) {
@@ -154,6 +162,7 @@ export class DocsSearch extends Component {
     this.output.innerHTML = '';
     this.results = [];
     this.activeIndex = -1;
+    this._announce('');
   }
 
   static escape(value) {

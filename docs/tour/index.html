@@ -28,17 +28,24 @@
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
 
-<link rel="stylesheet" href="/assets/css/tokens.css">
-<link rel="stylesheet" href="/assets/css/base.css">
-<link rel="stylesheet" href="/assets/css/layout.css">
-<link rel="stylesheet" href="/assets/css/components.css">
-<link rel="stylesheet" href="/assets/css/docs.css">
-<link rel="stylesheet" href="/assets/css/utilities.css">
+<link rel="stylesheet" href="/assets/css/site.361a4acb04.css">
 
-<script>/* see assets/js/theme-init.js */
-(function(){var r=document.documentElement;r.classList.remove('no-js');r.classList.add('js');try{var t=window.localStorage.getItem('uqulang:theme');if(t==='dark'||t==='light')r.setAttribute('data-theme',t);}catch(e){}})();
-</script>
+<script>(function () {var root = document.documentElement;root.classList.remove('no-js');root.classList.add('js');try {var theme = window.localStorage.getItem('uqulang:theme');if (theme === 'dark' || theme === 'light') root.setAttribute('data-theme', theme);} catch (e) {}})();</script>
 <script type="module" src="/assets/js/main.js"></script>
+<link rel="modulepreload" href="/assets/js/core/App.js">
+<link rel="modulepreload" href="/assets/js/core/Component.js">
+<link rel="modulepreload" href="/assets/js/core/EventBus.js">
+<link rel="modulepreload" href="/assets/js/core/Store.js">
+<link rel="modulepreload" href="/assets/js/components/ThemeToggle.js">
+<link rel="modulepreload" href="/assets/js/components/NavDrawer.js">
+<link rel="modulepreload" href="/assets/js/components/TabGroup.js">
+<link rel="modulepreload" href="/assets/js/components/CodeBlock.js">
+<link rel="modulepreload" href="/assets/js/components/PlatformDetector.js">
+<link rel="modulepreload" href="/assets/js/components/TableOfContents.js">
+<link rel="modulepreload" href="/assets/js/components/HeadingAnchors.js">
+<link rel="modulepreload" href="/assets/js/components/DocsSearch.js">
+<link rel="modulepreload" href="/assets/js/lang/Highlighter.js">
+<link rel="modulepreload" href="/assets/js/lang/grammars.js">
 
 </head>
 <body class="">
@@ -89,7 +96,8 @@
           <svg class="docs-search__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
           <label class="visually-hidden" for="docs-search-input">Search the documentation</label>
           <input class="docs-search__input" id="docs-search-input" type="search" placeholder="Search docs…" autocomplete="off" spellcheck="false" data-search-input>
-          <ul class="docs-search__results" role="listbox" aria-label="Search results" data-search-results></ul>
+          <ul class="docs-search__results" aria-label="Search results" data-search-results></ul>
+          <p class="visually-hidden" role="status" data-search-status></p>
         </div>
         <h2 class="docs-sidebar__title">Documentation</h2>
         <ul class="docs-nav">

@@ -1,22 +1,33 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-PqdgkCqF6RDgl+/Cd5XsbNjybb/z60A4ANe0u1GiZuw='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-zaVgd9JCZD3M6NqkVC2VdrigvqC/i/lvz5N03DdhgsQ='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), interest-cohort=()
   Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
   X-Frame-Options: DENY
 
-# HTML is revalidated on every request so a deploy is visible immediately.
+# HTML always revalidates, so a deploy is visible on the next request.
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
 
 /
   Cache-Control: public, max-age=0, must-revalidate
 
-# Fingerprint these filenames before switching to immutable caching.
-/assets/*
-  Cache-Control: public, max-age=3600
+# The stylesheet name contains a hash of its contents, so it can never go
+# stale: a change ships under a new name.
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# ES modules are not fingerprinted (import specifiers are literal paths), so
+# they revalidate. A 304 is cheap; serving stale JavaScript is not.
+/assets/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Icons and the social image change rarely and are not version-critical.
+/assets/img/*
+  Cache-Control: public, max-age=86400
 
 /search-index.json
   Cache-Control: public, max-age=3600

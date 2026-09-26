@@ -19,7 +19,6 @@
 }
 
 .section--flush { border-block-start: none; }
-.section--tight { padding-block: var(--sp-12); }
 .section--subtle { background-color: var(--clr-bg-subtle); }
 
 .section__head {
@@ -316,7 +315,6 @@
 .grid > *, .split > * { min-inline-size: 0; }
 .grid--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
 .grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
-.grid--4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
 
 .split {
   display: grid;

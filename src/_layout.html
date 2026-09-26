@@ -28,17 +28,11 @@
 <link rel="apple-touch-icon" href="{{base}}/assets/img/apple-touch-icon.png">
 <link rel="manifest" href="{{base}}/manifest.webmanifest">
 
-<link rel="stylesheet" href="{{base}}/assets/css/tokens.css">
-<link rel="stylesheet" href="{{base}}/assets/css/base.css">
-<link rel="stylesheet" href="{{base}}/assets/css/layout.css">
-<link rel="stylesheet" href="{{base}}/assets/css/components.css">
-<link rel="stylesheet" href="{{base}}/assets/css/docs.css">
-<link rel="stylesheet" href="{{base}}/assets/css/utilities.css">
+<link rel="stylesheet" href="{{stylesheet}}">
 
-<script>/* see assets/js/theme-init.js */
-(function(){var r=document.documentElement;r.classList.remove('no-js');r.classList.add('js');try{var t=window.localStorage.getItem('uqulang:theme');if(t==='dark'||t==='light')r.setAttribute('data-theme',t);}catch(e){}})();
-</script>
+<script>{{theme_init}}</script>
 <script type="module" src="{{base}}/assets/js/main.js"></script>
+{{modulepreload}}
 {{head_extra}}
 </head>
 <body class="{{body_class}}">

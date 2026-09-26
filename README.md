@@ -14,8 +14,9 @@ At 1M+ visitors the failure modes that matter are operational, not aesthetic:
 
 - **Nothing to install to deploy.** No Node version, no lockfile, no transitive
   dependency that stops publishing security patches in 2028.
-- **One CDN hit per page.** No hydration, no client-side router, no JS execution
-  needed before text is on screen. The whole CSS payload is ~30 KB uncompressed.
+- **One CDN hit per page, one for CSS.** No hydration, no client-side router, no
+  JS execution before text is on screen. The stylesheet ships as a single
+  content-hashed file served `immutable`, so repeat visits never revalidate it.
 - **No third-party requests.** System font stack, self-hosted SVG, no analytics
   by default, no Google Fonts. Nothing to leak, nothing to rate-limit you.
 - **Nothing to leak about customers.** No forms, no backend, no database — the
@@ -30,12 +31,13 @@ for the same reasons.
 
 ```
 src/pages/*.page.html     page sources: JSON front matter + body
+src/css/*.css             stylesheet layers (edit these)
 src/_layout.html          the shared shell (head, header, footer)
-tools/build.py            generator: pages + sitemap.xml + search-index.json
-tools/check_links.py      broken links, duplicate ids, missing metadata
+tools/build.py            generator: pages + stylesheet + sitemap + search index
+tools/check_links.py      links, duplicate ids, heading order, metadata
 tools/csp_hash.py         CSP hash for the one inline script
 
-assets/css/               tokens → base → layout → components → docs → utilities
+assets/css/site.<hash>.css  ← generated bundle, served immutable
 assets/js/core/           Component, App, EventBus, Store
 assets/js/components/     ThemeToggle, NavDrawer, TabGroup, CodeBlock,
                           PlatformDetector, TableOfContents, HeadingAnchors,
@@ -55,8 +57,13 @@ python3 tools/check_links.py    # verify it
 python3 -m http.server 4173     # then open http://localhost:4173
 ```
 
-Edit `src/`, never the generated `.html` — `build.py --check` fails in CI if the
-output does not match the sources.
+Edit `src/`, never the generated files — `build.py --check` fails in CI if the
+output does not match the sources. Generated and committed: every `.html`,
+`assets/css/site.<hash>.css`, `sitemap.xml` and `search-index.json`.
+
+The inline theme script in every `<head>` is generated from
+`assets/js/theme-init.js`, so it exists in exactly one place. Change it and
+re-run `tools/csp_hash.py`, then update `_headers`.
 
 ### Adding a page
 

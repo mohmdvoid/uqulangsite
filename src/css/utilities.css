@@ -14,7 +14,6 @@
 
 .mt-0 { margin-block-start: 0; }
 .mt-3 { margin-block-start: var(--sp-3); }
-.mt-4 { margin-block-start: var(--sp-4); }
 .mt-6 { margin-block-start: var(--sp-6); }
 .mt-10 { margin-block-start: var(--sp-10); }
 .mb-4 { margin-block-end: var(--sp-4); }

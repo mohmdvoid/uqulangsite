@@ -48,7 +48,6 @@
 
 .btn--lg { padding: var(--sp-4) var(--sp-6); font-size: var(--fs-500); }
 .btn--sm { padding: var(--sp-2) var(--sp-3); font-size: var(--fs-300); }
-.btn--block { width: 100%; }
 
 .btn__icon { inline-size: 1.05em; block-size: 1.05em; flex: none; }
 
@@ -100,12 +99,6 @@
   border-color: var(--clr-border);
   background-color: var(--clr-bg-subtle);
   color: var(--clr-text-muted);
-}
-
-.badge--accent {
-  border-color: color-mix(in oklab, var(--clr-accent) 30%, transparent);
-  background-color: var(--clr-accent-soft);
-  color: var(--clr-accent);
 }
 
 .badge__dot {
@@ -181,6 +174,13 @@
   margin-block-start: var(--sp-8);
 }
 
+/* Below ~30rem the two calls to action stack to equal full width rather than
+   wrapping into two differently-sized rows. */
+@media (max-width: 30rem) {
+  .hero__actions { flex-direction: column; align-items: stretch; }
+  .hero__actions .btn { inline-size: 100%; }
+}
+
 .hero__meta {
   margin-block-start: var(--sp-5);
   color: var(--clr-text-subtle);
@@ -239,11 +239,6 @@
 .card--link { text-decoration: none; color: inherit; transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
 .card--link:hover { border-color: var(--clr-brand); box-shadow: var(--shadow-2); color: inherit; }
 .card--link:hover .card__title { color: var(--clr-brand); }
-
-/* --- Stat --------------------------------------------------------------- */
-.stat { border-inline-start: 2px solid var(--clr-brand-soft-border); padding-inline-start: var(--sp-4); }
-.stat__value { display: block; font-size: var(--fs-800); font-weight: var(--fw-bold); letter-spacing: var(--tracking-tight); font-variant-numeric: tabular-nums; }
-.stat__label { display: block; margin-block-start: var(--sp-1); color: var(--clr-text-muted); font-size: var(--fs-400); }
 
 /* --- Code block --------------------------------------------------------- */
 .code-block {
