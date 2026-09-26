@@ -10,3 +10,6 @@ __pycache__/
 
 # Local build environment
 .venv/
+
+# Deployment output
+dist/

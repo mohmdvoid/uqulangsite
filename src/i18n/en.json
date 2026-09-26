@@ -5,7 +5,6 @@
   "prefix": "",
   "default": true,
   "order": 1,
-
   "strings": {
     "skip_to_content": "Skip to content",
     "main_nav": "Main",
@@ -25,6 +24,7 @@
     "copy_code": "Copy code to clipboard",
     "no_posts": "No posts yet.",
     "release": "Release",
+    "feed_title": "uqulang — release notes and write-ups",
     "switch_language": "Read this page in Arabic",
     "switch_language_home": "Go to the Arabic site",
     "english_only": "The full documentation is currently in English.",
@@ -32,60 +32,128 @@
     "footer_legal": "© {year} uqulang. All rights reserved. Use of the compiler and toolchain is governed by your institution’s licence agreement.",
     "footer_made": "صُنع في السعودية · Made in Saudi Arabia"
   },
-
   "nav": [
-    { "key": "docs", "label": "Documentation", "path": "/docs/" },
-    { "key": "install", "label": "Install", "path": "/install/" },
-    { "key": "universities", "label": "For universities", "path": "/universities/" },
-    { "key": "blog", "label": "Blog", "path": "/blog/" }
+    {
+      "key": "docs",
+      "label": "Documentation",
+      "path": "/docs/"
+    },
+    {
+      "key": "install",
+      "label": "Install",
+      "path": "/install/"
+    },
+    {
+      "key": "universities",
+      "label": "For universities",
+      "path": "/universities/"
+    },
+    {
+      "key": "blog",
+      "label": "Blog",
+      "path": "/blog/"
+    }
   ],
-
   "footer": [
     {
       "title": "Learn",
       "links": [
-        { "label": "Getting started", "path": "/docs/getting-started/" },
-        { "label": "Language tour", "path": "/docs/tour/" },
-        { "label": "Compiler CLI", "path": "/docs/cli/" },
-        { "label": "All documentation", "path": "/docs/" }
+        {
+          "label": "Getting started",
+          "path": "/docs/getting-started/"
+        },
+        {
+          "label": "Language tour",
+          "path": "/docs/tour/"
+        },
+        {
+          "label": "Compiler CLI",
+          "path": "/docs/cli/"
+        },
+        {
+          "label": "All documentation",
+          "path": "/docs/"
+        }
       ]
     },
     {
       "title": "Product",
       "links": [
-        { "label": "Install", "path": "/install/" },
-        { "label": "Release notes", "path": "/blog/" },
-        { "label": "Roadmap", "path": "/universities/#roadmap" },
-        { "label": "What is included", "path": "/universities/#included" }
+        {
+          "label": "Install",
+          "path": "/install/"
+        },
+        {
+          "label": "Release notes",
+          "path": "/blog/"
+        },
+        {
+          "label": "Roadmap",
+          "path": "/universities/#roadmap"
+        },
+        {
+          "label": "What is included",
+          "path": "/universities/#included"
+        }
       ]
     },
     {
       "title": "Institutions",
       "links": [
-        { "label": "Campus licensing", "path": "/universities/" },
-        { "label": "Request a licence", "path": "/universities/#contact" },
-        { "label": "Licence portal", "url": "portal" },
-        { "label": "Support", "url": "support" }
+        {
+          "label": "Campus licensing",
+          "path": "/universities/"
+        },
+        {
+          "label": "Request a licence",
+          "path": "/universities/#contact"
+        },
+        {
+          "label": "Licence portal",
+          "url": "portal"
+        },
+        {
+          "label": "Support",
+          "url": "support"
+        }
       ]
     }
   ],
-
   "docs_tree": [
     {
       "title": "Start here",
       "items": [
-        { "label": "Overview", "path": "/docs/" },
-        { "label": "Getting started", "path": "/docs/getting-started/" },
-        { "label": "Install uqulang", "path": "/install/" }
+        {
+          "label": "Overview",
+          "path": "/docs/"
+        },
+        {
+          "label": "Getting started",
+          "path": "/docs/getting-started/"
+        },
+        {
+          "label": "Install uqulang",
+          "path": "/install/"
+        }
       ]
     },
     {
       "title": "Language",
-      "items": [{ "label": "Language tour", "path": "/docs/tour/" }]
+      "items": [
+        {
+          "label": "Language tour",
+          "path": "/docs/tour/"
+        }
+      ]
     },
     {
       "title": "Tooling",
-      "items": [{ "label": "Compiler CLI", "path": "/docs/cli/" }]
+      "items": [
+        {
+          "label": "Compiler CLI",
+          "path": "/docs/cli/"
+        }
+      ]
     }
   ]
 }

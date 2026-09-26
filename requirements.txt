@@ -1,3 +1,7 @@
 # Build-time only. The deployed site is plain HTML, CSS and JavaScript with no
 # runtime dependencies — these are needed to regenerate it from src/.
 Markdown==3.7
+
+# Optional: precompressed .br files for tools/postprocess.py. Without it the
+# deployment still ships .gz, and hosts that want brotli compress on their own.
+# brotli==1.1.0

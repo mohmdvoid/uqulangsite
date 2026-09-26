@@ -5,7 +5,6 @@
   "prefix": "/ar",
   "default": false,
   "order": 2,
-
   "strings": {
     "skip_to_content": "تجاوز إلى المحتوى",
     "main_nav": "التنقّل الرئيسي",
@@ -25,6 +24,7 @@
     "copy_code": "نسخ الشيفرة إلى الحافظة",
     "no_posts": "لا توجد تدوينات بعد.",
     "release": "إصدار",
+    "feed_title": "uqulang — ملاحظات الإصدارات والمقالات",
     "switch_language": "Read this page in English",
     "switch_language_home": "Go to the English site",
     "english_only": "التوثيق التفصيلي متاح حالياً بالإنجليزية.",
@@ -32,60 +32,128 @@
     "footer_legal": "© {year} uqulang. جميع الحقوق محفوظة. يخضع استخدام المترجم والأدوات لاتفاقية الترخيص الخاصة بمؤسستك.",
     "footer_made": "صُنع في السعودية"
   },
-
   "nav": [
-    { "key": "docs", "label": "التوثيق", "path": "/docs/" },
-    { "key": "install", "label": "التثبيت", "path": "/install/" },
-    { "key": "universities", "label": "للجامعات", "path": "/universities/" },
-    { "key": "blog", "label": "المدونة", "path": "/blog/" }
+    {
+      "key": "docs",
+      "label": "التوثيق",
+      "path": "/docs/"
+    },
+    {
+      "key": "install",
+      "label": "التثبيت",
+      "path": "/install/"
+    },
+    {
+      "key": "universities",
+      "label": "للجامعات",
+      "path": "/universities/"
+    },
+    {
+      "key": "blog",
+      "label": "المدونة",
+      "path": "/blog/"
+    }
   ],
-
   "footer": [
     {
       "title": "تعلّم",
       "links": [
-        { "label": "البداية السريعة", "path": "/docs/getting-started/" },
-        { "label": "جولة في اللغة", "path": "/docs/tour/" },
-        { "label": "أداة المترجم", "path": "/docs/cli/" },
-        { "label": "كل التوثيق", "path": "/docs/" }
+        {
+          "label": "البداية السريعة",
+          "path": "/docs/getting-started/"
+        },
+        {
+          "label": "جولة في اللغة",
+          "path": "/docs/tour/"
+        },
+        {
+          "label": "أداة المترجم",
+          "path": "/docs/cli/"
+        },
+        {
+          "label": "كل التوثيق",
+          "path": "/docs/"
+        }
       ]
     },
     {
       "title": "المنتج",
       "links": [
-        { "label": "التثبيت", "path": "/install/" },
-        { "label": "ملاحظات الإصدار", "path": "/blog/" },
-        { "label": "خطة الطريق", "path": "/universities/#roadmap" },
-        { "label": "ما الذي يشمله الترخيص", "path": "/universities/#included" }
+        {
+          "label": "التثبيت",
+          "path": "/install/"
+        },
+        {
+          "label": "ملاحظات الإصدار",
+          "path": "/blog/"
+        },
+        {
+          "label": "خطة الطريق",
+          "path": "/universities/#roadmap"
+        },
+        {
+          "label": "ما الذي يشمله الترخيص",
+          "path": "/universities/#included"
+        }
       ]
     },
     {
       "title": "للمؤسسات",
       "links": [
-        { "label": "تراخيص الجامعات", "path": "/universities/" },
-        { "label": "اطلب ترخيصاً", "path": "/universities/#contact" },
-        { "label": "بوابة التراخيص", "url": "portal" },
-        { "label": "الدعم الفني", "url": "support" }
+        {
+          "label": "تراخيص الجامعات",
+          "path": "/universities/"
+        },
+        {
+          "label": "اطلب ترخيصاً",
+          "path": "/universities/#contact"
+        },
+        {
+          "label": "بوابة التراخيص",
+          "url": "portal"
+        },
+        {
+          "label": "الدعم الفني",
+          "url": "support"
+        }
       ]
     }
   ],
-
   "docs_tree": [
     {
       "title": "ابدأ من هنا",
       "items": [
-        { "label": "نظرة عامة", "path": "/docs/" },
-        { "label": "البداية السريعة", "path": "/docs/getting-started/" },
-        { "label": "تثبيت uqulang", "path": "/install/" }
+        {
+          "label": "نظرة عامة",
+          "path": "/docs/"
+        },
+        {
+          "label": "البداية السريعة",
+          "path": "/docs/getting-started/"
+        },
+        {
+          "label": "تثبيت uqulang",
+          "path": "/install/"
+        }
       ]
     },
     {
       "title": "اللغة",
-      "items": [{ "label": "جولة في اللغة", "path": "/docs/tour/" }]
+      "items": [
+        {
+          "label": "جولة في اللغة",
+          "path": "/docs/tour/"
+        }
+      ]
     },
     {
       "title": "الأدوات",
-      "items": [{ "label": "أداة المترجم", "path": "/docs/cli/" }]
+      "items": [
+        {
+          "label": "أداة المترجم",
+          "path": "/docs/cli/"
+        }
+      ]
     }
   ]
 }

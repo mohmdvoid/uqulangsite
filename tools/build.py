@@ -767,6 +767,11 @@ class Site:
                 for module in JS_MODULES
             ),
             "alternates": self.alternate_links(page),
+            "feed_link": (
+                f'<link rel="alternate" type="application/atom+xml" '
+                f'title="uqulang releases" href="{url(self.feed_path(locale))}">'
+                if self.feed(locale) else ""
+            ),
             "body_class": page.meta.get("body_class", ""),
             "head_extra": page.meta.get("head_extra", ""),
             "nav_links": self.nav_links(page),
@@ -959,6 +964,61 @@ class Site:
                 })
         return entries
 
+    def feed(self, locale: Locale) -> "str | None":
+        """Atom feed of this locale's posts.
+
+        Atom rather than RSS: dates are unambiguous (RFC 3339), content type
+        is explicit, and every reader supports it. A locale with no posts gets
+        no feed rather than an empty one.
+        """
+        posts = [
+            page for page in self.pages
+            if page.meta.get("layout") == "post" and page.locale.code == locale.code
+        ]
+        posts.sort(key=lambda page: str(page.meta.get("date", "")), reverse=True)
+        if not posts:
+            return None
+
+        def entry(post: Page) -> str:
+            date = str(post.meta.get("date", BUILD_DATE))
+            updated = f"{date}T00:00:00Z"
+            link = f"{SITE_URL}{url(post.path)}"
+            summary = post.meta.get("excerpt", post.meta["description"])
+            return (
+                "  <entry>\n"
+                f"    <title>{html.escape(post.meta['title'])}</title>\n"
+                f'    <link href="{link}"/>\n'
+                f"    <id>{link}</id>\n"
+                f"    <updated>{updated}</updated>\n"
+                f"    <published>{updated}</published>\n"
+                f'    <category term="{html.escape(str(post.meta.get("kind", "Release")))}"/>\n'
+                f'    <summary type="text">{html.escape(summary)}</summary>\n'
+                "  </entry>"
+            )
+
+        self_url = f"{SITE_URL}{url(self.feed_path(locale))}"
+        home = f"{SITE_URL}{url(locale.home())}"
+        newest = f"{posts[0].meta.get('date', BUILD_DATE)}T00:00:00Z"
+        entries = "\n".join(entry(post) for post in posts)
+
+        return (
+            '<?xml version="1.0" encoding="utf-8"?>\n'
+            f'<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{locale.code}">\n'
+            f"  <title>{html.escape(locale.t('feed_title'))}</title>\n"
+            f'  <link href="{home}"/>\n'
+            f'  <link rel="self" type="application/atom+xml" href="{self_url}"/>\n'
+            f"  <id>{self_url}</id>\n"
+            f"  <updated>{newest}</updated>\n"
+            "  <author><name>uqulang</name></author>\n"
+            f"  <rights>© {dt.date.today().year} uqulang</rights>\n"
+            f"{entries}\n"
+            "</feed>\n"
+        )
+
+    @staticmethod
+    def feed_path(locale: Locale) -> str:
+        return "/feed.xml" if locale.is_default else f"{locale.prefix}/feed.xml"
+
     def sitemap(self) -> str:
         lines = [
             '<?xml version="1.0" encoding="UTF-8"?>',
@@ -1033,6 +1093,10 @@ def main() -> int:
         target = ROOT / site.search_index_path(locale).lstrip("/")
         write(target, json.dumps(site.search_index(locale), ensure_ascii=False, indent=0) + "\n",
               check=args.check, changed=changed)
+
+        feed = site.feed(locale)
+        if feed:
+            write(ROOT / site.feed_path(locale).lstrip("/"), feed, check=args.check, changed=changed)
 
     write(ROOT / "sitemap.xml", site.sitemap(), check=args.check, changed=changed)
 

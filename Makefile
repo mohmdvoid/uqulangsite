@@ -7,13 +7,14 @@ VENV ?= .venv
 PYTHON := $(shell [ -x $(VENV)/bin/python ] && echo $(VENV)/bin/python || echo python3)
 PORT ?= 4173
 
-.PHONY: help setup build check serve clean
+.PHONY: help setup build check serve dist clean
 
 help:
 	@echo "make setup   create .venv and install build dependencies"
 	@echo "make build   regenerate the site from src/"
 	@echo "make check   verify generated output, links, headings, metadata"
 	@echo "make serve   build, then serve on http://localhost:$(PORT)"
+	@echo "make dist    minify and precompress into dist/ for deployment"
 	@echo "make clean   remove generated files"
 	@echo ""
 	@echo "using: $(PYTHON)"
@@ -34,8 +35,12 @@ check: build
 serve: build
 	@$(PYTHON) tools/serve.py --port $(PORT)
 
+dist: check
+	@$(PYTHON) tools/postprocess.py
+
 clean:
-	@rm -rf assets/css/site.*.css sitemap.xml search-index.json
+	@rm -rf dist assets/css/site.*.css sitemap.xml search-index.json feed.xml
 	@rm -f 404.html index.html
 	@rm -rf ar blog docs install universities
+	@rm -f 500.html
 	@echo "generated files removed — run 'make build' to restore them"
