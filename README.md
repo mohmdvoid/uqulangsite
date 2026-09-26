@@ -12,8 +12,9 @@ upload them and you are live.
 
 At 1M+ visitors the failure modes that matter are operational, not aesthetic:
 
-- **Nothing to install to deploy.** No Node version, no lockfile, no transitive
-  dependency that stops publishing security patches in 2028.
+- **Nothing to install to deploy.** The generated HTML is committed, so shipping
+  is a file copy. The build has exactly one dependency (Markdown, pinned in
+  `requirements.txt`) and it never runs on the server.
 - **One CDN hit per page, one for CSS.** No hydration, no client-side router, no
   JS execution before text is on screen. The stylesheet ships as a single
   content-hashed file served `immutable`, so repeat visits never revalidate it.
@@ -30,7 +31,8 @@ for the same reasons.
 ## Layout
 
 ```
-src/pages/*.page.html     page sources: JSON front matter + body
+src/pages/**/*.md         docs and blog posts: Markdown + front matter
+src/pages/*.page.html     marketing pages: JSON front matter + HTML body
 src/css/*.css             stylesheet layers (edit these)
 src/_layout.html          the shared shell (head, header, footer)
 tools/build.py            generator: pages + stylesheet + sitemap + search index
@@ -51,9 +53,10 @@ sitemap.xml, search-index.json                                  ← generated
 
 ## Working on it
 
-Python 3.9+ and nothing else — no Node, no Ruby, no install step.
+Python 3.9+ and nothing else — no Node, no Ruby.
 
 ```bash
+make setup     # once: .venv with the single build dependency
 make serve     # build, then http://localhost:4173
 make check     # what CI runs: output freshness, links, headings, metadata
 make build     # regenerate only
@@ -137,6 +140,13 @@ for a sub-path deploy.
 Caching is conservative on purpose: HTML revalidates every request, assets cache
 for an hour. Once asset filenames are fingerprinted, raise `/assets/*` to
 `max-age=31536000, immutable`.
+
+## Licensing
+
+Code (generator, CSS, JavaScript) is Apache-2.0; content (documentation, posts)
+is CC-BY-4.0; the name and mark are trademarks covered by neither. See
+[LICENSE.md](LICENSE.md). The compiler itself is commercial and is not in this
+repository.
 
 ## Before launch
 

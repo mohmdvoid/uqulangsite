@@ -85,8 +85,7 @@
 </header>
 
 <main id="main">
-<div class="container container--docs docs">
-  <aside class="docs-sidebar">
+<div class="container container--docs docs"><aside class="docs-sidebar">
       <details class="docs-sidebar__disclosure" open>
         <summary>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -123,50 +122,63 @@
         </li>
         </ul>
       </details>
-    </aside>
-
-  <div class="docs-main">
-    <ol class="breadcrumb">
-      <li><a href="/docs/">Docs</a></li>
-      <li>Compiler CLI</li>
-    </ol>
-
-    <header class="docs-header">
-      <span class="docs-header__eyebrow">Reference</span>
-      <h1>The <code>uqu</code> command</h1>
-      <p class="docs-header__lead">
-        One binary does the whole job: compile, run, test, format, document and
-        serve the language server. Every subcommand accepts <code>--help</code>.
-      </p>
-      <p class="docs-header__meta">Covers toolchain 0.1.0</p>
-    </header>
-
-    <article class="docs-article" data-heading-anchors>
-      <h2 id="synopsis">Synopsis</h2>
-      <div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu &lt;command&gt; [options] [paths]</code></pre></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col">Command</th><th scope="col">What it does</th></tr></thead>
-          <tbody>
-            <tr><td><code>init</code></td><td>Create a project in a new or empty directory</td></tr>
-            <tr><td><code>build</code></td><td>Compile to a binary or library in <code>target/</code></td></tr>
-            <tr><td><code>run</code></td><td>Build, then execute, forwarding arguments</td></tr>
-            <tr><td><code>test</code></td><td>Compile and run every <code>test</code> block</td></tr>
-            <tr><td><code>fmt</code></td><td>Format source in place; one canonical style</td></tr>
-            <tr><td><code>doc</code></td><td>Generate HTML API documentation from doc comments</td></tr>
-            <tr><td><code>check</code></td><td>Type-check without producing a binary</td></tr>
-            <tr><td><code>fix</code></td><td>Apply mechanical migrations after an upgrade</td></tr>
-            <tr><td><code>lsp</code></td><td>Speak the Language Server Protocol over stdio</td></tr>
-            <tr><td><code>doctor</code></td><td>Report the toolchain, linker and target it can see</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 id="build">uqu build</h2>
-      <div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu build --release
+    </aside><div class="docs-main"><ol class="breadcrumb"><li><a href="/docs/">Docs</a></li><li>Compiler CLI</li></ol><header class="docs-header"><span class="docs-header__eyebrow">Reference</span><h1>The <code>uqu</code> command</h1><p class="docs-header__lead">One binary does the whole job: compile, run, test, format, document and serve the language server. Every subcommand accepts <code>--help</code>.</p><p class="docs-header__meta">Covers toolchain 0.1.0</p></header><article class="docs-article" data-heading-anchors><h2 id="synopsis">Synopsis</h2>
+<div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu &lt;command&gt; [options] [paths]</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>init</code></td>
+<td>Create a project in a new or empty directory</td>
+</tr>
+<tr>
+<td><code>build</code></td>
+<td>Compile to a binary or library in <code>target/</code></td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td>Build, then execute, forwarding arguments</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>Compile and run every <code>test</code> block</td>
+</tr>
+<tr>
+<td><code>fmt</code></td>
+<td>Format source in place; one canonical style</td>
+</tr>
+<tr>
+<td><code>doc</code></td>
+<td>Generate HTML API documentation from doc comments</td>
+</tr>
+<tr>
+<td><code>check</code></td>
+<td>Type-check without producing a binary</td>
+</tr>
+<tr>
+<td><code>fix</code></td>
+<td>Apply mechanical migrations after an upgrade</td>
+</tr>
+<tr>
+<td><code>lsp</code></td>
+<td>Speak the Language Server Protocol over stdio</td>
+</tr>
+<tr>
+<td><code>doctor</code></td>
+<td>Report the toolchain, linker and target it can see</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="build">uqu build</h2>
+<div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu build --release
 $ uqu build --target x86_64-unknown-linux-gnu
 $ uqu build --emit asm --out build/</code></pre></div>
-      <div class="dl-grid">
+<div class="dl-grid">
         <div><dt>--release</dt><dd>Optimise (<code>opt=speed</code>), strip debug info, remove test blocks and debug assertions.</dd></div>
         <div><dt>--opt &lt;level&gt;</dt><dd><code>debug</code>, <code>size</code>, <code>speed</code>. Defaults to <code>debug</code>.</dd></div>
         <div><dt>--target &lt;triple&gt;</dt><dd>Cross-compile. Run <code>uqu targets</code> for the supported list.</dd></div>
@@ -176,79 +188,71 @@ $ uqu build --emit asm --out build/</code></pre></div>
         <div><dt>-j &lt;n&gt;</dt><dd>Parallel compilation jobs. Defaults to the core count.</dd></div>
       </div>
 
-      <h2 id="run">uqu run</h2>
-      <p>Everything after <code>--</code> goes to your program, not to the compiler.</p>
-      <div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu run -- --input data.csv --verbose</code></pre></div>
-
-      <h2 id="test">uqu test</h2>
-      <div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu test
+<h2 id="run">uqu run</h2>
+<p>Everything after <code>--</code> goes to your program, not to the compiler.</p>
+<div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu run -- --input data.csv --verbose</code></pre></div>
+<h2 id="test">uqu test</h2>
+<div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu test
 $ uqu test --filter checksum
 $ uqu test --jobs 1 --fail-fast</code></pre></div>
-      <div class="dl-grid">
+<div class="dl-grid">
         <div><dt>--filter &lt;text&gt;</dt><dd>Run only tests whose name contains the text.</dd></div>
         <div><dt>--fail-fast</dt><dd>Stop at the first failure.</dd></div>
         <div><dt>--jobs &lt;n&gt;</dt><dd>Run tests in parallel; <code>1</code> makes ordering deterministic.</dd></div>
         <div><dt>--format &lt;kind&gt;</dt><dd><code>pretty</code> (default) or <code>json</code> for CI ingestion.</dd></div>
       </div>
 
-      <h2 id="fmt">uqu fmt</h2>
-      <p>
-        One style, no options, so formatting never becomes a review topic. Use
-        <code>--check</code> in CI to fail on unformatted code.
-      </p>
-      <div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu fmt
+<h2 id="fmt">uqu fmt</h2>
+<p>One style, no options, so formatting never becomes a review topic. Use
+<code>--check</code> in CI to fail on unformatted code.</p>
+<div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu fmt
 $ uqu fmt --check src/</code></pre></div>
-
-      <h2 id="exit-codes">Exit codes</h2>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col">Code</th><th scope="col">Meaning</th></tr></thead>
-          <tbody>
-            <tr><td><code>0</code></td><td>Success</td></tr>
-            <tr><td><code>1</code></td><td>Compilation error, test failure, or unformatted code under <code>--check</code></td></tr>
-            <tr><td><code>2</code></td><td>Bad usage: unknown flag, missing argument</td></tr>
-            <tr><td><code>101</code></td><td>Internal compiler error — please <a href="https://support.uqulang.com">report it</a> with the source that triggered it</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 id="env">Environment</h2>
-      <div class="dl-grid">
+<h2 id="exit-codes">Exit codes</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Compilation error, test failure, or unformatted code under <code>--check</code></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Bad usage: unknown flag, missing argument</td>
+</tr>
+<tr>
+<td><code>101</code></td>
+<td>Internal compiler error — please <a href="https://support.uqulang.com">report it</a> with the source that triggered it</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="env">Environment</h2>
+<div class="dl-grid">
         <div><dt>UQU_HOME</dt><dd>Toolchain directory. Defaults to <code>~/.uqulang</code>.</dd></div>
         <div><dt>UQU_CACHE</dt><dd>Build cache location. Delete it freely; it only costs time.</dd></div>
         <div><dt>UQU_TARGET</dt><dd>Default target triple, overridden by <code>--target</code>.</dd></div>
         <div><dt>NO_COLOR</dt><dd>Any value disables coloured diagnostics.</dd></div>
       </div>
 
-      <h2 id="ci">Using it in CI</h2>
-      <p>
-        The toolchain is a single archive with no installer, which makes CI setup
-        three lines. Pin the exact version so a new release never changes a build
-        that used to pass.
-      </p>
-      <div class="code-block" data-code data-lang="text"><div class="code-block__head"><span class="code-block__name">.github/workflows/ci.yml</span><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>- run: curl -fsSL https://get.uqulang.com/install.sh | sh -s -- --version 0.1.0
+<h2 id="ci">Using it in CI</h2>
+<p>The toolchain is a single archive with no installer, which makes CI setup
+three lines. Pin the exact version so a new release never changes a build
+that used to pass.</p>
+<div class="code-block" data-code data-lang="text"><div class="code-block__head"><span class="code-block__name">.github/workflows/ci.yml</span><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>- run: curl -fsSL https://get.uqulang.com/install.sh | sh -s -- --version 0.1.0
 - run: uqu licence activate --offline &quot;$UQU_LICENCE&quot;   # from a CI secret
 - run: uqu fmt --check
-- run: uqu test --format json</code></pre></div>
-    </article>
-
-    <nav class="page-nav" aria-label="Pagination">
-      <a class="page-nav__link" href="/docs/tour/">
-        <span class="page-nav__dir">Previous</span>
-        <span class="page-nav__title">Language tour</span>
-      </a>
-      <a class="page-nav__link page-nav__link--next" href="/universities/">
-        <span class="page-nav__dir">Next</span>
-        <span class="page-nav__title">For universities</span>
-      </a>
-    </nav>
-  </div>
-
-  <aside class="docs-toc" data-toc=".docs-article">
+- run: uqu test --format json</code></pre></div></article><nav class="page-nav" aria-label="Pagination"><a class="page-nav__link" href="/docs/tour/"><span class="page-nav__dir">Previous</span><span class="page-nav__title">Language tour</span></a><a class="page-nav__link page-nav__link--next" href="/universities/"><span class="page-nav__dir">Next</span><span class="page-nav__title">For universities</span></a></nav></div><aside class="docs-toc" data-toc=".docs-article">
       <h2 class="docs-toc__title">On this page</h2>
       <ul class="docs-toc__list" data-toc-list></ul>
-    </aside>
-</div>
+    </aside></div>
 </main>
 
 <footer class="site-footer">

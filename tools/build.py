@@ -24,6 +24,15 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
+try:
+    import markdown
+except ImportError:  # pragma: no cover - environment problem, not a code path
+    raise SystemExit(
+        "The Markdown package is required to build.\n"
+        "  make setup          (creates .venv and installs it)\n"
+        "  pip install -r requirements.txt"
+    )
+
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 PAGES = SRC / "pages"
@@ -244,6 +253,24 @@ def format_hijri(year: int, month: int, day: int, lang: str) -> str:
 
 
 META_RE = re.compile(r"^\s*<!--meta\s*(?P<json>\{.*?\})\s*meta-->\s*", re.DOTALL)
+FRONT_MATTER_RE = re.compile(r"^---\s*\n(?P<body>.*?)\n---\s*\n", re.DOTALL)
+FENCE_RE = re.compile(
+    r"^```(?P<lang>[\w-]*)(?P<attrs>[^\n]*)\n(?P<code>.*?)\n```[ \t]*$",
+    re.DOTALL | re.MULTILINE,
+)
+ADMONITION_RE = re.compile(
+    r"(?:^> \[!(?P<kind>NOTE|WARNING|TIP)\][ \t]*\n(?P<body>(?:^>.*\n?)*))",
+    re.MULTILINE,
+)
+TABLE_RE = re.compile(r"(<table>.*?</table>)", re.DOTALL)
+TOKEN = "\u27e6BLOCK{}\u27e7"
+TOKEN_P_RE = re.compile(r"<p>\s*\u27e6BLOCK(\d+)\u27e7\s*</p>")
+
+ADMONITION_ICONS = {
+    "NOTE": ('callout--note', '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/>'),
+    "TIP": ('callout--note', '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/>'),
+    "WARNING": ('callout--warn', '<path d="M12 4.5 21 19.5H3z"/><path d="M12 10v4M12 16.8v.2"/>'),
+}
 TAG_RE = re.compile(r"<[^>]+>")
 WS_RE = re.compile(r"\s+")
 
@@ -350,8 +377,174 @@ def build_stylesheet(*, check: bool, changed: list) -> str:
     return f"{BASE}/assets/css/{filename}"
 
 
+def parse_front_matter(text: str, source: Path) -> "tuple[dict, str]":
+    """YAML-shaped `key: value` front matter, without a YAML dependency.
+
+    Values are parsed as JSON when they look like it (so `true`, numbers and
+    `{"en": "/"}` work), and treated as plain strings otherwise. That covers
+    every field this site uses and keeps the build to one dependency.
+    """
+    match = FRONT_MATTER_RE.match(text)
+    if not match:
+        raise SystemExit(f"{source}: missing `---` front matter block")
+
+    meta: dict = {}
+    for number, line in enumerate(match.group("body").splitlines(), start=2):
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if ":" not in line:
+            raise SystemExit(f"{source}:{number}: expected `key: value`, got {line!r}")
+        key, _, raw = line.partition(":")
+        raw = raw.strip()
+        try:
+            meta[key.strip()] = json.loads(raw)
+        except json.JSONDecodeError:
+            meta[key.strip()] = raw.strip("\"'")
+    return meta, text[match.end():]
+
+
+def render_markdown(body: str, source: Path) -> str:
+    """Markdown to the HTML this site's stylesheet expects.
+
+    Fenced code and admonitions are lifted out first so the author writes plain
+    Markdown while the output still carries the copy button, the syntax spans
+    and the callout markup. Raw HTML passes through untouched, so a page can
+    still drop into a card grid or a definition list where prose is not enough.
+    """
+    blocks: list = []
+
+    def stash(html_fragment: str) -> str:
+        blocks.append(html_fragment)
+        return TOKEN.format(len(blocks) - 1)
+
+    def take_fence(match: "re.Match[str]") -> str:
+        lang = match.group("lang") or "text"
+        attrs = dict(ATTR_RE.findall(match.group("attrs") or ""))
+        fence = f'<!--code lang="{lang}"'
+        if attrs.get("file"):
+            fence += f' file="{attrs["file"]}"'
+        if attrs.get("copy") == "false":
+            fence += ' copy="false"'
+        return "\n" + stash(expand_code_blocks(f"{fence}-->\n{match.group('code')}\n<!--/code-->")) + "\n"
+
+    def take_admonition(match: "re.Match[str]") -> str:
+        kind = match.group("kind")
+        inner = "\n".join(
+            line[2:] if line.startswith("> ") else line[1:]
+            for line in match.group("body").splitlines()
+        )
+        modifier, icon = ADMONITION_ICONS[kind]
+        rendered = render_markdown(inner, source)
+        return "\n" + stash(
+            f'<div class="callout {modifier}">'
+            f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+            f'stroke-linecap="round" aria-hidden="true">{icon}</svg>'
+            f'<div class="callout__body">{rendered}</div></div>'
+        ) + "\n"
+
+    body = FENCE_RE.sub(take_fence, body)
+    body = ADMONITION_RE.sub(take_admonition, body)
+
+    converter = markdown.Markdown(
+        extensions=["tables", "attr_list", "toc", "sane_lists", "md_in_html"],
+        extension_configs={"toc": {"permalink": False}},
+        output_format="html5",
+    )
+    html_out = converter.convert(body)
+
+    # Tables need the horizontal-scroll wrapper to survive a phone screen.
+    html_out = TABLE_RE.sub(r'<div class="table-wrap">\1</div>', html_out)
+
+    # Put the stashed blocks back, unwrapping the paragraph Markdown added.
+    html_out = TOKEN_P_RE.sub(lambda m: blocks[int(m.group(1))], html_out)
+    for index, block in enumerate(blocks):
+        html_out = html_out.replace(TOKEN.format(index), block)
+
+    # Authors write ordinary site paths; BASE is applied for sub-path deploys.
+    if BASE:
+        html_out = re.sub(r'href="(/[^"]*)"', lambda m: f'href="{BASE}{m.group(1)}"', html_out)
+    return html_out
+
+
+def apply_layout(page: "Page", content: str) -> str:
+    """Wrap converted Markdown in the page furniture its layout implies."""
+    layout = page.meta.get("layout", "raw")
+    if layout == "raw":
+        return content
+    if layout == "post":
+        layout = "page"
+
+    meta = page.meta
+    header = []
+    if meta.get("eyebrow"):
+        header.append(f'<span class="docs-header__eyebrow">{html.escape(meta["eyebrow"])}</span>')
+    header.append(f'<h1>{meta.get("heading", meta["title"])}</h1>')
+    if meta.get("lead"):
+        header.append(f'<p class="docs-header__lead">{meta["lead"]}</p>')
+    if meta.get("meta_line"):
+        header.append(f'<p class="docs-header__meta">{meta["meta_line"]}</p>')
+    header_html = '<header class="docs-header">' + "".join(header) + "</header>"
+
+    crumbs = ""
+    if meta.get("breadcrumb"):
+        items = "".join(
+            f'<li><a href="{url(path)}">{html.escape(label)}</a></li>'
+            for label, path in meta["breadcrumb"]
+        )
+        current = meta.get("breadcrumb_current", meta["title"])
+        crumbs = f'<ol class="breadcrumb">{items}<li>{html.escape(current)}</li></ol>'
+
+    nav = ""
+    previous, following = meta.get("prev"), meta.get("next")
+    if previous or following:
+        links = []
+        if previous:
+            links.append(
+                f'<a class="page-nav__link" href="{url(previous["path"])}">'
+                f'<span class="page-nav__dir">Previous</span>'
+                f'<span class="page-nav__title">{html.escape(previous["title"])}</span></a>'
+            )
+        if following:
+            links.append(
+                f'<a class="page-nav__link page-nav__link--next" href="{url(following["path"])}">'
+                f'<span class="page-nav__dir">Next</span>'
+                f'<span class="page-nav__title">{html.escape(following["title"])}</span></a>'
+            )
+        nav = f'<nav class="page-nav" aria-label="Pagination">{"".join(links)}</nav>'
+
+    if layout == "docs":
+        return (
+            '<div class="container container--docs docs">{{docs_aside}}<div class="docs-main">'
+            f'{crumbs}{header_html}'
+            f'<article class="docs-article" data-heading-anchors>{content}</article>'
+            f'{nav}</div>{{{{docs_toc}}}}</div>'
+        )
+
+    return (
+        f'<div class="container container--narrow page-head">{crumbs}{header_html}</div>'
+        f'<div class="container container--narrow" data-heading-anchors>'
+        f'<section class="docs-article prose-wide">{content}</section>{nav}</div>'
+    )
+
+
 def read_pages() -> list[Page]:
+    """Collect every page source.
+
+    Two authoring formats, one pipeline: Markdown with `---` front matter for
+    prose (documentation, blog posts), and HTML with a `<!--meta … -->` block
+    for the layout-heavy marketing pages. Markdown is converted here, so
+    everything downstream sees HTML.
+    """
     pages: list[Page] = []
+
+    for source in sorted(PAGES.rglob("*.md")):
+        meta, body = parse_front_matter(source.read_text(encoding="utf-8"), source)
+        require_meta(meta, source)
+        meta.setdefault("layout", "docs")
+        page = Page(source=source, meta=meta, body="")
+        page.body = apply_layout(page, render_markdown(body, source))
+        pages.append(page)
+
     for source in sorted(PAGES.rglob("*.page.html")):
         raw = source.read_text(encoding="utf-8")
         match = META_RE.match(raw)
@@ -361,11 +554,23 @@ def read_pages() -> list[Page]:
             meta = json.loads(match.group("json"))
         except json.JSONDecodeError as error:
             raise SystemExit(f"{source}: invalid meta JSON — {error}") from error
-        for required in ("title", "description", "path"):
-            if required not in meta:
-                raise SystemExit(f"{source}: meta is missing '{required}'")
+        require_meta(meta, source)
         pages.append(Page(source=source, meta=meta, body=raw[match.end():]))
-    return pages
+
+    paths = [page.path for page in pages]
+    duplicates = {path for path in paths if paths.count(path) > 1}
+    if duplicates:
+        raise SystemExit(f"two sources claim the same path: {sorted(duplicates)}")
+
+    return sorted(pages, key=lambda page: page.path)
+
+
+def require_meta(meta: dict, source: Path) -> None:
+    for required in ("title", "description", "path"):
+        if required not in meta:
+            raise SystemExit(f"{source}: front matter is missing '{required}'")
+    if len(str(meta["description"])) < 50:
+        raise SystemExit(f"{source}: description is shorter than 50 characters")
 
 
 def render_nav(lang: str, current: str | None) -> str:
@@ -456,13 +661,14 @@ def alternates(page: Page) -> str:
     return "\n".join(lines)
 
 
-def render(page: Page, layout: str, *, stylesheet: str, theme_init: str) -> str:
+def render(page: Page, layout: str, *, stylesheet: str, theme_init: str, pages: "list[Page]") -> str:
     lang = page.lang
     strings = STRINGS[lang]
     title = page.meta["title"]
     full_title = title if page.meta.get("raw_title") else f"{title} — uqulang"
 
-    body = expand_code_blocks(page.body, lang)
+    body = page.body.replace("{{post_list}}", render_post_list(pages, lang))
+    body = expand_code_blocks(body, lang)
     body = body.replace("{{docs_aside}}", render_docs_aside(page.path))
     body = body.replace("{{docs_toc}}", DOCS_TOC)
     body = body.replace("{{docs_sidebar}}", render_docs_sidebar(page.path))
@@ -553,6 +759,41 @@ def strip_tags(fragment: str) -> str:
     return WS_RE.sub(" ", html.unescape(text)).strip()
 
 
+def render_post_list(pages: "list[Page]", lang: str) -> str:
+    """The blog index, generated from the posts themselves.
+
+    Adding a post is one file: the listing, its date and its excerpt come from
+    that post's front matter, so the index can never fall out of step with it.
+    """
+    posts = [p for p in pages if p.meta.get("layout") == "post" and p.lang == lang]
+    posts.sort(key=lambda p: str(p.meta.get("date", "")), reverse=True)
+
+    if not posts:
+        return '<p class="post__excerpt">No posts yet.</p>'
+
+    items = []
+    for post in posts:
+        date = str(post.meta.get("date", ""))
+        try:
+            year, month, day = (int(part) for part in date.split("-"))
+            human = dt.date(year, month, day).strftime("%-d %B %Y")
+            hijri = f'<span class="date-hijri">{format_hijri(year, month, day, lang)}</span>'
+        except (ValueError, TypeError):
+            human, hijri = date, ""
+
+        label = html.escape(str(post.meta.get("kind", "Release")))
+        excerpt = post.meta.get("excerpt", post.meta["description"])
+        items.append(
+            "<li>"
+            f'<div class="post__meta"><time datetime="{date}">{human}</time>{hijri}'
+            f"<span>{label}</span></div>"
+            f'<h2 class="post__title"><a href="{url(post.path)}">{html.escape(post.meta["title"])}</a></h2>'
+            f'<p class="post__excerpt">{excerpt}</p>'
+            "</li>"
+        )
+    return '<ul class="post-list">' + "".join(items) + "</ul>"
+
+
 def build_search_index(pages: list[Page]) -> list[dict]:
     """One entry per page plus one per h2, so a search hit lands on a section."""
     entries = []
@@ -633,7 +874,7 @@ def main() -> int:
     for page in pages:
         write(
             page.out_file,
-            render(page, layout, stylesheet=stylesheet, theme_init=theme_init),
+            render(page, layout, stylesheet=stylesheet, theme_init=theme_init, pages=pages),
             check=args.check,
             changed=changed,
         )

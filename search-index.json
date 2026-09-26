@@ -1,9 +1,21 @@
 [
 {
+"title": "uqulang — a compiled systems language",
+"section": "Home",
+"url": "/",
+"body": "Preview release · 0.1 The clarity of Swift. The control of C . uqulang is a compiled systems language for people who need to know exactly what the machine will do — and still want code that reads like prose. Ahead-of-time compiled to native binaries. No runtime. No garbage collector. Request a licence Read the docs Licensed to universities and research institutions. Current release 0.1.0 · what a campus licence includes Hello Types Errors C interop Hello hello.uqu Copy Types vec.uqu Copy Errors parse.uqu Copy C interop image.uqu Copy Why uqulang A small language that stays out of the way Syste"
+},
+{
+"title": "Blog",
+"section": "Blog",
+"url": "/blog/",
+"body": "Blog Release notes and design write-ups Every release is announced here with what changed, what broke, and how to migrate. Design write-ups explain why a decision went the way it did. {{post_list}} Every release, with its checksums and signed manifest, is also listed in the licence portal ."
+},
+{
 "title": "Announcing the uqulang 0.1 preview",
 "section": "Blog",
 "url": "/blog/announcing-uqulang/",
-"body": "Blog 0.1 preview 26 September 2026 {{hijri:2026-09-26}} Release Announcing the uqulang 0.1 preview The compiler is self-hosting, the toolchain is one binary, and both are now shipping to universities. This is a preview, and the version number is doing honest work. uqulang began with a narrow complaint: writing systems code still means choosing between a language that tells you exactly what the machine will do and a language you can comfortably read. C gives you the first. Swift gives you the second. Most of the time you pick one and pay for the other for years. 0.1 is the first version where t"
+"body": "Blog 0.1 preview Announcing the uqulang 0.1 preview The compiler is self-hosting, the toolchain is one binary, and both are now shipping to universities. This is a preview, and the version number is doing honest work. 26 September 2026 {{hijri:2026-09-26}} Release uqulang began with a narrow complaint: writing systems code still means choosing between a language that tells you exactly what the machine will do and a language you can comfortably read. C gives you the first. Swift gives you the second. Most of the time you pick one and pay for the other for years. 0.1 is the first version where t"
 },
 {
 "title": "What works today",
@@ -33,13 +45,49 @@
 "title": "A note on where this comes from",
 "section": "Announcing the uqulang 0.1 preview",
 "url": "/blog/announcing-uqulang/#thanks",
-"body": "uqulang is designed and built in Saudi Arabia. The name comes from عقل — ʿaql , the reasoning mind — and the mark is drawn from its first letter. Both the language and the documentation are developed in English and Arabic, because the people who will use it read both. Install it, break it, and tell us where it bent: installation guide · request a licence · support portal . Back to All posts Next I"
+"body": "uqulang is designed and built in Saudi Arabia. The name comes from عقل — ʿaql , the reasoning mind — and the mark is drawn from its first letter. Both the language and the documentation are developed in English and Arabic, because the people who will use it read both. Install it, break it, and tell us where it bent: installation guide · request a licence · support portal . Previous All posts Next "
 },
 {
-"title": "Blog",
-"section": "Blog",
-"url": "/blog/",
-"body": "Blog Release notes and design write-ups Every release is announced here with what changed, what broke, and how to migrate. Design write-ups explain why a decision went the way it did. 26 September 2026 {{hijri:2026-09-26}} Release Announcing the uqulang 0.1 preview The first release of the compiler and toolchain to universities: what works today, what is deliberately missing, and what we are asking teaching staff for feedback on. Every release, with its checksums and signed manifest, is also listed in the licence portal ."
+"title": "Documentation",
+"section": "Documentation",
+"url": "/docs/",
+"body": "{{docs_aside}} Documentation uqulang documentation Everything written down about the language and its toolchain. The docs track the preview releases: anything marked planned is designed but not yet in the compiler you can download. Covers toolchain 0.1.0 · updated {{build_date}} Start here Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole language in reading order: values, types, traits, memory, errors, modules and C interop, with examples you can paste and run. Read Comp"
+},
+{
+"title": "Start here",
+"section": "Documentation",
+"url": "/docs/#start",
+"body": "Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole language in reading order: values, types, traits, memory, errors, modules and C interop, with examples you can paste and run. Read Compiler CLI Every uqu subcommand and flag: build, run, test, fmt, doc, lsp, and the flags that"
+},
+{
+"title": "What uqulang is",
+"section": "Documentation",
+"url": "/docs/#what-uqulang-is",
+"body": "uqulang is a statically typed, ahead-of-time compiled language for systems work: operating system components, embedded firmware, codecs, databases, game engines, and the layer underneath applications. It produces native binaries with no runtime and no garbage collector, and it interoperates with C at the ABI level rather than through a binding layer. It is licensed to universities and research ins"
+},
+{
+"title": "What uqulang is not",
+"section": "Documentation",
+"url": "/docs/#what-uqulang-is-not",
+"body": "Not a scripting language. There is no REPL-first workflow and no dynamic typing. Everything is checked before it runs. Not a borrow checker. Lifetimes are scope-based and explicit. The compiler catches use-after-move and double-free, but it does not attempt to prove every aliasing property. Not finished. 0.1 is a preview. Generics over constant values, async I/O and the package registry are design"
+},
+{
+"title": "Stability and versioning",
+"section": "Documentation",
+"url": "/docs/#stability",
+"body": "Until 1.0, the language may change in a breaking way in any minor release. Each release ships a written migration note, and uqu fix applies the mechanical parts of a migration to your source. Area Status at 0.1 Core syntax, control flow, functions Stable in practice; changes are rare and announced Traits and generics Evolving; expect refinement before 1.0 Ownership and move Evolving Standard libra"
+},
+{
+"title": "How to read these docs",
+"section": "Documentation",
+"url": "/docs/#conventions",
+"body": "Code samples are complete programs unless a comment says otherwise. Shell samples show the prompt as $ ; copying a shell block strips prompts so you can paste it directly. Anything the compiler does not yet implement is labelled planned in place, never quietly implied."
+},
+{
+"title": "Getting help",
+"section": "Documentation",
+"url": "/docs/#help",
+"body": "Defects, incorrect diagnostics and documentation errors go to the support portal through your institution’s named contacts. Response targets, and how feature requests reach the roadmap, are on the licensing page . Previous Install uqulang Next Getting started {{docs_toc}}"
 },
 {
 "title": "Compiler CLI",
@@ -150,48 +198,6 @@
 "body": "Language tour — the rest of the language, in order. Compiler CLI — every flag, including cross-compilation. For universities — licensing, lab deployment and support. Previous Documentation overview Next Language tour {{docs_toc}}"
 },
 {
-"title": "Documentation",
-"section": "Documentation",
-"url": "/docs/",
-"body": "{{docs_aside}} Documentation uqulang documentation Everything written down about the language and its toolchain. The docs track the preview releases: anything marked planned is designed but not yet in the compiler you can download. Covers toolchain 0.1.0 · updated {{build_date}} Start here Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole language in reading order: values, types, traits, memory, errors, modules and C interop, with examples you can paste and run. Read Comp"
-},
-{
-"title": "Start here",
-"section": "Documentation",
-"url": "/docs/#start",
-"body": "Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole language in reading order: values, types, traits, memory, errors, modules and C interop, with examples you can paste and run. Read Compiler CLI Every uqu subcommand and flag: build, run, test, fmt, doc, lsp, and the flags that"
-},
-{
-"title": "What uqulang is",
-"section": "Documentation",
-"url": "/docs/#what-uqulang-is",
-"body": "uqulang is a statically typed, ahead-of-time compiled language for systems work: operating system components, embedded firmware, codecs, databases, game engines, and the layer underneath applications. It produces native binaries with no runtime and no garbage collector, and it interoperates with C at the ABI level rather than through a binding layer. It is licensed to universities and research ins"
-},
-{
-"title": "What uqulang is not",
-"section": "Documentation",
-"url": "/docs/#what-uqulang-is-not",
-"body": "Not a scripting language. There is no REPL-first workflow and no dynamic typing. Everything is checked before it runs. Not a borrow checker. Lifetimes are scope-based and explicit. The compiler catches use-after-move and double-free, but it does not attempt to prove every aliasing property. Not finished. 0.1 is a preview. Generics over constant values, async I/O and the package registry are design"
-},
-{
-"title": "Stability and versioning",
-"section": "Documentation",
-"url": "/docs/#stability",
-"body": "Until 1.0, the language may change in a breaking way in any minor release. Each release ships a written migration note, and uqu fix applies the mechanical parts of a migration to your source. Area Status at 0.1 Core syntax, control flow, functions Stable in practice; changes are rare and announced Traits and generics Evolving; expect refinement before 1.0 Ownership and move Evolving Standard libra"
-},
-{
-"title": "How to read these docs",
-"section": "Documentation",
-"url": "/docs/#conventions",
-"body": "Code samples are complete programs unless a comment says otherwise. Shell samples show the prompt as $ ; copying a shell block strips prompts so you can paste it directly. Anything the compiler does not yet implement is labelled planned in place, never quietly implied."
-},
-{
-"title": "Getting help",
-"section": "Documentation",
-"url": "/docs/#help",
-"body": "Defects, incorrect diagnostics and documentation errors go to the support portal through your institution’s named contacts. Response targets, and how feature requests reach the roadmap, are on the licensing page . Previous Install uqulang Next Getting started {{docs_toc}}"
-},
-{
 "title": "Language tour",
 "section": "Documentation",
 "url": "/docs/tour/",
@@ -292,12 +298,6 @@
 "section": "Language tour",
 "url": "/docs/tour/#planned",
 "body": "These are designed and discussed, and not in 0.1. Do not write code against them yet. Generics over constant values, for fixed-capacity containers. Compile-time evaluation beyond constant folding. Structured concurrency and non-blocking I/O in the standard library. A package registry and a lockfile format. Previous Getting started Next Compiler CLI {{docs_toc}}"
-},
-{
-"title": "uqulang — a compiled systems language",
-"section": "Home",
-"url": "/",
-"body": "Preview release · 0.1 The clarity of Swift. The control of C . uqulang is a compiled systems language for people who need to know exactly what the machine will do — and still want code that reads like prose. Ahead-of-time compiled to native binaries. No runtime. No garbage collector. Request a licence Read the docs Licensed to universities and research institutions. Current release 0.1.0 · what a campus licence includes Hello Types Errors C interop Hello hello.uqu Copy Types vec.uqu Copy Errors parse.uqu Copy C interop image.uqu Copy Why uqulang A small language that stays out of the way Syste"
 },
 {
 "title": "Install",

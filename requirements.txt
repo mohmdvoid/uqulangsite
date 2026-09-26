@@ -1,0 +1,3 @@
+# Build-time only. The deployed site is plain HTML, CSS and JavaScript with no
+# runtime dependencies — these are needed to regenerate it from src/.
+Markdown==3.7

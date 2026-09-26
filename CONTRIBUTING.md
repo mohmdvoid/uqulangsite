@@ -23,12 +23,12 @@ In rough order of value:
 
 ## Running it locally
 
-You need **Python 3.9 or newer**. Nothing else — no Node, no Ruby, no package
-install step.
+You need **Python 3.9 or newer**. Nothing else — no Node, no Ruby.
 
 ```bash
 git clone <this repository>
 cd uqulangsite
+make setup          # creates .venv with the one build dependency
 make serve          # builds, then serves http://localhost:4173
 ```
 
@@ -40,8 +40,12 @@ make check          # verify generated output and links (what CI runs)
 make clean          # remove generated files
 ```
 
-If you do not have `make`, the equivalents are `python3 tools/build.py`,
-`python3 tools/check_links.py` and `python3 -m http.server 4173`.
+The single build dependency is [Markdown][pymd], pinned in `requirements.txt`
+and installed into `.venv` by `make setup`. Nothing is installed system-wide,
+and the deployed site has no dependencies at all — it is plain HTML, CSS and
+JavaScript.
+
+[pymd]: https://python-markdown.github.io/
 
 ## How the site is put together
 
@@ -50,50 +54,89 @@ Content lives in `src/`. The `.html` files in the repository root and in
 change will be overwritten and CI will reject the pull request.
 
 ```
-src/pages/*.page.html   one file per page: JSON front matter, then the body
-src/css/*.css           stylesheet layers, concatenated at build time
-src/_layout.html        the shared shell: head, header, footer
-tools/build.py          the generator
+src/pages/**/*.md        documentation and blog posts — write Markdown
+src/pages/*.page.html    the layout-heavy marketing pages
+src/css/*.css            stylesheet layers, concatenated at build time
+src/_layout.html         the shared shell: head, header, footer
+tools/build.py           the generator
 ```
 
-### Adding a page
+**If you are changing documentation, you are writing Markdown.** The HTML
+sources are only for pages built out of cards, tabs and grids.
 
-Create `src/pages/my-page.page.html`:
+### Adding a documentation page
 
-```html
-<!--meta
-{
-  "title": "My page",
-  "description": "At least fifty characters, because this is the search result text.",
-  "path": "/my-page/",
-  "nav": "docs"
-}
-meta-->
+Create `src/pages/docs/my-page.md`:
 
-<div class="container container--narrow page-head">
-  <h1>My page</h1>
-</div>
+```markdown
+---
+title: My page
+description: At least fifty characters, because this is the search result text.
+path: /docs/my-page/
+nav: docs
+layout: docs
+eyebrow: Reference
+lead: One sentence under the title.
+breadcrumb: [["Docs", "/docs/"]]
+prev: {"title": "Getting started", "path": "/docs/getting-started/"}
+next: {"title": "Compiler CLI", "path": "/docs/cli/"}
+---
+
+## A heading {#a-heading}
+
+Ordinary Markdown. Links are written as plain site paths: [the docs](/docs/).
 ```
 
-Then run `make build`. The sitemap and the documentation search index update
-themselves. To put the page in the docs sidebar, add it to `DOCS_TREE` in
-`tools/build.py`.
+Front matter is `key: value`. A value that looks like JSON is parsed as JSON,
+which is how `breadcrumb`, `prev` and `next` work.
 
-### Adding a code sample
+Layouts: `docs` (sidebar and on-this-page), `page` (narrow column), `post`
+(a blog entry), `raw` (HTML sources, no furniture).
 
-Write raw source — escaping, the copy button and syntax highlighting are
-generated:
+Give every `##` an explicit `{#id}` so that links to it keep working if the
+wording changes. Then run `make build` — the sidebar entry comes from
+`DOCS_TREE` in `tools/build.py`, and the sitemap and search index update
+themselves.
 
-```html
-<!--code file="example.uqu" lang="uqulang"-->
+### Adding a blog post
+
+One file: `src/pages/blog/my-post.md` with `layout: post`, a `date:` and a
+`kind:`. The blog index builds its own list from the posts, so there is no
+second file to keep in step.
+
+### Code samples
+
+Ordinary fenced code blocks. Syntax highlighting, escaping and the copy button
+are generated:
+
+````markdown
+```uqulang file="example.uqu"
 func main() {
     io.println("Hello")
 }
-<!--/code-->
 ```
+````
 
 Languages: `uqulang`, `shell`, `json`, `text`. Keep lines under about 72
 characters so samples do not need horizontal scrolling on a laptop.
+
+### Callouts
+
+GitHub-style admonitions become the site's callout component:
+
+```markdown
+> [!NOTE]
+> Worth knowing, but not a warning.
+
+> [!WARNING]
+> Something that will bite.
+```
+
+### When Markdown is not enough
+
+Raw HTML passes through untouched, so a page can drop into a card grid or a
+definition list where prose is not the right shape. Use the classes that already
+exist rather than inventing new ones.
 
 The uqulang keyword and type lists used by the highlighter are in one place:
 `assets/js/lang/grammars.js`.
