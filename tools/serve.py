@@ -19,14 +19,32 @@ from __future__ import annotations
 import argparse
 import functools
 import http.server
-import socketserver
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
 
+class DevServer(http.server.ThreadingHTTPServer):
+    """Threaded, like `python3 -m http.server`.
+
+    A page fetches the HTML, the stylesheet, fourteen preloaded ES modules and
+    the icons. Served one at a time those queue badly enough to look like the
+    server has hung, so each connection gets its own thread.
+    """
+
+    daemon_threads = True
+    allow_reuse_address = True
+    # socketserver defaults to a listen backlog of 5. A page opens the HTML,
+    # the stylesheet, fourteen preloaded modules and the icons at once, which
+    # overflows that queue and makes the operating system reset the extra
+    # connections — the browser then shows a half-loaded or dead page.
+    request_queue_size = 128
+
+
 class DevHandler(http.server.SimpleHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"
+
     def end_headers(self) -> None:
         # Nothing is cached in development. Production caching lives in _headers.
         self.send_header("Cache-Control", "no-store, must-revalidate")
@@ -60,9 +78,8 @@ def main() -> int:
     args = parser.parse_args()
 
     handler = functools.partial(DevHandler, directory=str(ROOT))
-    socketserver.TCPServer.allow_reuse_address = True
 
-    with socketserver.TCPServer(("", args.port), handler) as server:
+    with DevServer(("", args.port), handler) as server:
         print(f"http://localhost:{args.port}  (no-store; 4xx and 5xx logged below)")
         try:
             server.serve_forever()
