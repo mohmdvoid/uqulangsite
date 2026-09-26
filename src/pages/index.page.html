@@ -14,50 +14,36 @@
 meta-->
 
 <section class="hero">
-  <div class="hero__aura" aria-hidden="true"></div>
-
-  <div class="container">
-    <p class="lockup">
-      <svg class="lockup__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-        <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" pathLength="1" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/>
-        <path d="M22.4 11.7 27 16l-4.6 4.3" pathLength="1" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="lockup__word">uqulang</span>
-      <span class="lockup__rule" aria-hidden="true"></span>
-      <span class="lockup__ar" lang="ar" dir="rtl">عقل</span>
-    </p>
-
-    <p class="lockup__gloss">
-      From <b>ʿaql</b> — the reasoning mind
-    </p>
-
-    <a class="badge" href="{{url:/blog/announcing-uqulang/}}">
-      <span class="badge__dot"></span>
-      Preview release · 0.1
-    </a>
-
-    <h1 class="hero__title">The clarity of Swift.<br>The control of <em>C</em>.</h1>
-
-    <p class="hero__lead">
-      A compiled systems language for people who need to know exactly what the
-      machine will do — and still want code a student can read. Ahead-of-time
-      compiled to native binaries. No runtime. No garbage collector.
-    </p>
-
-    <div class="hero__actions">
-      <a class="btn btn--primary btn--lg" href="{{contact}}">
-        Request a campus licence
-        <svg class="btn__icon btn__icon--arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+  <div class="container hero__grid">
+    <div>
+      <a class="badge" href="{{url:/blog/announcing-uqulang/}}">
+        <span class="badge__dot"></span>
+        Preview release · 0.1
       </a>
-      <a class="btn btn--secondary btn--lg" href="{{url:/docs/getting-started/}}">Read the documentation</a>
+
+      <h1 class="hero__title">The clarity of Swift.<br>The control of <em>C</em>.</h1>
+
+      <p class="hero__lead">
+        uqulang is a compiled systems language for people who need to know exactly
+        what the machine will do — and still want code that reads like prose.
+        Ahead-of-time compiled to native binaries. No runtime. No garbage collector.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="{{contact}}">
+          Request a campus licence
+          <svg class="btn__icon btn__icon--arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+        </a>
+        <a class="btn btn--secondary btn--lg" href="{{url:/docs/getting-started/}}">Read the documentation</a>
+      </div>
+
+      <p class="hero__meta">
+        Licensed to universities and research institutions. Current release
+        <code>0.1.0</code> · <a href="{{url:/universities/}}">what a campus licence includes</a>
+      </p>
     </div>
 
-    <p class="hero__meta">
-      Licensed to universities and research institutions. Current release
-      <code>0.1.0</code> · <a href="{{url:/universities/}}">what a campus licence includes</a>
-    </p>
-
-    <div class="tabs hero__showcase" data-tabs aria-label="Language samples">
+    <div class="tabs" data-tabs aria-label="Language samples">
       <div class="tabs__list" role="tablist" aria-label="Code samples">
         <button class="tabs__tab" type="button" role="tab" id="tab-hello" aria-controls="panel-hello" data-value="hello">Hello</button>
         <button class="tabs__tab" type="button" role="tab" id="tab-types" aria-controls="panel-types" data-value="types">Types</button>

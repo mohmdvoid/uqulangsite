@@ -297,7 +297,7 @@
 "title": "uqulang — a compiled systems language",
 "section": "Home",
 "url": "/",
-"body": "uqulang عقل From ʿaql — the reasoning mind Preview release · 0.1 The clarity of Swift. The control of C . A compiled systems language for people who need to know exactly what the machine will do — and still want code a student can read. Ahead-of-time compiled to native binaries. No runtime. No garbage collector. Request a campus licence Read the documentation Licensed to universities and research institutions. Current release 0.1.0 · what a campus licence includes Hello Types Errors C interop Hello hello.uqu Copy Types vec.uqu Copy Errors parse.uqu Copy C interop image.uqu Copy Why uqulang A s"
+"body": "Preview release · 0.1 The clarity of Swift. The control of C . uqulang is a compiled systems language for people who need to know exactly what the machine will do — and still want code that reads like prose. Ahead-of-time compiled to native binaries. No runtime. No garbage collector. Request a campus licence Read the documentation Licensed to universities and research institutions. Current release 0.1.0 · what a campus licence includes Hello Types Errors C interop Hello hello.uqu Copy Types vec.uqu Copy Errors parse.uqu Copy C interop image.uqu Copy Why uqulang A small language that stays out "
 },
 {
 "title": "Install",

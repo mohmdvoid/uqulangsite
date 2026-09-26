@@ -14,49 +14,36 @@
 meta-->
 
 <section class="hero">
-  <div class="hero__aura" aria-hidden="true"></div>
-
-  <div class="container">
-    <p class="lockup">
-      <svg class="lockup__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-        <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" pathLength="1" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/>
-        <path d="M22.4 11.7 27 16l-4.6 4.3" pathLength="1" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="lockup__ar" lang="ar" dir="rtl">عقل</span>
-      <span class="lockup__rule" aria-hidden="true"></span>
-      <span class="lockup__word" lang="en" dir="ltr">uqulang</span>
-    </p>
-
-    <p class="lockup__gloss">من <b>عَقْل</b> — أصل التسمية</p>
-
-    <a class="badge" href="{{url:/blog/}}">
-      <span class="badge__dot"></span>
-      إصدار أوّلي · 0.1
-    </a>
-
-    <h1 class="hero__title">وضوح <em>Swift</em>،<br>وتحكُّم <em>C</em>.</h1>
-
-    <p class="hero__lead">
-      لغة uqulang لغة برمجة مترجَمة للأنظمة، لمن يحتاج أن يعرف بالضبط ما ستفعله
-      الآلة، ويريد في الوقت نفسه شيفرة يستطيع الطالب قراءتها. تُترجَم مسبقاً إلى
-      ملفات تنفيذية أصلية: بلا بيئة تشغيل، وبلا جامع مهملات.
-    </p>
-
-    <div class="hero__actions">
-      <a class="btn btn--primary btn--lg" href="{{contact}}">
-        اطلب ترخيصاً جامعياً
-        <svg class="btn__icon btn__icon--arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+  <div class="container hero__grid">
+    <div>
+      <a class="badge" href="{{url:/blog/}}">
+        <span class="badge__dot"></span>
+        إصدار أوّلي · 0.1
       </a>
-      <a class="btn btn--secondary btn--lg" href="{{url:/docs/getting-started/}}">اقرأ التوثيق</a>
+
+      <h1 class="hero__title">وضوح <em>Swift</em>،<br>وتحكُّم <em>C</em>.</h1>
+
+      <p class="hero__lead">
+        لغة uqulang لغة برمجة مترجَمة للأنظمة، لمن يحتاج أن يعرف بالضبط ما ستفعله
+        الآلة، ويريد في الوقت نفسه شيفرة تُقرأ بسهولة. تُترجَم مسبقاً إلى ملفات
+        تنفيذية أصلية: بلا بيئة تشغيل، وبلا جامع مهملات.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="{{contact}}">
+          اطلب ترخيصاً جامعياً
+          <svg class="btn__icon btn__icon--arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+        </a>
+        <a class="btn btn--secondary btn--lg" href="{{url:/docs/getting-started/}}">اقرأ التوثيق</a>
+      </div>
+
+      <p class="hero__meta">
+        مرخّصة للجامعات والمؤسسات البحثية. الإصدار الحالي <code>0.1.0</code> ·
+        <a href="{{url:/universities/}}">ما الذي يشمله الترخيص الجامعي</a>
+      </p>
     </div>
 
-    <p class="hero__meta">
-      مرخّصة للجامعات والمؤسسات البحثية. الإصدار الحالي <code>0.1.0</code> ·
-      <a href="{{url:/universities/}}">ما الذي يشمله الترخيص الجامعي</a>
-    </p>
-
-    <div class="hero__showcase">
-      <!--code file="hello.uqu" lang="uqulang"-->
+    <!--code file="hello.uqu" lang="uqulang"-->
 module hello
 
 import std.io
@@ -69,7 +56,6 @@ func main() {
     }
 }
 <!--/code-->
-    </div>
   </div>
 </section>
 

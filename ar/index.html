@@ -81,49 +81,36 @@
 
 <main id="main">
 <section class="hero">
-  <div class="hero__aura" aria-hidden="true"></div>
-
-  <div class="container">
-    <p class="lockup">
-      <svg class="lockup__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-        <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" pathLength="1" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/>
-        <path d="M22.4 11.7 27 16l-4.6 4.3" pathLength="1" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="lockup__ar" lang="ar" dir="rtl">عقل</span>
-      <span class="lockup__rule" aria-hidden="true"></span>
-      <span class="lockup__word" lang="en" dir="ltr">uqulang</span>
-    </p>
-
-    <p class="lockup__gloss">من <b>عَقْل</b> — أصل التسمية</p>
-
-    <a class="badge" href="/blog/">
-      <span class="badge__dot"></span>
-      إصدار أوّلي · 0.1
-    </a>
-
-    <h1 class="hero__title">وضوح <em>Swift</em>،<br>وتحكُّم <em>C</em>.</h1>
-
-    <p class="hero__lead">
-      لغة uqulang لغة برمجة مترجَمة للأنظمة، لمن يحتاج أن يعرف بالضبط ما ستفعله
-      الآلة، ويريد في الوقت نفسه شيفرة يستطيع الطالب قراءتها. تُترجَم مسبقاً إلى
-      ملفات تنفيذية أصلية: بلا بيئة تشغيل، وبلا جامع مهملات.
-    </p>
-
-    <div class="hero__actions">
-      <a class="btn btn--primary btn--lg" href="/universities/#contact">
-        اطلب ترخيصاً جامعياً
-        <svg class="btn__icon btn__icon--arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+  <div class="container hero__grid">
+    <div>
+      <a class="badge" href="/blog/">
+        <span class="badge__dot"></span>
+        إصدار أوّلي · 0.1
       </a>
-      <a class="btn btn--secondary btn--lg" href="/docs/getting-started/">اقرأ التوثيق</a>
+
+      <h1 class="hero__title">وضوح <em>Swift</em>،<br>وتحكُّم <em>C</em>.</h1>
+
+      <p class="hero__lead">
+        لغة uqulang لغة برمجة مترجَمة للأنظمة، لمن يحتاج أن يعرف بالضبط ما ستفعله
+        الآلة، ويريد في الوقت نفسه شيفرة تُقرأ بسهولة. تُترجَم مسبقاً إلى ملفات
+        تنفيذية أصلية: بلا بيئة تشغيل، وبلا جامع مهملات.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="/universities/#contact">
+          اطلب ترخيصاً جامعياً
+          <svg class="btn__icon btn__icon--arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+        </a>
+        <a class="btn btn--secondary btn--lg" href="/docs/getting-started/">اقرأ التوثيق</a>
+      </div>
+
+      <p class="hero__meta">
+        مرخّصة للجامعات والمؤسسات البحثية. الإصدار الحالي <code>0.1.0</code> ·
+        <a href="/universities/">ما الذي يشمله الترخيص الجامعي</a>
+      </p>
     </div>
 
-    <p class="hero__meta">
-      مرخّصة للجامعات والمؤسسات البحثية. الإصدار الحالي <code>0.1.0</code> ·
-      <a href="/universities/">ما الذي يشمله الترخيص الجامعي</a>
-    </p>
-
-    <div class="hero__showcase">
-      <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><span class="code-block__name">hello.uqu</span><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="نسخ الشيفرة"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>نسخ</span></button></div></div><pre tabindex="0"><code>module hello
+    <div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><span class="code-block__name">hello.uqu</span><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="نسخ الشيفرة"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>نسخ</span></button></div></div><pre tabindex="0"><code>module hello
 
 import std.io
 
@@ -134,7 +121,6 @@ func main() {
         io.println(&quot;مرحباً، {}!&quot;, name)
     }
 }</code></pre></div>
-    </div>
   </div>
 </section>
 
