@@ -92,6 +92,11 @@ img, video { height: auto; }
 
 svg { fill: currentColor; }
 
+/* A CSS declaration outranks an SVG presentation attribute, so the rule above
+   would silently fill every stroked line icon that carries fill="none".
+   Restore the author's intent. */
+svg[fill="none"] { fill: none; }
+
 /* --- Forms -------------------------------------------------------------- */
 button, input, select, textarea {
   font: inherit;
