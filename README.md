@@ -51,11 +51,15 @@ sitemap.xml, search-index.json                                  ← generated
 
 ## Working on it
 
+Python 3.9+ and nothing else — no Node, no Ruby, no install step.
+
 ```bash
-python3 tools/build.py          # regenerate the site
-python3 tools/check_links.py    # verify it
-python3 -m http.server 4173     # then open http://localhost:4173
+make serve     # build, then http://localhost:4173
+make check     # what CI runs: output freshness, links, headings, metadata
+make build     # regenerate only
 ```
+
+Contributors: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Edit `src/`, never the generated files — `build.py --check` fails in CI if the
 output does not match the sources. Generated and committed: every `.html`,

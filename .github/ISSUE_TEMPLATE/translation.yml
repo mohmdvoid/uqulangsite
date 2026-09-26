@@ -1,0 +1,30 @@
+name: Arabic translation
+description: A correction to the Arabic pages.
+labels: ["translation", "arabic"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      placeholder: https://uqulang.com/ar/
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current wording
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested wording
+    validations:
+      required: true
+  - type: checkboxes
+    id: native
+    attributes:
+      label: Background
+      options:
+        - label: I am a native Arabic speaker.
+        - label: This is a technical terminology correction.

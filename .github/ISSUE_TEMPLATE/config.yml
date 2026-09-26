@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Compiler or toolchain problem
+    url: https://support.uqulang.com
+    about: Defects in uqu itself go through your institution's support contacts, not this repository.
+  - name: Campus licensing enquiry
+    url: https://uqulang.com/universities/#contact
+    about: Pricing, evaluation keys, and licence questions.

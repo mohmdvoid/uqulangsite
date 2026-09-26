@@ -1,0 +1,32 @@
+name: Website bug
+description: Something on the site renders, behaves, or reads incorrectly.
+labels: ["website"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      placeholder: https://uqulang.com/install/
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+    validations:
+      required: true
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options: ["Light", "Dark", "Both", "Not relevant"]
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and window width
+      placeholder: Safari 18, iPhone 13 (390px)
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Especially helpful for layout and contrast problems.

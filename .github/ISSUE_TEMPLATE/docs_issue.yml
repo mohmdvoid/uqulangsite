@@ -1,0 +1,31 @@
+name: Documentation problem
+description: Something in the docs is wrong, missing, or unclear.
+labels: ["documentation"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The URL or the file under src/pages/.
+      placeholder: https://uqulang.com/docs/tour/#memory
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+      description: Quote the sentence if you can. "I read this three times" is a valid report.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected to find
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: Toolchain version
+      description: Output of `uqu --version`, if the problem involves a code sample.
+      placeholder: uqu 0.1.0 (preview) aarch64-apple-darwin
