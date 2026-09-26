@@ -113,6 +113,18 @@ restrained layout.
 Every stylesheet uses CSS logical properties, so `dir="rtl"` mirrors the entire
 layout with no RTL-specific stylesheet. `/ar/` is the proof.
 
+## Languages
+
+A page's locale and URL both come from where its source sits — `src/pages/ar/docs/index.md`
+is Arabic and serves `/ar/docs/`. Files that share a path across locales are
+translations of each other, and from that pairing the build derives the
+`hreflang` alternates, the language switcher, the per-locale search index, and
+whether a link should resolve to a translated page or fall back to English.
+
+Interface strings, navigation, footer and the docs sidebar live in
+`src/i18n/<code>.json`. Adding a language is one JSON file plus the pages you
+choose to translate; `tools/build.py` does not change.
+
 ## JavaScript architecture
 
 `Component` is the base class: `static selector`, `mount()`, tracked listeners,

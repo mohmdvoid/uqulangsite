@@ -56,6 +56,8 @@ change will be overwritten and CI will reject the pull request.
 ```
 src/pages/**/*.md        documentation and blog posts — write Markdown
 src/pages/*.page.html    the layout-heavy marketing pages
+src/pages/ar/**          the Arabic site, mirroring the paths above
+src/i18n/<code>.json     interface strings, navigation, footer, docs sidebar
 src/css/*.css            stylesheet layers, concatenated at build time
 src/_layout.html         the shared shell: head, header, footer
 tools/build.py           the generator
@@ -150,6 +152,49 @@ The uqulang keyword and type lists used by the highlighter are in one place:
   on the home page stays empty until there are real numbers.
 - Prefer a short sentence to a clever one. Many readers are students, and many
   are reading in their second language.
+
+## Translating a page
+
+A page's language and its URL both come from where the file sits:
+
+```
+src/pages/docs/tour.md      ->  English  ->  /docs/tour/
+src/pages/ar/docs/tour.md   ->  Arabic   ->  /ar/docs/tour/
+```
+
+To translate a page, copy it to the same path under `src/pages/ar/` and
+translate the front matter and the body. That is the whole procedure. Because
+both files share the path `docs/tour`, the build automatically:
+
+- pairs them with `hreflang` alternates and in the sitemap,
+- points the language switcher at the counterpart instead of the Arabic home,
+- rewrites links **in that page** to Arabic versions where they exist.
+
+That last point is what makes partial translation safe. A link to
+`/docs/tour/` written inside an Arabic page becomes `/ar/docs/tour/` if the
+Arabic tour exists, and stays `/docs/tour/` if it does not. Nothing 404s, and
+untranslated links start working by themselves the day somebody translates the
+target.
+
+Use `{{t:english_only}}` for the standard "documentation is currently in
+English" notice rather than writing your own.
+
+### Interface strings
+
+Everything outside the page body — navigation, footer, buttons, the sidebar,
+"Previous"/"Next", the search placeholder — lives in `src/i18n/ar.json`, not in
+the templates. Add a key to `en.json` and `ar.json` and use it as `{{t:key}}`.
+
+A key missing from `ar.json` falls back to English rather than rendering empty;
+a key missing from both fails the build and names itself.
+
+### Adding a language
+
+Copy `src/i18n/ar.json` to `src/i18n/<code>.json`, set `code`, `name`, `dir`
+(`ltr` or `rtl`), `prefix` (the URL prefix, such as `/fr`) and `order`, then
+translate. Add pages under `src/pages/<code>/`. Nothing in `tools/build.py`
+needs to change, and the layout already mirrors for RTL because every
+stylesheet uses CSS logical properties.
 
 ## Before you open a pull request
 

@@ -3,7 +3,7 @@
 "title": "uqulang — a compiled systems language",
 "section": "Home",
 "url": "/",
-"body": "Preview release · 0.1 The clarity of Swift. The control of C . uqulang is a compiled systems language for people who need to know exactly what the machine will do — and still want code that reads like prose. Ahead-of-time compiled to native binaries. No runtime. No garbage collector. Request a licence Read the docs Licensed to universities and research institutions. Current release 0.1.0 · what a campus licence includes Hello Types Errors C interop Hello hello.uqu Copy Types vec.uqu Copy Errors parse.uqu Copy C interop image.uqu Copy Why uqulang A small language that stays out of the way Syste"
+"body": "Preview release · 0.1 The clarity of Swift. The control of C . uqulang is a compiled systems language for people who need to know exactly what the machine will do — and still want code that reads like prose. Ahead-of-time compiled to native binaries. No runtime. No garbage collector. Request a licence Read the docs Licensed to universities and research institutions. Current release 0.1.0 · what a campus licence includes Hello Types Errors C interop Hello module hello import std.io func main() { let names = [\"world\", \"عالم\", \"мир\"] for name in names { io.println(\"Hello, {}!\", name) } } Types st"
 },
 {
 "title": "Blog",
@@ -51,7 +51,7 @@
 "title": "Documentation",
 "section": "Documentation",
 "url": "/docs/",
-"body": "{{docs_aside}} Documentation uqulang documentation Everything written down about the language and its toolchain. The docs track the preview releases: anything marked planned is designed but not yet in the compiler you can download. Covers toolchain 0.1.0 · updated {{build_date}} Start here Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole language in reading order: values, types, traits, memory, errors, modules and C interop, with examples you can paste and run. Read Comp"
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Documentation uqulang documentation Everything written down about the language and its toolchain. The docs track the preview releases: anything marked planned is designed but not yet in the compiler you can download. Covers toolchain 0.1.0 · updated {{build_date}} Start here Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole l"
 },
 {
 "title": "Start here",
@@ -87,13 +87,13 @@
 "title": "Getting help",
 "section": "Documentation",
 "url": "/docs/#help",
-"body": "Defects, incorrect diagnostics and documentation errors go to the support portal through your institution’s named contacts. Response targets, and how feature requests reach the roadmap, are on the licensing page . Previous Install uqulang Next Getting started {{docs_toc}}"
+"body": "Defects, incorrect diagnostics and documentation errors go to the support portal through your institution’s named contacts. Response targets, and how feature requests reach the roadmap, are on the licensing page . Previous Install uqulang Next Getting started"
 },
 {
 "title": "Compiler CLI",
 "section": "Documentation",
 "url": "/docs/cli/",
-"body": "{{docs_aside}} Docs Compiler CLI Reference The uqu command One binary does the whole job: compile, run, test, format, document and serve the language server. Every subcommand accepts --help . Covers toolchain 0.1.0 Synopsis Copy Command What it does init Create a project in a new or empty directory build Compile to a binary or library in target/ run Build, then execute, forwarding arguments test Compile and run every test block fmt Format source in place; one canonical style doc Generate HTML API documentation from doc comments check Type-check without producing a binary fix Apply mechanical m"
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Docs Compiler CLI Reference The uqu command One binary does the whole job: compile, run, test, format, document and serve the language server. Every subcommand accepts --help . Covers toolchain 0.1.0 Synopsis Copy Command What it does init Create a project in a new or empty directory build Compile to a binary or library in target/ run Build, then execute, forwarding arguments test Compile and run every test block fmt Format source in place; one ca"
 },
 {
 "title": "Synopsis",
@@ -141,13 +141,13 @@
 "title": "Using it in CI",
 "section": "Compiler CLI",
 "url": "/docs/cli/#ci",
-"body": "The toolchain is a single archive with no installer, which makes CI setup three lines. Pin the exact version so a new release never changes a build that used to pass. .github/workflows/ci.yml Copy Previous Language tour Next For universities {{docs_toc}}"
+"body": "The toolchain is a single archive with no installer, which makes CI setup three lines. Pin the exact version so a new release never changes a build that used to pass. .github/workflows/ci.yml Copy Previous Language tour Next For universities"
 },
 {
 "title": "Getting started",
 "section": "Documentation",
 "url": "/docs/getting-started/",
-"body": "{{docs_aside}} Docs Getting started Tutorial Getting started From nothing installed to a tested, compiled binary. Everything here works with toolchain 0.1.0 on macOS, Linux and Windows. 1. Install the toolchain If you have not installed uqu yet, follow the installation guide — it is one command on every supported platform. Then confirm the compiler can see everything it needs: Copy 2. Create a project uqu init writes the smallest project that builds: a manifest, a source directory and one module. Copy The manifest is deliberately small. There is no build script: uqu.toml Copy 3. Write and run "
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Docs Getting started Tutorial Getting started From nothing installed to a tested, compiled binary. Everything here works with toolchain 0.1.0 on macOS, Linux and Windows. 1. Install the toolchain If you have not installed uqu yet, follow the installation guide — it is one command on every supported platform. Then confirm the compiler can see everything it needs: Copy 2. Create a project uqu init writes the smallest project that builds: a manifest,"
 },
 {
 "title": "1. Install the toolchain",
@@ -195,13 +195,13 @@
 "title": "Where to go next",
 "section": "Getting started",
 "url": "/docs/getting-started/#next",
-"body": "Language tour — the rest of the language, in order. Compiler CLI — every flag, including cross-compilation. For universities — licensing, lab deployment and support. Previous Documentation overview Next Language tour {{docs_toc}}"
+"body": "Language tour — the rest of the language, in order. Compiler CLI — every flag, including cross-compilation. For universities — licensing, lab deployment and support. Previous Documentation overview Next Language tour"
 },
 {
 "title": "Language tour",
 "section": "Documentation",
 "url": "/docs/tour/",
-"body": "{{docs_aside}} Docs Language tour Reference tutorial Language tour The whole language, in the order it makes sense to learn it. If you have written C, C++, Swift, Rust or Go, you can read this in one sitting. Covers toolchain 0.1.0 · updated {{build_date}} Bindings let binds a value that cannot be reassigned; var binds one that can. Types are inferred from the initialiser, and written explicitly when you want the contract visible. Copy There is no uninitialised binding. A declaration without a value must be assigned on every path before it is read, and the compiler checks that. Numbers and ope"
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Docs Language tour Reference tutorial Language tour The whole language, in the order it makes sense to learn it. If you have written C, C++, Swift, Rust or Go, you can read this in one sitting. Covers toolchain 0.1.0 · updated {{build_date}} Bindings let binds a value that cannot be reassigned; var binds one that can. Types are inferred from the initialiser, and written explicitly when you want the contract visible. Copy There is no uninitialised "
 },
 {
 "title": "Bindings",
@@ -297,7 +297,7 @@
 "title": "Planned, not yet shipped",
 "section": "Language tour",
 "url": "/docs/tour/#planned",
-"body": "These are designed and discussed, and not in 0.1. Do not write code against them yet. Generics over constant values, for fixed-capacity containers. Compile-time evaluation beyond constant folding. Structured concurrency and non-blocking I/O in the standard library. A package registry and a lockfile format. Previous Getting started Next Compiler CLI {{docs_toc}}"
+"body": "These are designed and discussed, and not in 0.1. Do not write code against them yet. Generics over constant values, for fixed-capacity containers. Compile-time evaluation beyond constant folding. Structured concurrency and non-blocking I/O in the standard library. A package registry and a lockfile format. Previous Getting started Next Compiler CLI"
 },
 {
 "title": "Install",
@@ -309,19 +309,19 @@
 "title": "Install with the script",
 "section": "Install",
 "url": "/install/#install-script",
-"body": "The script downloads the build for your platform, verifies its SHA-256 checksum against the signed manifest, unpacks it into ~/.uqulang and registers your licence key. Nothing is written outside your home directory and nothing needs sudo . macOS Linux Windows macOS macOS 13 or newer, on Apple silicon or Intel. Copy Or with Homebrew: Copy Linux glibc 2.31+ or musl, on x86-64 or aarch64. Copy Prefer"
+"body": "The script downloads the build for your platform, verifies its SHA-256 checksum against the signed manifest, unpacks it into ~/.uqulang and registers your licence key. Nothing is written outside your home directory and nothing needs sudo . macOS Linux Windows macOS macOS 13 or newer, on Apple silicon or Intel. $ curl -fsSL https://get.uqulang.com/install.sh | sh $ uqu licence activate UQU-XXXX-XXX"
 },
 {
 "title": "Verify the install",
 "section": "Install",
 "url": "/install/#verify",
-"body": "Every release publishes a SHA256SUMS file and a detached signature. Verifying takes ten seconds and is worth doing on any machine you care about: Copy uqu doctor is the first thing to run when something looks wrong, and the first thing to paste into a bug report."
+"body": "Every release publishes a SHA256SUMS file and a detached signature. Verifying takes ten seconds and is worth doing on any machine you care about: $ uqu --version uqu 0.1.0 (preview) aarch64-apple-darwin $ uqu doctor toolchain ~/.uqulang/0.1.0 licence site (King Example University) — valid to 2027-08-31 linker cc (found) target aarch64-apple-darwin cache ~/.uqulang/cache (0 B) status ready uqu doct"
 },
 {
 "title": "Lab and offline deployment",
 "section": "Install",
 "url": "/install/#labs",
-"body": "A teaching lab usually cannot run an installer per machine, and often has no outbound internet at all. Both cases are supported by the same archive. Download the platform archive once from the licence portal , put it on your image or file share, and point machines at it. Activation can be done once for the site rather than per machine: Copy Site licences include an offline activation file so lab m"
+"body": "A teaching lab usually cannot run an installer per machine, and often has no outbound internet at all. Both cases are supported by the same archive. Download the platform archive once from the licence portal , put it on your image or file share, and point machines at it. Activation can be done once for the site rather than per machine: # On a build or image host, no internet needed after this step"
 },
 {
 "title": "Editor support",
@@ -333,7 +333,7 @@
 "title": "Uninstall",
 "section": "Install",
 "url": "/install/#uninstall",
-"body": "Delete the toolchain directory and the shim on your PATH . There is nothing else — no system services, no registry keys, no files outside these two locations. Copy Documentation Overview Next Getting started"
+"body": "Delete the toolchain directory and the shim on your PATH . There is nothing else — no system services, no registry keys, no files outside these two locations. $ rm -rf ~/.uqulang $ rm ~/.local/bin/uqu Documentation Overview Next Getting started"
 },
 {
 "title": "For universities",
