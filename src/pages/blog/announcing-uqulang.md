@@ -5,7 +5,7 @@ path: /blog/announcing-uqulang/
 nav: blog
 section: Blog
 priority: 0.6
-head_extra: <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Announcing the uqulang 0.1 preview","datePublished":"2026-09-26","inLanguage":"en","url":"https://uqulang.org/blog/announcing-uqulang/"}</script>
+head_extra: <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Announcing the uqulang 0.1 preview","datePublished":"2026-09-26","inLanguage":"en","url":"https://uqulang.com/blog/announcing-uqulang/"}</script>
 layout: post
 date: 2026-09-26
 kind: Release

@@ -25,6 +25,10 @@ IMG_RE = re.compile(r"<img\b(?![^>]*\balt=)[^>]*>", re.IGNORECASE)
 TITLE_RE = re.compile(r"<title>(.*?)</title>", re.DOTALL)
 HEADING_RE = re.compile(r"<h([1-6])\b[^>]*>", re.IGNORECASE)
 MACRO_RE = re.compile(r"\{\{[^}\n]{1,60}\}\}")
+# Any absolute link back to this site must use the canonical domain. A stale
+# one is invisible in the browser and only shows up in structured data,
+# install commands and share cards.
+STALE_DOMAIN_RE = re.compile(r"https?://(?!uqulang\.com|get\.uqulang\.com|portal\.uqulang\.com|support\.uqulang\.com)[\w.-]*uqulang\.[\w.]+")
 DESC_RE = re.compile(r'<meta name="description" content="([^"]*)"')
 
 
@@ -91,6 +95,9 @@ def main() -> int:
 
         for macro in MACRO_RE.findall(text):
             problems.append(f"{rel}: unresolved template macro {macro}")
+
+        for stale in set(STALE_DOMAIN_RE.findall(text)):
+            problems.append(f"{rel}: non-canonical uqulang domain {stale}")
 
     # Second pass: every internal link must resolve to a file, every fragment to an id.
     for path in files:
