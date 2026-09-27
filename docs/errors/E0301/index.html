@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found — uqulang</title>
-<meta name="description" content="That page does not exist on uqulang.com. Links to the documentation, the installation guide and the project home are below.">
-<link rel="canonical" href="https://uqulang.com/404.html">
+<title>E0301: non-exhaustive match — uqulang</title>
+<meta name="description" content="The uqulang compiler reports E0301 when a match does not cover every variant. Explanation, example and fix.">
+<link rel="canonical" href="https://uqulang.com/docs/errors/E0301/">
 <link rel="alternate" type="application/atom+xml" title="uqulang releases" href="/feed.xml">
 
 <meta name="color-scheme" content="light dark">
@@ -15,9 +15,9 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="uqulang">
 <meta property="og:locale" content="en">
-<meta property="og:title" content="Page not found — uqulang">
-<meta property="og:description" content="That page does not exist on uqulang.com. Links to the documentation, the installation guide and the project home are below.">
-<meta property="og:url" content="https://uqulang.com/404.html">
+<meta property="og:title" content="E0301: non-exhaustive match — uqulang">
+<meta property="og:description" content="The uqulang compiler reports E0301 when a match does not cover every variant. Explanation, example and fix.">
+<meta property="og:url" content="https://uqulang.com/docs/errors/E0301/">
 <meta property="og:image" content="https://uqulang.com/assets/img/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -47,7 +47,7 @@
 <link rel="modulepreload" href="/assets/js/components/DocsSearch.js">
 <link rel="modulepreload" href="/assets/js/lang/Highlighter.js">
 <link rel="modulepreload" href="/assets/js/lang/grammars.js">
-<meta name="robots" content="noindex">
+
 </head>
 <body class="">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -68,7 +68,7 @@
     </button>
 
     <nav class="site-nav" id="site-nav" data-nav-panel aria-label="Main">
-      <a class="site-nav__link" href="/docs/">Documentation</a>
+      <a class="site-nav__link" href="/docs/" aria-current="page">Documentation</a>
       <a class="site-nav__link" href="/install/">Install</a>
       <a class="site-nav__link" href="/universities/">For universities</a>
       <a class="site-nav__link" href="/blog/">Blog</a>
@@ -86,25 +86,33 @@
 </header>
 
 <main id="main">
-<div class="container container--narrow page-center">
-  <p class="section__eyebrow">404</p>
-  <h1>That page is not here</h1>
-  <p class="section__lead mx-auto">
-    The link may be out of date, or the page may have moved while the docs were
-    reorganised. These are the places worth trying:
-  </p>
+<div class="container container--docs docs"><aside class="docs-sidebar"><details class="docs-sidebar__disclosure" open><summary><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Documentation</summary><div class="docs-search" data-search="/search-index.json"><svg class="docs-search__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg><label class="visually-hidden" for="docs-search-input">Search the documentation</label><input class="docs-search__input" id="docs-search-input" type="search" placeholder="Search docs…" autocomplete="off" spellcheck="false" data-search-input><ul class="docs-search__results" aria-label="Search results" data-search-results></ul><p class="visually-hidden" role="status" data-search-status></p></div><h2 class="docs-sidebar__title">Documentation</h2><ul class="docs-nav"><li class="docs-nav__group"><span class="docs-nav__group-title">Start here</span><ul class="docs-nav__sub"><li><a class="docs-nav__link" href="/docs/">Overview</a></li><li><a class="docs-nav__link" href="/docs/getting-started/">Getting started</a></li><li><a class="docs-nav__link" href="/install/">Install uqulang</a></li></ul></li><li class="docs-nav__group"><span class="docs-nav__group-title">Language</span><ul class="docs-nav__sub"><li><a class="docs-nav__link" href="/docs/tour/">Language tour</a></li></ul></li><li class="docs-nav__group"><span class="docs-nav__group-title">Tooling</span><ul class="docs-nav__sub"><li><a class="docs-nav__link" href="/docs/cli/">Compiler CLI</a></li><li><a class="docs-nav__link" href="/docs/errors/">Compiler errors</a></li></ul></li></ul></details></aside><div class="docs-main"><ol class="breadcrumb"><li><a href="/docs/">Docs</a></li><li><a href="/docs/errors/">Errors</a></li><li>E0301</li></ol><header class="docs-header"><span class="docs-header__eyebrow">Compiler error</span><h1><code>E0301</code> — non-exhaustive match</h1></header><article class="docs-article" data-heading-anchors><h2 id="meaning">What it means</h2>
+<p><code>match</code> must handle every case its subject can take. The message lists the ones
+that are missing.</p>
+<h2 id="example">An example that triggers it</h2>
+<div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>enum Shape {
+    Circle(radius: f32),
+    Rect(w: f32, h: f32),
+    Point,
+}
 
-  <div class="hero__actions justify-center">
-    <a class="btn btn--primary" href="/docs/">Documentation</a>
-    <a class="btn btn--secondary" href="/install/">Install</a>
-    <a class="btn btn--ghost" href="/">Home</a>
-  </div>
-
-  <p class="mt-10 note-small">
-    If a link on this site brought you here, please
-    <a href="https://support.uqulang.com">tell us where it was</a>.
-  </p>
-</div>
+func area(s: Shape) -&gt; f32 {
+    match s {                       // error[E0301]: `.Point` is not covered
+        case .Circle(let r): return 3.14159 * r * r
+        case .Rect(let w, let h): return w * h
+    }
+}</code></pre></div>
+<h2 id="fix">How to fix it</h2>
+<p>Cover the missing case:</p>
+<div class="code-block" data-code data-lang="uqulang"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>        case .Point: return 0.0</code></pre></div>
+<p>Or use <code>default</code> when the remaining cases genuinely share behaviour. Prefer
+listing them while the enum is small — that is what makes adding a variant safe
+later.</p>
+<h2 id="why">Why the rule exists</h2>
+<p>The value of exhaustiveness is not in the match you are writing now; it is in
+the one you forget to update in eighteen months. Adding a variant to an enum
+turns every incomplete match into a compile error instead of a wrong answer at
+run time.</p></article></div><aside class="docs-toc" data-toc=".docs-article"><h2 class="docs-toc__title">On this page</h2><ul class="docs-toc__list" data-toc-list></ul></aside></div>
 </main>
 
 <footer class="site-footer">

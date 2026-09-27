@@ -1541,6 +1541,17 @@ abbr[title] { text-decoration: underline dotted; cursor: help; }
 /* The banner sits above the page title, where it cannot be scrolled past. */
 .docs-version-banner { margin-block-end: var(--sp-6); }
 
+/* --- Error index -------------------------------------------------------- */
+.error-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-400);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.error-code:hover { text-decoration: underline; }
+
 /* utilities.css */
 /* ==========================================================================
    Utilities. A closed set, used where a one-off class would be noise.

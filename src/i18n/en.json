@@ -33,7 +33,11 @@
     "footer_made": "صُنع في السعودية · Made in Saudi Arabia",
     "version": "Version",
     "outdated_docs": "You are reading the documentation for uqulang {version}. The current release is {current}.",
-    "read_current": "Read the current version"
+    "read_current": "Read the current version",
+    "no_errors": "No diagnostics are documented yet.",
+    "error_code": "Code",
+    "error_meaning": "What it means",
+    "error_category": "Category"
   },
   "nav": [
     {
@@ -155,6 +159,10 @@
         {
           "label": "Compiler CLI",
           "path": "/docs/cli/"
+        },
+        {
+          "label": "Compiler errors",
+          "path": "/docs/errors/"
         }
       ]
     }

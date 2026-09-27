@@ -33,6 +33,54 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/cli/"/>
   </url>
   <url>
+    <loc>https://uqulang.com/docs/errors/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/errors/"/>
+  </url>
+  <url>
+    <loc>https://uqulang.com/docs/errors/E0101/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/errors/E0101/"/>
+  </url>
+  <url>
+    <loc>https://uqulang.com/docs/errors/E0102/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/errors/E0102/"/>
+  </url>
+  <url>
+    <loc>https://uqulang.com/docs/errors/E0201/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/errors/E0201/"/>
+  </url>
+  <url>
+    <loc>https://uqulang.com/docs/errors/E0202/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/errors/E0202/"/>
+  </url>
+  <url>
+    <loc>https://uqulang.com/docs/errors/E0301/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/errors/E0301/"/>
+  </url>
+  <url>
+    <loc>https://uqulang.com/docs/errors/E0401/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/errors/E0401/"/>
+  </url>
+  <url>
+    <loc>https://uqulang.com/docs/errors/E0501/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/errors/E0501/"/>
+  </url>
+  <url>
     <loc>https://uqulang.com/docs/getting-started/</loc>
     <lastmod>2026-09-27</lastmod>
     <priority>0.8</priority>

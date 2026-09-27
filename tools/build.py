@@ -871,6 +871,7 @@ class Site:
 
         body = page.body
         body = body.replace("{{post_list}}", self.post_list(locale))
+        body = body.replace("{{error_index}}", self.error_index(locale))
         body = ContentRenderer(locale).expand_code_blocks(body)
         body = body.replace("{{build_date}}", BUILD_DATE)
         body = body.replace("{{contact}}", url(self.resolve(CONTACT_PATH, locale)))
@@ -1019,6 +1020,44 @@ class Site:
                 f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}{url(default.path)}">'
             )
         return "\n".join(lines)
+
+    def error_index(self, locale: Locale) -> str:
+        """The compiler error index, built from the error pages themselves.
+
+        Every diagnostic the compiler can emit gets a page, and this table is
+        generated from them — so a code cannot be documented without appearing
+        in the index, or listed in the index without having a page.
+        """
+        errors = [
+            page for page in self.pages
+            if page.locale.code == locale.code
+            and page.key.startswith("docs/errors/")
+            and not page.key.endswith("/index")
+        ]
+        errors.sort(key=lambda page: page.meta.get("code", ""))
+        if not errors:
+            return f'<p class="post__excerpt">{locale.t("no_errors")}</p>'
+
+        rows = []
+        for page in errors:
+            code = html.escape(str(page.meta.get("code", "")))
+            summary = page.meta.get("summary", page.meta["description"])
+            category = html.escape(str(page.meta.get("category", "")))
+            rows.append(
+                "<tr>"
+                f'<td><a class="error-code" href="{url(page.path)}">{code}</a></td>'
+                f"<td>{summary}</td>"
+                f'<td><span class="badge badge--neutral">{category}</span></td>'
+                "</tr>"
+            )
+
+        return (
+            '<div class="table-wrap"><table><thead><tr>'
+            f'<th scope="col">{locale.t("error_code")}</th>'
+            f'<th scope="col">{locale.t("error_meaning")}</th>'
+            f'<th scope="col">{locale.t("error_category")}</th>'
+            f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
+        )
 
     def post_list(self, locale: Locale) -> str:
         """The blog index, generated from the posts themselves."""

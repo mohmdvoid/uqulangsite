@@ -33,7 +33,11 @@
     "footer_made": "صُنع في السعودية",
     "version": "الإصدار",
     "outdated_docs": "أنت تقرأ توثيق الإصدار {version} من uqulang. الإصدار الحالي هو {current}.",
-    "read_current": "اقرأ توثيق الإصدار الحالي"
+    "read_current": "اقرأ توثيق الإصدار الحالي",
+    "no_errors": "لم تُوثَّق أي تشخيصات بعد.",
+    "error_code": "الرمز",
+    "error_meaning": "المعنى",
+    "error_category": "التصنيف"
   },
   "nav": [
     {
@@ -155,6 +159,10 @@
         {
           "label": "أداة المترجم",
           "path": "/docs/cli/"
+        },
+        {
+          "label": "أخطاء المترجم",
+          "path": "/docs/errors/"
         }
       ]
     }

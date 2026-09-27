@@ -51,7 +51,7 @@
 "title": "Documentation",
 "section": "Documentation",
 "url": "/docs/",
-"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Documentation uqulang documentation Everything written down about the language and its toolchain. The docs track the preview releases: anything marked planned is designed but not yet in the compiler you can download. Covers toolchain 0.1.0 · updated {{build_date}} Start here Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language tour The whole l"
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Documentation uqulang documentation Everything written down about the language and its toolchain. The docs track the preview releases: anything marked planned is designed but not yet in the compiler you can download. Covers toolchain 0.1.0 · updated {{build_date}} Start here Getting started Install the toolchain, compile and run your first program, then write a test. Five minutes, no prior systems programming needed. Read Language "
 },
 {
 "title": "Start here",
@@ -93,7 +93,7 @@
 "title": "Compiler CLI",
 "section": "Documentation",
 "url": "/docs/cli/",
-"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Docs Compiler CLI Reference The uqu command One binary does the whole job: compile, run, test, format, document and serve the language server. Every subcommand accepts --help . Covers toolchain 0.1.0 Synopsis Copy Command What it does init Create a project in a new or empty directory build Compile to a binary or library in target/ run Build, then execute, forwarding arguments test Compile and run every test block fmt Format source in place; one ca"
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Compiler CLI Reference The uqu command One binary does the whole job: compile, run, test, format, document and serve the language server. Every subcommand accepts --help . Covers toolchain 0.1.0 Synopsis Copy Command What it does init Create a project in a new or empty directory build Compile to a binary or library in target/ run Build, then execute, forwarding arguments test Compile and run every test block fmt Format source "
 },
 {
 "title": "Synopsis",
@@ -144,10 +144,238 @@
 "body": "The toolchain is a single archive with no installer, which makes CI setup three lines. Pin the exact version so a new release never changes a build that used to pass. .github/workflows/ci.yml Copy Previous Language tour Next For universities"
 },
 {
+"title": "Compiler error index",
+"section": "Documentation",
+"url": "/docs/errors/",
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Compiler error index Reference Compiler error index Every diagnostic the compiler can emit, what it means, and the change that fixes it. If you landed here from a compiler message, the code in the message is in the table below. Covers toolchain 0.1.0 · updated {{build_date}} Compiler messages carry a code, such as E0101 . Passing --explain E0101 to the compiler prints the same explanation you will find here: Copy The index {{e"
+},
+{
+"title": "The index",
+"section": "Compiler error index",
+"url": "/docs/errors/#index",
+"body": "{{error_index}}"
+},
+{
+"title": "How to read a diagnostic",
+"section": "Compiler error index",
+"url": "/docs/errors/#reading",
+"body": "Every message names three things: what the compiler expected, what it found, and the rule that makes the difference matter. The caret line points at the smallest expression that could be wrong, not at the whole statement. Copy The note explains the rule. The help proposes a change. Where the compiler is confident the change is correct, uqu fix will apply it for you. A diagnostic that was technical"
+},
+{
+"title": "E0101: use of moved value",
+"section": "Documentation",
+"url": "/docs/errors/E0101/",
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Errors E0101 Compiler error E0101 — use of moved value What it means Every heap value has exactly one owner. move transfers that ownership, and the binding it came from is dead afterwards — reading it would alias memory that somebody else is now responsible for freeing. An example that triggers it src/main.uqu Copy How to fix it Use the new owner: Copy Or do not move at all. If the callee only needs to read the value, pass a p"
+},
+{
+"title": "What it means",
+"section": "E0101: use of moved value",
+"url": "/docs/errors/E0101/#meaning",
+"body": "Every heap value has exactly one owner. move transfers that ownership, and the binding it came from is dead afterwards — reading it would alias memory that somebody else is now responsible for freeing."
+},
+{
+"title": "An example that triggers it",
+"section": "E0101: use of moved value",
+"url": "/docs/errors/E0101/#example",
+"body": "src/main.uqu Copy"
+},
+{
+"title": "How to fix it",
+"section": "E0101: use of moved value",
+"url": "/docs/errors/E0101/#fix",
+"body": "Use the new owner: Copy Or do not move at all. If the callee only needs to read the value, pass a pointer and leave ownership where it is: Copy"
+},
+{
+"title": "Why the rule exists",
+"section": "E0101: use of moved value",
+"url": "/docs/errors/E0101/#why",
+"body": "This is the check that makes manual memory management teachable. In C the same program compiles and then fails at run time, sometimes only under load. Here it cannot get past the compiler, and the message names the line that moved the value as well as the line that used it."
+},
+{
+"title": "E0102: cannot assign to an immutable binding",
+"section": "Documentation",
+"url": "/docs/errors/E0102/",
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Errors E0102 Compiler error E0102 — cannot assign to an immutable binding What it means let binds a value once. var binds one that can be reassigned. The distinction is not a style preference: the compiler relies on it when deciding what it can keep in a register and what it must reload. An example that triggers it Copy How to fix it If the value genuinely changes, bind it with var : Copy If it does not, you probably meant a s"
+},
+{
+"title": "What it means",
+"section": "E0102: cannot assign to an immutable binding",
+"url": "/docs/errors/E0102/#meaning",
+"body": "let binds a value once. var binds one that can be reassigned. The distinction is not a style preference: the compiler relies on it when deciding what it can keep in a register and what it must reload."
+},
+{
+"title": "An example that triggers it",
+"section": "E0102: cannot assign to an immutable binding",
+"url": "/docs/errors/E0102/#example",
+"body": "Copy"
+},
+{
+"title": "How to fix it",
+"section": "E0102: cannot assign to an immutable binding",
+"url": "/docs/errors/E0102/#fix",
+"body": "If the value genuinely changes, bind it with var : Copy If it does not, you probably meant a second binding: Copy"
+},
+{
+"title": "Why the rule exists",
+"section": "E0102: cannot assign to an immutable binding",
+"url": "/docs/errors/E0102/#why",
+"body": "Most bindings never change. Making that the default means the ones that do change stand out in the source, which is where a reader looks for the cause of a bug."
+},
+{
+"title": "E0201: type mismatch",
+"section": "Documentation",
+"url": "/docs/errors/E0201/",
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Errors E0201 Compiler error E0201 — type mismatch What it means The expression is well formed but has the wrong type for where it appears. The message names the type required by the position and the type the expression actually has, in that order. An example that triggers it Copy How to fix it Convert explicitly, or bind with the type you meant: Copy Why the rule exists There are no implicit numeric conversions in uqulang. A w"
+},
+{
+"title": "What it means",
+"section": "E0201: type mismatch",
+"url": "/docs/errors/E0201/#meaning",
+"body": "The expression is well formed but has the wrong type for where it appears. The message names the type required by the position and the type the expression actually has, in that order."
+},
+{
+"title": "An example that triggers it",
+"section": "E0201: type mismatch",
+"url": "/docs/errors/E0201/#example",
+"body": "Copy"
+},
+{
+"title": "How to fix it",
+"section": "E0201: type mismatch",
+"url": "/docs/errors/E0201/#fix",
+"body": "Convert explicitly, or bind with the type you meant: Copy"
+},
+{
+"title": "Why the rule exists",
+"section": "E0201: type mismatch",
+"url": "/docs/errors/E0201/#why",
+"body": "There are no implicit numeric conversions in uqulang. A widening conversion is cheap but not free, and a narrowing one can silently lose information — so both are written down where they happen. See E0202 for the numeric case specifically."
+},
+{
+"title": "E0202: no implicit numeric conversion",
+"section": "Documentation",
+"url": "/docs/errors/E0202/",
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Errors E0202 Compiler error E0202 — no implicit numeric conversion What it means Integer types do not convert into one another on their own, in either direction. i32 and i64 are different types, and so are i32 and u32 . An example that triggers it Copy How to fix it Convert the narrower value at the point where the widths meet: Copy Converting the other way is also explicit, and can fail — which is why it is a checked conversi"
+},
+{
+"title": "What it means",
+"section": "E0202: no implicit numeric conversion",
+"url": "/docs/errors/E0202/#meaning",
+"body": "Integer types do not convert into one another on their own, in either direction. i32 and i64 are different types, and so are i32 and u32 ."
+},
+{
+"title": "An example that triggers it",
+"section": "E0202: no implicit numeric conversion",
+"url": "/docs/errors/E0202/#example",
+"body": "Copy"
+},
+{
+"title": "How to fix it",
+"section": "E0202: no implicit numeric conversion",
+"url": "/docs/errors/E0202/#fix",
+"body": "Convert the narrower value at the point where the widths meet: Copy Converting the other way is also explicit, and can fail — which is why it is a checked conversion rather than a cast: Copy"
+},
+{
+"title": "Why the rule exists",
+"section": "E0202: no implicit numeric conversion",
+"url": "/docs/errors/E0202/#why",
+"body": "Implicit integer promotion is the source of a whole family of C bugs that only appear at a particular width, on a particular platform, with a particular input. Writing the conversion down costs one line and makes the width visible at the place where it matters."
+},
+{
+"title": "E0301: non-exhaustive match",
+"section": "Documentation",
+"url": "/docs/errors/E0301/",
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Errors E0301 Compiler error E0301 — non-exhaustive match What it means match must handle every case its subject can take. The message lists the ones that are missing. An example that triggers it Copy How to fix it Cover the missing case: Copy Or use default when the remaining cases genuinely share behaviour. Prefer listing them while the enum is small — that is what makes adding a variant safe later. Why the rule exists The va"
+},
+{
+"title": "What it means",
+"section": "E0301: non-exhaustive match",
+"url": "/docs/errors/E0301/#meaning",
+"body": "match must handle every case its subject can take. The message lists the ones that are missing."
+},
+{
+"title": "An example that triggers it",
+"section": "E0301: non-exhaustive match",
+"url": "/docs/errors/E0301/#example",
+"body": "Copy"
+},
+{
+"title": "How to fix it",
+"section": "E0301: non-exhaustive match",
+"url": "/docs/errors/E0301/#fix",
+"body": "Cover the missing case: Copy Or use default when the remaining cases genuinely share behaviour. Prefer listing them while the enum is small — that is what makes adding a variant safe later."
+},
+{
+"title": "Why the rule exists",
+"section": "E0301: non-exhaustive match",
+"url": "/docs/errors/E0301/#why",
+"body": "The value of exhaustiveness is not in the match you are writing now; it is in the one you forget to update in eighteen months. Adding a variant to an enum turns every incomplete match into a compile error instead of a wrong answer at run time."
+},
+{
+"title": "E0401: unhandled error",
+"section": "Documentation",
+"url": "/docs/errors/E0401/",
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Errors E0401 Compiler error E0401 — unhandled error What it means The function is marked throws , so the call can fail, and the failure is not being dealt with at the call site. An example that triggers it Copy How to fix it Propagate with try , which requires the caller to be throws as well: Copy Handle it here with match : Copy Or state that you are ignoring it, which is deliberately ugly and easy to grep for: Copy Why the r"
+},
+{
+"title": "What it means",
+"section": "E0401: unhandled error",
+"url": "/docs/errors/E0401/#meaning",
+"body": "The function is marked throws , so the call can fail, and the failure is not being dealt with at the call site."
+},
+{
+"title": "An example that triggers it",
+"section": "E0401: unhandled error",
+"url": "/docs/errors/E0401/#example",
+"body": "Copy"
+},
+{
+"title": "How to fix it",
+"section": "E0401: unhandled error",
+"url": "/docs/errors/E0401/#fix",
+"body": "Propagate with try , which requires the caller to be throws as well: Copy Handle it here with match : Copy Or state that you are ignoring it, which is deliberately ugly and easy to grep for: Copy"
+},
+{
+"title": "Why the rule exists",
+"section": "E0401: unhandled error",
+"url": "/docs/errors/E0401/#why",
+"body": "An ignored error is a decision. Making it visible in the source means a reviewer can see it, and a search can find every one of them before a release."
+},
+{
+"title": "E0501: missing field in struct literal",
+"section": "Documentation",
+"url": "/docs/errors/E0501/",
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Errors E0501 Compiler error E0501 — missing field in struct literal What it means A struct literal must give a value for every field. There is no partial initialisation and no zero value filled in behind your back. An example that triggers it Copy How to fix it Give the field a value: Copy If most uses share a value, write a constructor and call that instead: Copy Why the rule exists Adding a field to a struct should force you"
+},
+{
+"title": "What it means",
+"section": "E0501: missing field in struct literal",
+"url": "/docs/errors/E0501/#meaning",
+"body": "A struct literal must give a value for every field. There is no partial initialisation and no zero value filled in behind your back."
+},
+{
+"title": "An example that triggers it",
+"section": "E0501: missing field in struct literal",
+"url": "/docs/errors/E0501/#example",
+"body": "Copy"
+},
+{
+"title": "How to fix it",
+"section": "E0501: missing field in struct literal",
+"url": "/docs/errors/E0501/#fix",
+"body": "Give the field a value: Copy If most uses share a value, write a constructor and call that instead: Copy"
+},
+{
+"title": "Why the rule exists",
+"section": "E0501: missing field in struct literal",
+"url": "/docs/errors/E0501/#why",
+"body": "Adding a field to a struct should force you to visit the places that build it. If the compiler filled in a default, those places would keep compiling and quietly mean something different."
+},
+{
 "title": "Getting started",
 "section": "Documentation",
 "url": "/docs/getting-started/",
-"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Docs Getting started Tutorial Getting started From nothing installed to a tested, compiled binary. Everything here works with toolchain 0.1.0 on macOS, Linux and Windows. 1. Install the toolchain If you have not installed uqu yet, follow the installation guide — it is one command on every supported platform. Then confirm the compiler can see everything it needs: Copy 2. Create a project uqu init writes the smallest project that builds: a manifest,"
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Getting started Tutorial Getting started From nothing installed to a tested, compiled binary. Everything here works with toolchain 0.1.0 on macOS, Linux and Windows. 1. Install the toolchain If you have not installed uqu yet, follow the installation guide — it is one command on every supported platform. Then confirm the compiler can see everything it needs: Copy 2. Create a project uqu init writes the smallest project that bui"
 },
 {
 "title": "1. Install the toolchain",
@@ -201,7 +429,7 @@
 "title": "Language tour",
 "section": "Documentation",
 "url": "/docs/tour/",
-"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Docs Language tour Reference tutorial Language tour The whole language, in the order it makes sense to learn it. If you have written C, C++, Swift, Rust or Go, you can read this in one sitting. Covers toolchain 0.1.0 · updated {{build_date}} Bindings let binds a value that cannot be reassigned; var binds one that can. Types are inferred from the initialiser, and written explicitly when you want the contract visible. Copy There is no uninitialised "
+"body": "Documentation Search the documentation Documentation Start here Overview Getting started Install uqulang Language Language tour Tooling Compiler CLI Compiler errors Docs Language tour Reference tutorial Language tour The whole language, in the order it makes sense to learn it. If you have written C, C++, Swift, Rust or Go, you can read this in one sitting. Covers toolchain 0.1.0 · updated {{build_date}} Bindings let binds a value that cannot be reassigned; var binds one that can. Types are inferred from the initialiser, and written explicitly when you want the contract visible. Copy There is n"
 },
 {
 "title": "Bindings",
