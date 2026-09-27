@@ -17,7 +17,8 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKIP_DIRS = {"src", "tools", "deploy", "dist", ".git", ".github", ".claude", ".venv", "node_modules"}
+SKIP_DIRS = {"src", "tools", "deploy", "dist", "reports", ".git", ".github",
+             ".claude", ".venv", "node_modules"}
 
 HREF_RE = re.compile(r'(?:href|src)="([^"]+)"')
 ID_RE = re.compile(r'\bid="([^"]+)"')
@@ -127,6 +128,26 @@ def main() -> int:
                 dest_ids = ids_by_page.get(dest_rel)
                 if dest_ids is not None and fragment and fragment not in dest_ids:
                     problems.append(f"{rel}: {target} — no id {fragment!r} on that page")
+
+    # A page no other page links to is unreachable in practice, however good
+    # it is. 404 and 500 are reached by the server, not by a link.
+    linked: set = set()
+    for path in files:
+        text = path.read_text(encoding="utf-8")
+        for target in HREF_RE.findall(text):
+            clean = target.split("#")[0].split("?")[0]
+            if clean.startswith("/"):
+                linked.add(clean.rstrip("/") + "/" if not clean.endswith(".html") else clean)
+
+    for path in files:
+        rel = "/" + str(path.relative_to(ROOT))
+        url_path = rel.replace("/index.html", "/")
+        if url_path in {"/404.html", "/500.html"}:
+            continue
+        if url_path == "/":
+            continue
+        if url_path not in linked:
+            problems.append(f"{rel}: orphan — no other page links to it")
 
     by_kind: dict[str, int] = defaultdict(int)
     for problem in problems:

@@ -93,10 +93,22 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/docs/tour/"/>
   </url>
   <url>
+    <loc>https://uqulang.com/faq/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/faq/"/>
+  </url>
+  <url>
     <loc>https://uqulang.com/install/</loc>
     <lastmod>2026-09-27</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/install/"/>
+  </url>
+  <url>
+    <loc>https://uqulang.com/teaching/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uqulang.com/teaching/"/>
   </url>
   <url>
     <loc>https://uqulang.com/universities/</loc>

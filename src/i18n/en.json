@@ -80,6 +80,10 @@
         {
           "label": "All documentation",
           "path": "/docs/"
+        },
+        {
+          "label": "FAQ",
+          "path": "/faq/"
         }
       ]
     },
@@ -110,6 +114,10 @@
         {
           "label": "Campus licensing",
           "path": "/universities/"
+        },
+        {
+          "label": "Teaching with uqulang",
+          "path": "/teaching/"
         },
         {
           "label": "Request a licence",

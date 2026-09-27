@@ -13,3 +13,6 @@ __pycache__/
 
 # Deployment output
 dist/
+
+# Build reports
+reports/

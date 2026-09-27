@@ -528,6 +528,84 @@
 "body": "These are designed and discussed, and not in 0.1. Do not write code against them yet. Generics over constant values, for fixed-capacity containers. Compile-time evaluation beyond constant folding. Structured concurrency and non-blocking I/O in the standard library. A package registry and a lockfile format. Previous Getting started Next Compiler CLI"
 },
 {
+"title": "Frequently asked questions",
+"section": "FAQ",
+"url": "/faq/",
+"body": "Questions Frequently asked questions The questions that come up most often, answered plainly. If yours is not here, ask your institution's support contact or write to us. Is uqulang open source? No. The compiler, standard library and toolchain are commercial software licensed to universities and research institutions. This website and its documentation are public and openly licensed, but that is a separate thing — see the licensing page . Why another systems language? Because the two things a systems course needs are usually in different languages. C shows the student what the machine does, an"
+},
+{
+"title": "Is uqulang open source?",
+"section": "Frequently asked questions",
+"url": "/faq/#open-source",
+"body": "No. The compiler, standard library and toolchain are commercial software licensed to universities and research institutions. This website and its documentation are public and openly licensed, but that is a separate thing — see the licensing page ."
+},
+{
+"title": "Why another systems language?",
+"section": "Frequently asked questions",
+"url": "/faq/#why",
+"body": "Because the two things a systems course needs are usually in different languages. C shows the student what the machine does, and hides nothing — but it also hides nothing about its own age, and a beginner spends the first weeks on undefined behaviour rather than on the subject. Newer languages read well but put a runtime, a collector or a borrow checker between the student and the hardware. uqulan"
+},
+{
+"title": "How does it compare to C?",
+"section": "Frequently asked questions",
+"url": "/faq/#versus-c",
+"body": "Same compilation model, same ABI, same ability to point at a line and say what it costs. Different in the places where C's age shows: no implicit numeric conversions, no uninitialised bindings, no null pointer hiding inside an ordinary type, exhaustive match , and errors that must be handled at the call site. Interoperation is direct rather than wrapped, so a course can use an existing C library w"
+},
+{
+"title": "How does it compare to Rust?",
+"section": "Frequently asked questions",
+"url": "/faq/#versus-rust",
+"body": "Rust proves more, and asks more of the reader to do it. uqulang's ownership rules are scope-based and explicit: the compiler catches use-after-move and double-free, and does not attempt to prove every aliasing property. That is a deliberate trade — less proved, less to learn before the first working program. If your course is about proving memory safety, Rust is the better instrument. If it is abo"
+},
+{
+"title": "What platforms are supported?",
+"section": "Frequently asked questions",
+"url": "/faq/#platforms",
+"body": "macOS 13+ on Apple silicon and Intel, Linux with glibc 2.31+ or musl on x86-64 and aarch64, and Windows 10 22H2+ on x86-64 and arm64. Bare-metal targets are on the roadmap , not in 0.1."
+},
+{
+"title": "Can students install it on their own laptops?",
+"section": "Frequently asked questions",
+"url": "/faq/#student-install",
+"body": "Yes. A campus licence covers every enrolled student and every member of staff, on university machines and their own. See what a licence includes ."
+},
+{
+"title": "Does it work in a lab with no internet?",
+"section": "Frequently asked questions",
+"url": "/faq/#offline",
+"body": "Yes, and this was designed for rather than worked around. Site licences include an offline activation file, so lab machines never contact a licence server, and the toolchain is a single archive you can put on an image or a file share. See lab and offline deployment ."
+},
+{
+"title": "How do you handle grading?",
+"section": "Frequently asked questions",
+"url": "/faq/#grading",
+"body": "The same source and the same toolchain version produce a byte-identical binary, and uqu test --format json emits machine-readable results for an autograder. Pinning a release for the length of a semester is part of the licence, so an upgrade cannot change results mid-course."
+},
+{
+"title": "What is not finished?",
+"section": "Frequently asked questions",
+"url": "/faq/#unfinished",
+"body": "Generics over constant values, structured concurrency and non-blocking I/O, a dependency manager, and a larger standard library. All are designed; none are in 0.1. The documentation marks anything unshipped as planned in place rather than implying it exists."
+},
+{
+"title": "Why are there no benchmark numbers?",
+"section": "Frequently asked questions",
+"url": "/faq/#benchmarks",
+"body": "Because we cannot yet hand you a harness to reproduce them on your own machines. When 0.2 ships that harness, the numbers go up — including the ones where we lose. Until then, treat performance claims about uqulang, including ours, as unproven."
+},
+{
+"title": "Is the documentation available in Arabic?",
+"section": "Frequently asked questions",
+"url": "/faq/#arabic",
+"body": "Partly. The home page and the documentation overview are in Arabic; the detailed documentation is in English and is being translated. Every page has a language switch in the header, and a link to a page that is not translated yet goes to the English version rather than nowhere."
+},
+{
+"title": "Who is behind it?",
+"section": "Frequently asked questions",
+"url": "/faq/#who",
+"body": "uqulang is designed and built in Saudi Arabia. The name comes from عقل — ʿaql , the reasoning mind — and the mark is drawn from its first letter."
+},
+{
 "title": "Install",
 "section": "Install",
 "url": "/install/",
@@ -564,6 +642,48 @@
 "body": "Delete the toolchain directory and the shim on your PATH . There is nothing else — no system services, no registry keys, no files outside these two locations. $ rm -rf ~/.uqulang $ rm ~/.local/bin/uqu Documentation Overview Next Getting started"
 },
 {
+"title": "Teaching with uqulang",
+"section": "For universities",
+"url": "/teaching/",
+"body": "For faculty Teaching with uqulang What comes with a campus licence for the people who actually run the course — the starter kit, the lab setup, grading, and an honest account of where uqulang is the wrong choice. The starter kit Every campus licence includes a course starter kit, delivered through the licence portal . It is material to adapt, not a curriculum to adopt. Lab exercises Twelve graded exercises from a first program to a small allocator, each with a worked solution and the common wrong answers annotated. Sample assignments Four assignments with rubrics and reference implementations:"
+},
+{
+"title": "The starter kit",
+"section": "Teaching with uqulang",
+"url": "/teaching/#kit",
+"body": "Every campus licence includes a course starter kit, delivered through the licence portal . It is material to adapt, not a curriculum to adopt. Lab exercises Twelve graded exercises from a first program to a small allocator, each with a worked solution and the common wrong answers annotated. Sample assignments Four assignments with rubrics and reference implementations: a parser, a memory pool, a C"
+},
+{
+"title": "A twelve-week shape",
+"section": "Teaching with uqulang",
+"url": "/teaching/#syllabus",
+"body": "This is the order the material is written in. Weeks are a unit of convenience; adapt freely. Weeks Topic What the student can do afterwards 1–2 Bindings, control flow, functions Write, compile and test a program that does arithmetic and branches 3–4 Structs, enums, pattern matching Model a small domain and handle every case of it 5–6 Memory: stack, heap, ownership, defer Explain where a value live"
+},
+{
+"title": "Running the lab",
+"section": "Teaching with uqulang",
+"url": "/teaching/#lab",
+"body": "The toolchain is a single binary with offline activation, so a lab image is a copy and a symlink. The full procedure is on the installation page . Pin the release for the length of the course. A campus licence includes a named version held stable for a semester, so an upgrade cannot change a student's results halfway through."
+},
+{
+"title": "Grading",
+"section": "Teaching with uqulang",
+"url": "/teaching/#grading",
+"body": "Two properties matter for automated marking, and uqulang has both. Reproducible builds. The same source and the same toolchain version produce a byte-identical binary. A submission that compiles on the student's laptop compiles identically on the marker's machine. Machine-readable test output. The test runner is part of the language, not a library the student has to install: Copy Marking on the co"
+},
+{
+"title": "Where uqulang is the wrong choice",
+"section": "Teaching with uqulang",
+"url": "/teaching/#not-suitable",
+"body": "We would rather you find this out now than in week three. A course about proving memory safety. uqulang catches use-after-move and double-free; it does not prove the absence of aliasing bugs. Rust is the right instrument for that syllabus. A first-ever programming course for non-majors. Explicit types, explicit conversions and explicit memory are the point here, and they are a lot to carry in week"
+},
+{
+"title": "Asking for what you need",
+"section": "Teaching with uqulang",
+"url": "/teaching/#requests",
+"body": "Requests from a course that is actually running carry the most weight in what gets built next — teaching friction is the most useful signal we get. They go through your named contact and are answered in writing; accepted ones appear on the roadmap against a release. Request a campus licence Evaluate it for one course"
+},
+{
 "title": "For universities",
 "section": "For universities",
 "url": "/universities/",
@@ -574,6 +694,12 @@
 "section": "For universities",
 "url": "/universities/#who",
 "body": "Systems courses Operating systems, compilers, computer architecture, embedded — any course where the point is what the machine actually does. Introductory programming A small, explicit language with diagnostics written to be read by somebody who is still learning to read them. Research groups Reproducible native builds with a pinned toolchain, so a result from 2026 still rebuilds bit-for-bit in 20"
+},
+{
+"title": "For the people running the course",
+"section": "For universities",
+"url": "/universities/#teaching",
+"body": "Faculty have a page of their own: the starter kit, a twelve-week syllabus shape, lab deployment, grading, and an honest list of the courses uqulang is the wrong choice for. Teaching with uqulang Frequently asked questions"
 },
 {
 "title": "What a campus licence includes",

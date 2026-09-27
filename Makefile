@@ -7,14 +7,16 @@ VENV ?= .venv
 PYTHON := $(shell [ -x $(VENV)/bin/python ] && echo $(VENV)/bin/python || echo python3)
 PORT ?= 4173
 
-.PHONY: help setup build check serve dist clean
+.PHONY: help setup build test check serve dist report clean
 
 help:
 	@echo "make setup   create .venv and install build dependencies"
 	@echo "make build   regenerate the site from src/"
-	@echo "make check   verify generated output, links, headings, metadata"
+	@echo "make test    run the test suite"
+	@echo "make check   build, test, then verify links, headings, metadata"
 	@echo "make serve   build, then serve on http://localhost:$(PORT)"
 	@echo "make dist    minify and precompress into dist/ for deployment"
+	@echo "make report  build the quality dashboard into reports/"
 	@echo "make clean   remove generated files"
 	@echo ""
 	@echo "using: $(PYTHON)"
@@ -28,18 +30,24 @@ setup:
 build:
 	@$(PYTHON) tools/build.py
 
-check: build
+test:
+	@$(PYTHON) -m unittest discover -s tests -t . -q
+
+check: build test
 	@$(PYTHON) tools/build.py --check
 	@$(PYTHON) tools/check_links.py
 
 serve: build
 	@$(PYTHON) tools/serve.py --port $(PORT)
 
+report: build
+	@$(PYTHON) tools/report.py
+
 dist: check
 	@$(PYTHON) tools/postprocess.py
 
 clean:
-	@rm -rf dist assets/css/site.*.css sitemap.xml search-index.json feed.xml
+	@rm -rf dist reports assets/css/site.*.css sitemap.xml search-index.json feed.xml
 	@rm -f 404.html index.html
 	@rm -rf ar blog docs install universities
 	@rm -f 500.html

@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teaching with uqulang — uqulang</title>
+<meta name="description" content="Course material, lab deployment, grading and syllabus guidance for faculty teaching systems programming with uqulang at a licensed institution.">
+<link rel="canonical" href="https://uqulang.com/teaching/">
+<link rel="alternate" type="application/atom+xml" title="uqulang releases" href="/feed.xml">
+
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a100e" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="uqulang">
+<meta property="og:locale" content="en">
+<meta property="og:title" content="Teaching with uqulang — uqulang">
+<meta property="og:description" content="Course material, lab deployment, grading and syllabus guidance for faculty teaching systems programming with uqulang at a licensed institution.">
+<meta property="og:url" content="https://uqulang.com/teaching/">
+<meta property="og:image" content="https://uqulang.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="uqulang — a compiled systems language">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+
+<link rel="stylesheet" href="/assets/css/site.2928cbafc0.css">
+
+<script>(function () {var root = document.documentElement;root.classList.remove('no-js');root.classList.add('js');try {var theme = window.localStorage.getItem('uqulang:theme');if (theme === 'dark' || theme === 'light') root.setAttribute('data-theme', theme);} catch (e) {}})();</script>
+<script type="module" src="/assets/js/main.js"></script>
+<link rel="modulepreload" href="/assets/js/core/App.js">
+<link rel="modulepreload" href="/assets/js/core/Component.js">
+<link rel="modulepreload" href="/assets/js/core/EventBus.js">
+<link rel="modulepreload" href="/assets/js/core/Store.js">
+<link rel="modulepreload" href="/assets/js/components/ThemeToggle.js">
+<link rel="modulepreload" href="/assets/js/components/NavDrawer.js">
+<link rel="modulepreload" href="/assets/js/components/TabGroup.js">
+<link rel="modulepreload" href="/assets/js/components/CodeBlock.js">
+<link rel="modulepreload" href="/assets/js/components/PlatformDetector.js">
+<link rel="modulepreload" href="/assets/js/components/TableOfContents.js">
+<link rel="modulepreload" href="/assets/js/components/HeadingAnchors.js">
+<link rel="modulepreload" href="/assets/js/components/DocsSearch.js">
+<link rel="modulepreload" href="/assets/js/lang/Highlighter.js">
+<link rel="modulepreload" href="/assets/js/lang/grammars.js">
+
+</head>
+<body class="">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" data-nav-drawer>
+  <div class="container site-header__inner">
+    <a class="brand" href="/" aria-label="uqulang — home">
+      <svg class="brand__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round"/>
+        <path d="M22.4 11.7 27 16l-4.6 4.3" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand__text">uqulang</span>
+    </a>
+
+    <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu">
+      <svg class="nav-toggle__open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="nav-toggle__close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <nav class="site-nav" id="site-nav" data-nav-panel aria-label="Main">
+      <a class="site-nav__link" href="/docs/">Documentation</a>
+      <a class="site-nav__link" href="/install/">Install</a>
+      <a class="site-nav__link" href="/universities/" aria-current="page">For universities</a>
+      <a class="site-nav__link" href="/blog/">Blog</a>
+    </nav>
+
+    <div class="site-header__actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+        <svg class="theme-toggle__icon theme-toggle__icon--light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+      </button>
+      <a class="btn btn--ghost btn--sm" href="/ar/" lang="ar" hreflang="ar" title="Go to the Arabic site">العربية</a>
+      <a class="btn btn--primary btn--sm" href="/universities/#contact">Request a licence</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="container container--narrow page-head"><header class="docs-header"><span class="docs-header__eyebrow">For faculty</span><h1>Teaching with uqulang</h1><p class="docs-header__lead">What comes with a campus licence for the people who actually run the course — the starter kit, the lab setup, grading, and an honest account of where uqulang is the wrong choice.</p></header></div><div class="container container--narrow" data-heading-anchors><section class="docs-article prose-wide"><h2 id="kit">The starter kit</h2>
+<p>Every campus licence includes a course starter kit, delivered through the
+<a href="https://portal.uqulang.com">licence portal</a>. It is material to adapt, not a curriculum to
+adopt.</p>
+<div class="grid grid--2">
+  <article class="card">
+    <h3 class="card__title">Lab exercises</h3>
+    <p class="card__body">
+      Twelve graded exercises from a first program to a small allocator, each
+      with a worked solution and the common wrong answers annotated.
+    </p>
+  </article>
+  <article class="card">
+    <h3 class="card__title">Sample assignments</h3>
+    <p class="card__body">
+      Four assignments with rubrics and reference implementations: a parser, a
+      memory pool, a C interop task, and a concurrency-free pipeline.
+    </p>
+  </article>
+  <article class="card">
+    <h3 class="card__title">Slides</h3>
+    <p class="card__body">
+      Editable lecture slides covering the language in twelve sessions,
+      matching the order of the <a href="/docs/tour/">language tour</a>.
+    </p>
+  </article>
+  <article class="card">
+    <h3 class="card__title">Autograder harness</h3>
+    <p class="card__body">
+      A reference harness consuming <code>uqu test --format json</code>, with
+      adapters for the common submission systems.
+    </p>
+  </article>
+</div>
+
+<h2 id="syllabus">A twelve-week shape</h2>
+<p>This is the order the material is written in. Weeks are a unit of convenience;
+adapt freely.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Weeks</th>
+<th>Topic</th>
+<th>What the student can do afterwards</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–2</td>
+<td>Bindings, control flow, functions</td>
+<td>Write, compile and test a program that does arithmetic and branches</td>
+</tr>
+<tr>
+<td>3–4</td>
+<td>Structs, enums, pattern matching</td>
+<td>Model a small domain and handle every case of it</td>
+</tr>
+<tr>
+<td>5–6</td>
+<td>Memory: stack, heap, ownership, <code>defer</code></td>
+<td>Explain where a value lives and who frees it</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Errors as values</td>
+<td>Write code whose failure paths are visible in the signature</td>
+</tr>
+<tr>
+<td>8–9</td>
+<td>Slices, strings, and what UTF-8 costs</td>
+<td>Reason about bytes against characters</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Traits and generics</td>
+<td>Write code once for several types without a vtable</td>
+</tr>
+<tr>
+<td>11</td>
+<td>C interoperability</td>
+<td>Call an existing C library and be called from C</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Reading the generated code</td>
+<td>Use <code>uqu build --emit asm</code> to connect source to instructions</td>
+</tr>
+</tbody>
+</table></div>
+<p>Week 12 is the one faculty tell us matters most, and the one most easily cut
+for time. It is the week where the machine model stops being an assertion.</p>
+<h2 id="lab">Running the lab</h2>
+<p>The toolchain is a single binary with offline activation, so a lab image is a
+copy and a symlink. The full procedure is on the
+<a href="/install/#labs">installation page</a>.</p>
+<div class="callout callout--note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg><div class="callout__body"><p>Pin the release for the length of the course. A campus licence includes a
+named version held stable for a semester, so an upgrade cannot change a
+student's results halfway through.</p></div></div>
+<h2 id="grading">Grading</h2>
+<p>Two properties matter for automated marking, and uqulang has both.</p>
+<p><strong>Reproducible builds.</strong> The same source and the same toolchain version produce
+a byte-identical binary. A submission that compiles on the student's laptop
+compiles identically on the marker's machine.</p>
+<p><strong>Machine-readable test output.</strong> The test runner is part of the language, not
+a library the student has to install:</p>
+<div class="code-block" data-code data-lang="shell"><div class="code-block__head"><div class="code-block__actions"><button class="code-copy" type="button" data-code-copy aria-label="Copy code to clipboard"><svg class="code-copy__icon code-copy__icon--idle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="9" rx="1.5"/><path d="M10.5 3.5h-6a1.5 1.5 0 0 0-1.5 1.5v6"/></svg><svg class="code-copy__icon code-copy__icon--done" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg><span data-code-copy-label>Copy</span></button></div></div><pre tabindex="0"><code>$ uqu test --format json
+{&quot;tests&quot;:[{&quot;name&quot;:&quot;render includes the name&quot;,&quot;ok&quot;:true,&quot;ms&quot;:0.4}],&quot;passed&quot;:1,&quot;failed&quot;:0}</code></pre></div>
+<p>Marking on the compiler's own diagnostics is also viable, and more instructive
+than marking on output alone — a submission that fails with
+<a href="/docs/errors/E0101/">E0101</a> has a specific, teachable misunderstanding.</p>
+<h2 id="not-suitable">Where uqulang is the wrong choice</h2>
+<p>We would rather you find this out now than in week three.</p>
+<ul>
+<li><strong>A course about proving memory safety.</strong> uqulang catches use-after-move and
+  double-free; it does not prove the absence of aliasing bugs. Rust is the right
+  instrument for that syllabus.</li>
+<li><strong>A first-ever programming course for non-majors.</strong> Explicit types, explicit
+  conversions and explicit memory are the point here, and they are a lot to
+  carry in week one. Python remains the better on-ramp.</li>
+<li><strong>Anything needing concurrency this year.</strong> Structured concurrency is designed
+  and unshipped. Threads are reachable through C, which is not a foundation for
+  coursework.</li>
+<li><strong>A course that depends on a package ecosystem.</strong> There is no registry yet.
+  Dependencies are paths and archives.</li>
+</ul>
+<h2 id="requests">Asking for what you need</h2>
+<p>Requests from a course that is actually running carry the most weight in what
+gets built next — teaching friction is the most useful signal we get. They go
+through your named contact and are answered in writing; accepted ones appear on
+<a href="/universities/#roadmap">the roadmap</a> against a release.</p>
+<div class="hero__actions mt-6">
+  <a class="btn btn--primary" href="/universities/#contact">Request a campus licence</a>
+  <a class="btn btn--secondary" href="/universities/#evaluation">Evaluate it for one course</a>
+</div></section></div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__about">
+        <a class="brand" href="/">
+          <svg class="brand__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+            <path d="M19.8 8.4A9 9 0 1 0 19.8 23.6" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round"/>
+            <path d="M22.4 11.7 27 16l-4.6 4.3" stroke="var(--clr-brand)" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="brand__text">uqulang</span>
+        </a>
+        <p>A compiled systems language for teaching and research, licensed to universities and research institutions.</p><p class="footer-etymology"><span lang="ar" dir="rtl">عقل</span> <span class="footer-etymology__gloss">ʿaql — the reasoning mind</span></p>
+      </div>
+      <div class="footer-group"><h2 class="footer-group__title">Learn</h2><ul class="footer-group__list"><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/tour/">Language tour</a></li><li><a href="/docs/cli/">Compiler CLI</a></li><li><a href="/docs/">All documentation</a></li><li><a href="/faq/">FAQ</a></li></ul></div>
+      <div class="footer-group"><h2 class="footer-group__title">Product</h2><ul class="footer-group__list"><li><a href="/install/">Install</a></li><li><a href="/blog/">Release notes</a></li><li><a href="/universities/#roadmap">Roadmap</a></li><li><a href="/universities/#included">What is included</a></li></ul></div>
+      <div class="footer-group"><h2 class="footer-group__title">Institutions</h2><ul class="footer-group__list"><li><a href="/universities/">Campus licensing</a></li><li><a href="/teaching/">Teaching with uqulang</a></li><li><a href="/universities/#contact">Request a licence</a></li><li><a href="https://portal.uqulang.com">Licence portal</a></li><li><a href="https://support.uqulang.com">Support</a></li></ul></div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© 2026 uqulang. All rights reserved. Use of the compiler and toolchain is governed by your institution’s licence agreement.</p>
+      <p class="site-footer__made">صُنع في السعودية · Made in Saudi Arabia</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -423,8 +423,10 @@ def derive_key_and_path(relative: Path, locale: Locale, default_code: str) -> "t
 
     if key == "index":
         path = locale.home()
-    elif key == "404":
-        path = f"{locale.prefix}/404.html" if locale.prefix else "/404.html"
+    elif re.fullmatch(r"[45]\d\d", key):
+        # Server error pages are files, not directories: a host points its
+        # error_page directive at /404.html, never at /404/.
+        path = f"{locale.prefix}/{key}.html" if locale.prefix else f"/{key}.html"
     elif stem == "index":
         path = locale.localise("/" + "/".join(parts[:-1]) + "/")
     else:
@@ -920,7 +922,10 @@ class Site:
                 if self.feed(locale) else ""
             ),
             "body_class": page.meta.get("body_class", ""),
-            "head_extra": page.meta.get("head_extra", ""),
+            "head_extra": (
+                page.meta.get("head_extra", "")
+                + (self.faq_structured_data(page) if page.meta.get("faq") else "")
+            ),
             "nav_links": self.nav_links(page),
             "header_cta": self.header_cta(page),
             "lang_switch": self.language_switch(page),
@@ -1020,6 +1025,42 @@ class Site:
                 f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}{url(default.path)}">'
             )
         return "\n".join(lines)
+
+    @staticmethod
+    def faq_structured_data(page: Page) -> str:
+        """FAQPage JSON-LD, generated from the page's own headings.
+
+        Hand-written structured data drifts from the page it describes, and
+        search engines penalise the mismatch. This reads the rendered HTML, so
+        the two cannot disagree.
+        """
+        pairs = []
+        for match in re.finditer(
+            r"<h2[^>]*>(?P<q>.*?)</h2>(?P<a>.*?)(?=<h2|\Z)", page.body, re.DOTALL
+        ):
+            question = strip_tags(match.group("q")).replace("#", "").strip()
+            answer = strip_tags(match.group("a")).strip()
+            if question and answer:
+                pairs.append({
+                    "@type": "Question",
+                    "name": question,
+                    "acceptedAnswer": {"@type": "Answer", "text": answer},
+                })
+
+        if not pairs:
+            return ""
+
+        data = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "inLanguage": page.locale.code,
+            "mainEntity": pairs,
+        }
+        return (
+            '<script type="application/ld+json">'
+            + json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+            + "</script>"
+        )
 
     def error_index(self, locale: Locale) -> str:
         """The compiler error index, built from the error pages themselves.

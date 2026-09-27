@@ -29,6 +29,9 @@ jobs:
 
       # The generated HTML is committed. If it does not match the sources,
       # somebody edited output by hand or forgot to run the build.
+      - name: Test suite
+        run: python3 -m unittest discover -s tests -t . -v
+
       - name: Generated output is up to date
         run: python3 tools/build.py --check
 
@@ -38,12 +41,40 @@ jobs:
       - name: Build the deployment directory and enforce the budget
         run: python3 tools/postprocess.py
 
+      - name: Quality dashboard
+        run: python3 tools/report.py
+
       - name: Upload deployment directory
         uses: actions/upload-artifact@v4
         with:
           name: site
           path: dist/
           retention-days: 7
+
+      - name: Upload quality dashboard
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-report
+          path: reports/
+          retention-days: 30
+
+      - name: Summarise on the run page
+        if: always()
+        run: |
+          python3 tools/report.py --json > report.json
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d = json.load(open("report.json"))
+          t, b = d["tests"], d["budget"]
+          print("## Build report\n")
+          print(f"- **{t['run']} tests**, {t['failures']} failing, {t['seconds']}s")
+          print(f"- **{len(d['pages'])} pages** across {len(d['locales'])} locales")
+          print(f"- Heaviest page plus assets: **{b['page_total_gzip']/1024:.1f} KB** gzipped "
+                f"({b['headroom']}% under budget)")
+          print("\n| Locale | Pages | Coverage |\n| --- | --- | --- |")
+          for code, loc in d["locales"].items():
+              print(f"| {code} | {loc['pages']} | {loc['coverage']}% |")
+          PY
 
   accessibility:
     name: Accessibility and performance
