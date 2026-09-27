@@ -1498,6 +1498,49 @@ abbr[title] { text-decoration: underline dotted; cursor: help; }
   .dl-grid > div { grid-template-columns: minmax(0, 1fr); gap: var(--sp-1); }
 }
 
+/* --- Documentation versions --------------------------------------------- */
+.docs-version {
+  margin-block-end: var(--sp-6);
+  padding-block-end: var(--sp-5);
+  border-block-end: 1px solid var(--clr-border);
+}
+
+.docs-version__title {
+  margin-block-end: var(--sp-2);
+  color: var(--clr-text-subtle);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.docs-version__list { list-style: none; margin: 0; padding: 0; }
+.docs-version__list li { margin: 0; }
+
+.docs-version__link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-3);
+  color: var(--clr-text-muted);
+  font-size: var(--fs-400);
+  text-decoration: none;
+}
+
+.docs-version__link:hover { background-color: var(--clr-bg-subtle); color: var(--clr-text); }
+
+.docs-version__link[aria-current="true"] {
+  background-color: var(--clr-brand-soft);
+  color: var(--clr-brand);
+  font-weight: var(--fw-medium);
+}
+
+.docs-version__note { color: var(--clr-text-subtle); font-size: var(--fs-300); font-weight: var(--fw-regular); }
+
+/* The banner sits above the page title, where it cannot be scrolled past. */
+.docs-version-banner { margin-block-end: var(--sp-6); }
+
 /* utilities.css */
 /* ==========================================================================
    Utilities. A closed set, used where a one-off class would be noise.

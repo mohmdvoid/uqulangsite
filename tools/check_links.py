@@ -17,7 +17,7 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKIP_DIRS = {"src", "tools", ".git", ".claude", "node_modules"}
+SKIP_DIRS = {"src", "tools", "deploy", "dist", ".git", ".github", ".claude", ".venv", "node_modules"}
 
 HREF_RE = re.compile(r'(?:href|src)="([^"]+)"')
 ID_RE = re.compile(r'\bid="([^"]+)"')

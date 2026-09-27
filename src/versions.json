@@ -1,0 +1,13 @@
+{
+  "current": "0.1",
+  "development": "0.2",
+  "versions": [
+    {
+      "id": "0.1",
+      "label": "0.1",
+      "status": "current",
+      "released": "2026-09-26",
+      "note": "Preview release"
+    }
+  ]
+}

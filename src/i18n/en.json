@@ -30,7 +30,10 @@
     "english_only": "The full documentation is currently in English.",
     "footer_about": "<p>A compiled systems language for teaching and research, licensed to universities and research institutions.</p><p class=\"footer-etymology\"><span lang=\"ar\" dir=\"rtl\">عقل</span> <span class=\"footer-etymology__gloss\">ʿaql — the reasoning mind</span></p>",
     "footer_legal": "© {year} uqulang. All rights reserved. Use of the compiler and toolchain is governed by your institution’s licence agreement.",
-    "footer_made": "صُنع في السعودية · Made in Saudi Arabia"
+    "footer_made": "صُنع في السعودية · Made in Saudi Arabia",
+    "version": "Version",
+    "outdated_docs": "You are reading the documentation for uqulang {version}. The current release is {current}.",
+    "read_current": "Read the current version"
   },
   "nav": [
     {

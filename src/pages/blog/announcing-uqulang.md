@@ -1,7 +1,6 @@
 ---
 title: Announcing the uqulang 0.1 preview
 description: The first release of the uqulang compiler and toolchain to universities: what works today, what is deliberately missing, and where we want feedback from teaching staff.
-path: /blog/announcing-uqulang/
 nav: blog
 section: Blog
 priority: 0.6

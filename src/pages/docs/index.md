@@ -1,7 +1,6 @@
 ---
 title: Documentation
 description: Documentation for the uqulang language and toolchain: getting started, the language tour, and the compiler command line reference.
-path: /docs/
 nav: docs
 section: Documentation
 priority: 0.9

@@ -1,7 +1,6 @@
 ---
 title: Getting started
 description: Install uqulang, compile and run your first program, add a test, and learn the project layout the compiler expects.
-path: /docs/getting-started/
 nav: docs
 section: Documentation
 priority: 0.8

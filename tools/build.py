@@ -50,6 +50,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 PAGES = SRC / "pages"
 I18N = SRC / "i18n"
+VERSIONS_FILE = SRC / "versions.json"
 CSS_SRC = SRC / "css"
 CSS_OUT = ROOT / "assets" / "css"
 
@@ -299,6 +300,77 @@ class Localiser:
         return self.default_code
 
 
+# --- Documentation versions -----------------------------------------------
+
+
+@dataclass
+class DocVersion:
+    id: str
+    label: str
+    status: str          # "current" | "archived" | "development"
+    released: str = ""
+    note: str = ""
+
+    @property
+    def is_current(self) -> bool:
+        return self.status == "current"
+
+    def prefix(self, locale: "Locale") -> str:
+        """Where this version's documentation lives.
+
+        The current version owns /docs/ so that the canonical URL of a page
+        never changes when a release is cut. Archived versions move under
+        /docs/<id>/ and the old URLs keep working because the archive is a
+        copy, not a move.
+        """
+        base = "/docs/" if self.is_current else f"/docs/{self.id}/"
+        return locale.localise(base)
+
+
+class DocVersions:
+    """The documentation versions, from src/versions.json."""
+
+    def __init__(self, path: Path):
+        if not path.exists():
+            self.versions = [DocVersion(id="0", label="0", status="current")]
+            self.current_id = "0"
+            self.development_id = ""
+            return
+
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as error:
+            raise SystemExit(f"{path}: invalid JSON — {error}") from error
+
+        self.current_id = data["current"]
+        self.development_id = data.get("development", "")
+        self.versions = [DocVersion(**entry) for entry in data["versions"]]
+
+        current = [v for v in self.versions if v.is_current]
+        if len(current) != 1:
+            raise SystemExit(f'{path}: exactly one version must be "current", found {len(current)}')
+        if current[0].id != self.current_id:
+            raise SystemExit(f'{path}: "current" is {self.current_id} but that version is not marked current')
+
+    @property
+    def current(self) -> DocVersion:
+        return next(v for v in self.versions if v.is_current)
+
+    @property
+    def archived(self) -> list:
+        return [v for v in self.versions if v.status == "archived"]
+
+    def get(self, version_id: str) -> "DocVersion | None":
+        return next((v for v in self.versions if v.id == version_id), None)
+
+    def version_of(self, path: str) -> "DocVersion | None":
+        """Which version a documentation URL belongs to, if any."""
+        match = re.match(r"^(?:/[a-z]{2})?/docs/([^/]+)/", path)
+        if not match:
+            return None
+        return self.get(match.group(1))
+
+
 # --- Pages ----------------------------------------------------------------
 
 
@@ -503,9 +575,10 @@ class LayoutRenderer:
         if layout == "docs":
             aside = self.docs_aside(page)
             toc = self.docs_toc(locale)
+            banner = self.version_banner(page)
             return (
                 f'<div class="container container--docs docs">{aside}<div class="docs-main">'
-                f"{crumbs}{header_html}"
+                f"{crumbs}{banner}{header_html}"
                 f'<article class="docs-article" data-heading-anchors>{content}</article>'
                 f"{nav}</div>{toc}</div>"
             )
@@ -558,6 +631,64 @@ class LayoutRenderer:
             )
         return "".join(groups)
 
+    def version_banner(self, page: Page) -> str:
+        """Tell a reader when they are looking at documentation for an old
+        release, and link them to the same page in the current one."""
+        versions = self.site.versions
+        version_id = page.meta.get("doc_version")
+        if not version_id:
+            return ""
+
+        version = versions.get(version_id)
+        if not version or version.is_current:
+            return ""
+
+        locale = page.locale
+        current = versions.current
+        here = page.path.replace(version.prefix(locale), current.prefix(locale), 1)
+        target = here if here in self.site.paths else current.prefix(locale)
+
+        return (
+            '<div class="callout callout--warn docs-version-banner">'
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+            'stroke-linecap="round" aria-hidden="true">'
+            '<path d="M12 4.5 21 19.5H3z"/><path d="M12 10v4M12 16.8v.2"/></svg>'
+            '<div class="callout__body"><p>'
+            + locale.t("outdated_docs", version=html.escape(version.label),
+                       current=html.escape(current.label))
+            + f' <a href="{url(target)}">' + locale.t("read_current") + "</a></p></div></div>"
+        )
+
+    def version_switcher(self, page: Page) -> str:
+        """A list of every documentation version, current first.
+
+        Rendered as links rather than a <select>: it works with JavaScript
+        disabled, it is crawlable, and a reader can open one in a new tab.
+        """
+        versions = self.site.versions
+        if len(versions.versions) < 2:
+            return ""
+
+        locale = page.locale
+        active = page.meta.get("doc_version", versions.current_id)
+        items = []
+        for version in versions.versions:
+            target = version.prefix(locale)
+            if target not in self.site.paths:
+                target = versions.current.prefix(locale)
+            aria = ' aria-current="true"' if version.id == active else ""
+            note = f' <span class="docs-version__note">{html.escape(version.note)}</span>' if version.note else ""
+            items.append(
+                f'<li><a class="docs-version__link" href="{url(target)}"{aria}>'
+                f'{html.escape(version.label)}{note}</a></li>'
+            )
+
+        return (
+            '<div class="docs-version">'
+            f'<h2 class="docs-version__title">{locale.t("version")}</h2>'
+            f'<ul class="docs-version__list">{"".join(items)}</ul></div>'
+        )
+
     def docs_aside(self, page: Page) -> str:
         locale = page.locale
         return (
@@ -576,6 +707,7 @@ class LayoutRenderer:
             f'<ul class="docs-search__results" aria-label="{locale.t("search_results")}" data-search-results></ul>'
             '<p class="visually-hidden" role="status" data-search-status></p>'
             "</div>"
+            f"{self.version_switcher(page)}"
             f'<h2 class="docs-sidebar__title">{locale.t("documentation")}</h2>'
             f'<ul class="docs-nav">{self.docs_sidebar(page)}</ul>'
             "</details></aside>"
@@ -596,6 +728,7 @@ class LayoutRenderer:
 class Site:
     def __init__(self):
         self.localiser = Localiser(I18N)
+        self.versions = DocVersions(VERSIONS_FILE)
         self.layout_html = (SRC / "_layout.html").read_text(encoding="utf-8")
         self.pages: list = []
         self.by_key: dict = {}
@@ -652,6 +785,19 @@ class Site:
 
         key, derived_path = derive_key_and_path(relative, locale, self.localiser.default_code)
         meta.setdefault("path", derived_path)
+
+        version = self.versions.version_of(meta["path"])
+        if version and not version.is_current:
+            # An archived version is a historical record, not a search result:
+            # it is excluded from the index, kept out of the sitemap, marked
+            # noindex, and points its canonical URL at the current page.
+            meta["doc_version"] = version.id
+            meta["search"] = False
+            meta["sitemap"] = False
+            meta["head_extra"] = (
+                '<meta name="robots" content="noindex, follow">'
+                + meta.get("head_extra", "")
+            )
         if locale.prefix and not meta["path"].startswith(locale.prefix):
             raise SystemExit(
                 f"{source}: path {meta['path']} does not start with the "

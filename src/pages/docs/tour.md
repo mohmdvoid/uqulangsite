@@ -1,7 +1,6 @@
 ---
 title: Language tour
 description: A tour of the uqulang language: bindings, types, structs, enums, pattern matching, traits, generics, optionals, errors, ownership, modules and C interoperability.
-path: /docs/tour/
 nav: docs
 section: Documentation
 priority: 0.8

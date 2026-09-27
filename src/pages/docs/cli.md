@@ -1,7 +1,6 @@
 ---
 title: Compiler CLI
 description: Reference for the uqu command line: build, run, test, fmt, doc, lsp, doctor, and the flags controlling optimisation, targets and cross-compilation.
-path: /docs/cli/
 nav: docs
 section: Documentation
 priority: 0.7

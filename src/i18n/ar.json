@@ -30,7 +30,10 @@
     "english_only": "التوثيق التفصيلي متاح حالياً بالإنجليزية.",
     "footer_about": "<p>لغة برمجة مترجَمة للأنظمة، مخصّصة للتعليم والبحث، ومرخّصة للجامعات والمؤسسات البحثية.</p><p class=\"footer-etymology\"><span lang=\"ar\" dir=\"rtl\">عقل</span> <span class=\"footer-etymology__gloss\">أصل التسمية</span></p>",
     "footer_legal": "© {year} uqulang. جميع الحقوق محفوظة. يخضع استخدام المترجم والأدوات لاتفاقية الترخيص الخاصة بمؤسستك.",
-    "footer_made": "صُنع في السعودية"
+    "footer_made": "صُنع في السعودية",
+    "version": "الإصدار",
+    "outdated_docs": "أنت تقرأ توثيق الإصدار {version} من uqulang. الإصدار الحالي هو {current}.",
+    "read_current": "اقرأ توثيق الإصدار الحالي"
   },
   "nav": [
     {
